@@ -1,0 +1,32 @@
+<div class="topbar clearfix">
+
+    <div class="topbar-left">
+        <div class="logo">
+            <img src="assets/layout/images/logo-black.png" alt="Logo">
+        </div>
+    </div>
+
+    <div class="topbar-right">
+        <a id="menu-button" href="#" (click)="homeComponent.onMenuButtonClick($event)">
+            <i class="fas fa-angle-left"></i>
+        </a>
+
+        <a id="topbar-menu-button" href="#" (click)="homeComponent.onTopbarMenuButtonClick($event)" style="padding-top: 5px">
+            <i class="fa fa-bars fa-lg"></i>
+        </a>
+        <ul class="topbar-items fadeInDown animated" [ngClass]="{'topbar-items-visible': homeComponent.topbarMenuActive}">
+            <li #sair [ngClass]="{'active-top-menu':homeComponent.activeTopbarItem === sair}">
+                <a (click)="homeComponent.confirmarSaida()" pTooltip="Sair" tooltipPosition="bottom">
+                    <i class="topbar-icon fas fa-sign-out-alt"></i>
+                    <span class="topbar-item-name">Sair</span>
+                </a>
+            </li>
+            <li #perfil [ngClass]="{'active-top-menu':homeComponent.activeTopbarItem === perfil}">
+                <a routerLink='/usuario' pTooltip="Perfil" tooltipPosition="bottom">
+                    <i class="topbar-icon fas fa-user-circle"></i>
+                    <span class="topbar-item-name">Perfil</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

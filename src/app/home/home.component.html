@@ -1,0 +1,59 @@
+<div class="wrapper" [ngClass]="{'sidebar-inactive-l':menuInactiveDesktop, 'sidebar-active-m':menuActiveMobile}">
+    <div class="topbar clearfix">
+        <a id="omega-menu-button" href="#" (click)="toggleMenu($event)">
+            <span class="fa fa-bars"></span>
+        </a>
+        <span class="topbar-title ui-p-6">{{titulo}}</span>
+        <a id="options-menu-button" href="#" (click)="toggleTopMenu($event)">
+            <span class="fa fa-ellipsis-h"></span>
+        </a>
+        <div id="topbar-icons" class="animated" [ngClass]="{'topbar-icons-visible flipInX':topMenuActive,'flipOutX':topMenuLeaving}">
+            <a style="cursor:pointer" (click)="confirmarSaida()" pTooltip="Sair" tooltipPosition="bottom">
+                <span class="topbar-item-text">Sair</span>
+                <span class="topbar-icon fas fa-sign-out-alt"></span>
+            </a>
+        </div>
+    </div>
+    <div class="sidebar" (click)="onMenuClick()">
+        <p-scrollPanel #scroller [style]="{height: '100%'}">
+            <div class="sidebar-scroll-content">
+                <div class="logo">
+                    <img src="assets/layout/images/logo.png" alt="" width="113">
+                    <br />
+                    <span style="color: silver;font-size: 12px;" [pTooltip]="'Última atualização: ' + versao.data">{{versao.numero}}</span>
+                </div>
+                <div class="profile">
+
+                    <a id="profile-button" href="#" (click)="toggleProfile($event)">
+                        <span class="username" minuscula>{{usuarioAutenticado.login}}</span>
+                        <i class="fa fa-fw fa-cog"></i>
+                    </a>
+                    <ul [@submenu]="profileActive ? 'visible' : 'hidden'">
+                        <li>
+                            <a (click)="confirmarSaida()" class="pointer">
+                                <i class="fas fa-fw fa-sign-out-alt"></i>
+                                <span>Sair</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <app-menu></app-menu>
+            </div>
+        </p-scrollPanel>
+    </div>
+
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+
+    <div class="footer">
+        <span class="footer-text">Projeto50M</span>
+    </div>
+</div>
+
+<p-confirmDialog #cd>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-close" label="Não" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="fa fa-check" label="Sim" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>
