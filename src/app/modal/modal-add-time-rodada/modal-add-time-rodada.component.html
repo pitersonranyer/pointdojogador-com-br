@@ -1,0 +1,46 @@
+<div class="ui-g-12">
+
+  <div class="card card-w-title">
+    <h1>Rodada: #{{ rodada.idRodada}} </h1>
+    <h1>Valor Por time: {{ rodada.valorRodada }} R$ </h1>
+
+  </div>
+  <app-mensageria [mensagensFixas]="mensageria.mensagensFixas" [processamento]="mensageria.processamento"></app-mensageria>
+  <div class="card card-w-title" *ngIf="timesUsuarioCartola.length">
+    <h1>Adicionar Time</h1>
+    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th scope="col">Times</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timeUsuario of timesUsuarioCartola ">
+          <td tabindex="0">
+            <div class="box-tabela-premiacao">
+              <div>
+                <img class="datatable-escudo" src="{{timeUsuario.url_escudo_png}}">
+                <span class="datatable-nome-time">{{timeUsuario.nome}}</span>
+                <span class="datatable-nome-coach">{{timeUsuario.nome_cartola}}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="timeUsuario.idRodada != null" >
+              <button pButton icon="pi pi-thumbs-up" class="ui-button-success"></button>
+            </div>
+            <div *ngIf="timeUsuario.idRodada === null" >
+              <button pButton icon="pi pi-plus" (click)="cadastrarTimeRodadaCartola(timeUsuario)"></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <p-footer>
+    <button type="button" pButton (click)="close()" label="Fechar"></button>
+  </p-footer>

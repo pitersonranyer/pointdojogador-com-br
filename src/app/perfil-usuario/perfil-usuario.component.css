@@ -1,0 +1,105 @@
+.shadow {
+    box-shadow: 0 0 2rem 0 rgba(136,152,170,.15) !important;
+}
+.bg-secondary {
+    background-color: #f7fafc !important;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid rgba(0,0,0,.05);
+    border-radius: .375rem;
+    background-color: #fff;
+    background-clip: border-box;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.form-control-label {
+    font-size: .875rem;
+    font-weight: 600;
+    color: #525f7f;
+}
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+.form-control-alternative {
+    transition: box-shadow .15s ease;
+    border: 0;
+    box-shadow: 0 1px 3px rgba(50,50,93,.15),0 1px 0 rgba(0,0,0,.02);
+}
+.form-control {
+    font-size: .875rem;
+}
+.form-control {
+    line-height: 1.5;
+    display: block;
+    width: 100%;
+    height: calc(2.75rem + 2px);
+    padding: .625rem .75rem;
+    transition: all .2s cubic-bezier(.68,-.55,.265,1.55);
+    color: #1aa20f;
+    border: 1px solid #cad1d7;
+    border-radius: .375rem;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: none;
+}
+
+.col-8 {
+    max-width: 66.66667%;
+    flex: 0 0 66.66667%;
+}
+.mb-0, .my-0 {
+    margin-bottom: 0 !important;
+}
+.h3, h3 {
+    font-size: 1.0625rem;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: .5rem;
+    color: #32325d;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.btn-group-sm > .btn, .btn-sm {
+    font-size: .75rem;
+}
+.btn {
+    font-size: .875rem;
+    position: relative;
+    transition: all .15s ease;
+    letter-spacing: .025em;
+    text-transform: none;
+    will-change: transform;
+}
+.btn-group-sm > .btn, .btn-sm {
+    line-height: 1.5;
+    padding: .25rem .5rem;
+    border-radius: .375rem;
+}
+.btn-primary {
+    color: #fff;
+    border-color: #5e72e4;
+    background-color: #5e72e4;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08);
+}

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
-import { UsuarioEntity } from '../../entities/usuario.entity';
 import { MensageriaService } from './mensageria.service';
 
 /**
@@ -11,7 +10,6 @@ export class UtilService {
 
     constructor(private mensageriaService: MensageriaService) { }
 
-    private usuarioAutenticado: UsuarioEntity = new UsuarioEntity();
 
     private ESTILO_EDICAO = {
         titulo: 'Editar',
@@ -68,14 +66,7 @@ export class UtilService {
      * @author Felipe
      * @description Resgata o usuário autenticado
      */
-    getUsuarioAutenticado(): UsuarioEntity {
-        return this.usuarioAutenticado;
-    }
-
-    setUsuarioAutenticado(usuarioAutenticado: UsuarioEntity) {
-        this.usuarioAutenticado = usuarioAutenticado;
-    }
-
+    
     /**
      * @description Resgata url do backend
      * @returns string url do backend

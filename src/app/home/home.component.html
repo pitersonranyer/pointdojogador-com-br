@@ -3,14 +3,14 @@
         <a id="omega-menu-button" href="#" (click)="toggleMenu($event)">
             <span class="fa fa-bars"></span>
         </a>
-        <span class="topbar-title ui-p-6">{{titulo}}</span>
+        <span class="topbar-title"></span>
         <a id="options-menu-button" href="#" (click)="toggleTopMenu($event)">
             <span class="fa fa-ellipsis-h"></span>
         </a>
         <div id="topbar-icons" class="animated" [ngClass]="{'topbar-icons-visible flipInX':topMenuActive,'flipOutX':topMenuLeaving}">
-            <a style="cursor:pointer" (click)="confirmarSaida()" pTooltip="Sair" tooltipPosition="bottom">
-                <span class="topbar-item-text">Sair</span>
-                <span class="topbar-icon fas fa-sign-out-alt"></span>
+            <a routerLink="/perfilUsuario">
+                <span class="topbar-item-text">User</span>
+                <span class="topbar-icon fa fa-user"></span>
             </a>
         </div>
     </div>
@@ -18,36 +18,31 @@
         <p-scrollPanel #scroller [style]="{height: '100%'}">
             <div class="sidebar-scroll-content">
                 <div class="logo">
-                    <img src="assets/layout/images/logo.png" alt="" width="113">
-                    <br />
-                    <span style="color: silver;font-size: 12px;" [pTooltip]="'Última atualização: ' + versao.data">{{versao.numero}}</span>
+                    <img src="" alt="" width="113">
                 </div>
                 <div class="profile">
-
+                    <img src="assets/layout/images/cartola.png" alt="" />
                     <a id="profile-button" href="#" (click)="toggleProfile($event)">
-                        <span class="username" minuscula>{{usuarioAutenticado.login}}</span>
+                        <span class="username">{{ usuario?.nome }}</span>
                         <i class="fa fa-fw fa-cog"></i>
-                    </a>
+                    </a> 
                     <ul [@submenu]="profileActive ? 'visible' : 'hidden'">
-                        <li>
-                            <a (click)="confirmarSaida()" class="pointer">
-                                <i class="fas fa-fw fa-sign-out-alt"></i>
-                                <span>Sair</span>
-                            </a>
-                        </li>
+                        <li><a routerLink='/listarPendenciaPagamento' *ngIf="usuario.admin"><i class="fa fa-fw fa-bell"></i><span>Alertas</span><span class="menu-badge">2</span></a></li>
+                        <li><a routerLink='/rodadaCartola' *ngIf="usuario.admin"><i class="fa fa-fw fa-pencil"></i><span>Rodadas</span></a></li>
+                        <li><a routerLink='/listarUsuarios' *ngIf="usuario.admin"><i class="fa fa-fw fa-list"></i><span>Usuarios</span></a></li>
+                        <li><a href="javascript:void(0)" (click)="deslogar()"><i class="fa fa-fw fa-sign-out"></i><span>Sair</span></a></li>
                     </ul>
                 </div>
                 <app-menu></app-menu>
             </div>
         </p-scrollPanel>
     </div>
-
     <div class="main">
         <router-outlet></router-outlet>
     </div>
-
     <div class="footer">
-        <span class="footer-text">Projeto50M</span>
+        <img src="assets/layout/images/logo-colored.png" alt="" width="32">
+        <span class="footer-text">Point do Jogador</span>
     </div>
 </div>
 

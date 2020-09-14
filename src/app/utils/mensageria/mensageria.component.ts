@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from 'primeng/primeng';
-import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-mensageria',

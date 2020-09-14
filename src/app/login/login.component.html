@@ -1,35 +1,45 @@
 <app-mensageria [mensagensFixas]="mensageria.mensagensFixas" [processamento]="mensageria.processamento">
 </app-mensageria>
-
 <div>
-  <div id="login-wrapper">
-    <img src="../../assets/layout/images/login-logo.png">
+    <div id="login-wrapper">
+        <img src="../../assets/layout/images/login-logo.png">
+        <div id="login-container">
+            <span class="title">Point do Jogador</span>
+            <form #f="ngForm" (ngSubmit)="onSubmit()">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-envelope"></i></span>
+                            <input pInputText class="ui-inputtext ui-corner-all ui-state-default ui-widget" type="text"
+                                [(ngModel)]="usuario.email" name="email" email placeholder="E-mail" required>
+                        </div>
+                    </div>
 
-    <div id="login-container">
-      <span class="title">Projeto50M</span>
-      <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-        <div class="ui-g ui-fluid">
-          <div class="ui-g-12">
-            <input type="text" autocomplete="off"  formControlName="usuario" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
-              placeholder="Usuário" />
-          </div>
-          <div class="ui-g-12">
-            <input type="password" autocomplete="off" formControlName="senha" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
-              placeholder="Senha" />
-          </div>
-          <div class="ui-g-12 ui-md-12">
-            <a href="#">Esqueci minha senha</a>
-          </div>
-          <div class="ui-g-12">
-            <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">
-              <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
-              <span class="ui-button-text ui-c">Entrar</span>
-            </button>
-          </div>
+                    <div class="ui-g-12">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="fa fa-lock"></i></span>
+                            <input pInputText class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                                type="password" [(ngModel)]="usuario.senha" name="senha" placeholder="Senha" required>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-6">
+                        <a href="javascript:void(0)" >Esqueceu a Senha?</a>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <a routerLink="/register"  >Registrar</a>
+                    </div>
+                    <div class="ui-g-12">
+                        <button type="submit" [disabled]="!f.valid"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">
+                            <span class="ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
+                            <span class="ui-button-text ui-c" >Entrar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
 
-    <div class="login-footer">Projeto50M</div>
-  </div>
+        <div class="login-footer">Point do Jogador</div>
+    </div>
 </div>

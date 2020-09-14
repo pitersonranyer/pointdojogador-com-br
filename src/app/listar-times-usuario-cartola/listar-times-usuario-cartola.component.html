@@ -1,0 +1,45 @@
+<div class="ui-g-12" style="text-align:left">
+  <button type="button" icon="fa fa-chevron-left" (click)="voltar()" pButton></button>
+</div>
+
+<div class="ui-g-12">
+  <div class="jumbotron" style="background-color:#59735d">
+    <h2 style="text-align:center">Meus Times</h2>
+  </div>
+</div>
+
+<div class="ui-g-12" style="text-align:right">
+  <button type="button" label="Novo Time" icon="fa fa-plus" (click)="showGlobo($event)" pButton></button>
+</div>
+<br>
+<br>
+
+<div class="card card-w-title" *ngIf="times.length">
+  <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+        <th scope="col">Times</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let time of times ">
+        <td tabindex="0">
+          <div class="box-tabela-premiacao">
+            <div>
+              <img class="datatable-escudo" src="{{time.url_escudo_png}}">
+              <span class="datatable-nome-time">{{time.nome}}</span>
+              <span class="datatable-nome-coach">{{time.nome_cartola}}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <button type="button" icon="fa fa-search" pButton (click)="consultarTimeCartola(time)"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TimesService } from '../services/times.service';
+
 
 @Component({
   selector: 'app-inicio',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
+  public times = [] ;
+  
 
-  constructor() { }
+  constructor(private timesService: TimesService) { }
 
   ngOnInit() {
+
+    this.timesService.listartimes().subscribe(data => {
+      this.times = data;
+    });
   }
 
 }

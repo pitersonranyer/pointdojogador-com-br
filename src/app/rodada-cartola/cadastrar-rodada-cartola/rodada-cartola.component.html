@@ -1,0 +1,36 @@
+<div class="card card-w-title">
+  <h1>Rodada cartola</h1>
+  <div class="ui-g-12" style="text-align:right">
+    <button type="button" label="Cadastrar" icon="fa fa-plus" (click)="display=true" pButton></button>
+  </div>
+  <br>
+  <br>
+</div>
+
+<div class="card card-w-title">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <p-table [value]="rodadas">
+      <ng-template pTemplate="caption">
+        Rodadas
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Temporada</th>
+          <th>Rodada</th>
+          <th>Situação</th>
+          <th>Ações </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rodada>
+        <tr>
+          <td>{{rodada.anoTemporada}}</td>
+          <td>#{{rodada.idRodada}}</td>
+          <td>{{rodada.status}}</td>
+          <td>
+            <button pButton (click)="excluirRodadaCartola(rodada)" icon="pi pi-trash"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </form>
+</div>

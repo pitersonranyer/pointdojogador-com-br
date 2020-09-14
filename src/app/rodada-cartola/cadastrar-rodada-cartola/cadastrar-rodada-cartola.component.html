@@ -1,0 +1,62 @@
+<div class="card card-w-title">
+  <h1>Cadastrar Rodada cartola</h1>
+</div>
+
+<div class="card card-w-title">
+
+  <div class="ui-g form-group">
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+
+      <div class="ui-g-12">
+        <label for="acSimple">Temporada</label>
+      </div>
+      <div class="ui-g-12" style="margin-bottom:10px">
+        <input pInputText type="text" [(ngModel)]="rodadaCartola.anoTemporada" name="anoTemporada">
+      </div>
+
+      <div class="ui-g-12">
+        <label for="acSimple">Rodada</label>
+      </div>
+      <div class="ui-g-12" style="margin-bottom:10px">
+        <input pInputText type="text" [(ngModel)]="rodadaCartola.idRodada" name="idRodada">
+      </div>
+
+
+      <div class="ui-g-12">
+        <label for="acSimple">Data fim Inscrição</label>
+      </div>
+      <div class="ui-g-12" style="margin-bottom:10px">
+        <input pInputText type="text" [(ngModel)]="rodadaCartola.dtFimInscricao" name="dtFimInscricao">
+      </div>
+
+      <div class="ui-g-12">
+        <label for="acSimple">Hora fim Inscrição</label>
+      </div>
+      <div class="ui-g-12" style="margin-bottom:10px">
+        <input pInputText type="text" [(ngModel)]="rodadaCartola.hrFimInscricao" name="hrFimInscricao">
+      </div>
+
+      <div class="ui-g-12">
+        <label for="acSimple">Situação</label>
+      </div>
+      <div class="ui-g-12" style="margin-bottom:10px">
+        <input pInputText type="text" [(ngModel)]="rodadaCartola.status" name="status">
+      </div>
+
+      <div class="ui-g-12">
+        <label for="acSimple">Valor</label>
+      </div>
+      <div class="ui-g-12" style="margin-bottom:10px">
+        <input pInputText type="text" [(ngModel)]="rodadaCartola.valorRodada" name="valorRodada">
+      </div>
+
+
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Cadastrar" icon="fa fa-save " class="ui-button-success" ></button>
+      </div>
+
+
+    </form>
+  </div>
+
+</div>

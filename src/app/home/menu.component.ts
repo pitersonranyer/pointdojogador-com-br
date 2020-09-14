@@ -1,23 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MenuItem } from 'primeng/primeng';
-import { MenuService } from './../services/menu.service';
 import { HomeComponent } from './home.component';
+
 
 @Component({
     selector: 'app-menu',
     template: `
         <div class="menu">
-            <ul app-submenu [item]="menuService.menuCompleto" root="true"></ul>
+            <ul app-submenu [item]="model" root="true" parentActive="true"></ul>
         </div>
     `
 })
 export class MenuComponent implements OnInit {
 
-    constructor(public menuService: MenuService) { }
+    model: MenuItem[];
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.model = [
+            { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/dashboard'] },
+
+
+            {
+                label: 'Cartola', icon: 'fa fa fa-graduation-cap',
+                items: [
+                    { label: 'Meus Times', icon: 'fa fa fa-eye', routerLink: ['/listarTimesUsuarioCartola'] },
+                    { label: 'Minhas Ligas', icon: 'fa fa fa-usd', routerLink: ['/meusJogosMeusPagamentos'] }
+                ]
+            },
+        ];
+    }
 }
 
 @Component({
@@ -27,23 +39,24 @@ export class MenuComponent implements OnInit {
     template: `
         <ul>
             <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
-                <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass">
+                <li [ngClass]="{'active-menuitem': isActive(i), 'ui-state-disabled':child.disabled}" [class]="child.badgeStyleClass">
                     <a *ngIf="!child.routerLink" [href]="child.url||'#'" (click)="itemClick($event,child,i)"
                        [attr.tabindex]="!visible ? '-1' : null"  [attr.target]="child.target">
-                        <i class="fa fa-fw" [ngClass]="child.icon"></i>
+                        <i [ngClass]="child.icon"></i>
                         <span>{{child.label}}</span>
                         <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
                         <i class="fa fa-fw fa-angle-down" *ngIf="child.items"></i>
                     </a>
                     <a *ngIf="child.routerLink" (click)="itemClick($event,child,i)" [attr.target]="child.target"
-                        [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
+                        [routerLink]="!child.disabled?child.routerLink:null" routerLinkActive="active-menuitem-routerlink"
                        [routerLinkActiveOptions]="{exact: true}">
-                        <i class="fa fa-fw" [ngClass]="child.icon"></i>
+                        <i [ngClass]="child.icon"></i>
                         <span>{{child.label}}</span>
                         <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
                         <i class="fa fa-fw fa-angle-down" *ngIf="child.items"></i>
                     </a>
-                    <ul app-submenu [item]="child" *ngIf="child.items" [@children]="isActive(i) ? 'visible' : 'hidden'" ></ul>
+                    <ul app-submenu [item]="child" *ngIf="child.items"
+                        [@children]="isActive(i) ? 'visible' : 'hidden'"  [parentActive]="isActive(i)"></ul>
                 </li>
             </ng-template>
         </ul>
@@ -71,12 +84,14 @@ export class SubMenuComponent {
 
     activeIndex: number;
 
+    _parentActive: boolean;
+
     constructor(public app: HomeComponent) { }
 
     itemClick(event: Event, item: MenuItem, index: number) {
         if (item.disabled) {
             event.preventDefault();
-            return true;
+            return;
         }
 
         this.activeIndex = (this.activeIndex === index) ? null : index;
@@ -88,6 +103,7 @@ export class SubMenuComponent {
 
         // prevent hash change
         if (item.items || (!item.url && !item.routerLink)) {
+            setTimeout(() => { this.app.scrollerViewChild.moveBar(); }, 400);
             event.preventDefault();
         }
 
@@ -98,5 +114,17 @@ export class SubMenuComponent {
 
     isActive(index: number): boolean {
         return this.activeIndex === index;
+    }
+
+    @Input() get parentActive(): boolean {
+        return this._parentActive;
+    }
+
+    set parentActive(val: boolean) {
+        this._parentActive = val;
+
+        if (!this._parentActive) {
+            this.activeIndex = null;
+        }
     }
 }

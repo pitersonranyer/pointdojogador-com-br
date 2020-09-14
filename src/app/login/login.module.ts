@@ -4,18 +4,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+
 
 import { InputTextModule, ButtonModule, ConfirmDialogModule, ConfirmationService,
     PasswordModule, ProgressSpinnerModule, InputMaskModule } from 'primeng/primeng';
 
-import { UtilsModule } from './../utils/utils.module';
+import { ToastModule } from 'primeng/toast';
+
 
 import { LoginComponent } from './login.component';
 
-import { AuthGuard } from './../security/guards/auth.guard';
+import { AuthGuard } from './../guards/auth.guard';
 
 
 import { UsuarioService } from '../services/usuario.service';
+import { UtilsModule } from '../utils/utils.module';
 
 @NgModule({
   imports: [
@@ -27,14 +31,17 @@ import { UsuarioService } from '../services/usuario.service';
     BrowserAnimationsModule,
     ButtonModule,
     HttpClientModule,
-    
+
     ProgressSpinnerModule,
     InputMaskModule,
+    RouterModule,
 
     PasswordModule,
-    UtilsModule,
     InputTextModule,
     ConfirmDialogModule,
+
+    ToastModule,
+    UtilsModule
 
 
   ],

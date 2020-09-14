@@ -1,0 +1,82 @@
+<br>
+<!-- <div class="ui-messages ui-widget ui-corner-all ui-messages-warn" style="margin: 0 0 1em 0; display: block">
+    <span class="ui-messages-icon fa fa-fw fa-2x fa-check"></span>
+    <ul>
+        <li>
+            <span class="ui-messages-summary" style="font-size:16px">Bônus de 100,00 Reais para o primeiro colocado
+                com mais de 100 pontos, aproveite!!!</span>
+        </li>
+    </ul>
+</div>
+-->
+
+<div class="ui-g ui-fluid dashboard">
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Participantes</span>
+            <span class="detail">Jogos Registrados</span>
+            <span class="count visitors">{{totalParticipantes}}</span>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Rodada</span>
+            <span class="detail">Cartola</span>
+            <span class="count purchases">#{{ rodada.idRodada}}</span>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Premiação</span>
+            <span class="detail">Estimativa</span>
+            <span class="count revenue">R$ {{premiacaoFinalFormat}} </span>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Inscrições</span>
+            <span class="detail">Encerram</span>
+            <span class="count revenue2">{{dataFim}} às {{horaFim}} </span>
+        </div>
+    </div>
+
+    <div class="ui-g-12" *ngIf="rodada.status === 'Aberta'">
+        <button type="button" label="ADICIONAR" pButton icon="fa fa-plus" (click)="show($event)"
+            class="ui-button-success" style="margin-bottom:10px"></button>
+    </div>
+
+    <div class="ui-g-12" *ngIf="usuario.admin">
+        <button type="button" label="ATUALIZAR PARCIAIS" pButton icon="fa fa-refresh" (click)="atualizarParciais()"
+            class="ui-button-success" style="margin-bottom:10px"></button>
+    </div>
+</div>
+
+<div class="ui-g-12">
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+            <thead>
+                <tr role="row">
+                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
+                    <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 211px;">
+                        <span class="hidden-xs">Pts. Total</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let parcial of parciais; let i = index">
+                    <td tabindex="0">
+                        <div class="box-tabela-premiacao"><span class="datatable-colocacao">{{i + 1}}º</span>
+                            <div>
+                                <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
+                                <span class="datatable-nome-time">{{parcial.nome}}</span><span
+                                    class="datatable-nome-coach">{{parcial.nome_cartola}}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class=" text-center"><span class="datatable-pontuacao">{{parcial.pontosTotais}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

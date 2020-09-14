@@ -1,18 +1,18 @@
-import { UsuarioEntity } from './../../entities/usuario.entity';
-import { Subscription } from 'rxjs';
-import { Subject } from 'rxjs';
-import { MenuService } from './../services/menu.service';
-import { timer } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { OnInit, AfterViewInit, Component, OnDestroy, Renderer, ViewChild } from '@angular/core';
-import { ConfirmationService, ScrollPanel } from 'primeng/primeng';
-import { ImagemService } from '../services/imagem.service';
-import { AuthService } from './../services/auth.service';
-import { MensageriaService } from './../services/mensageria.service';
-import { UtilService } from './../services/util.service';
+import { Component, AfterViewInit, OnDestroy, ViewChild, Renderer2 } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ScrollPanel, ConfirmationService } from 'primeng/primeng';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { UsuarioService } from '../services/usuario.service';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { Observable } from 'rxjs';
+
+import { MessageService } from 'primeng/api';
+import { MensageriaService } from '../services/mensageria.service';
+
 
 @Component({
-    selector: 'app-home',
+    selector: 'app-root',
     templateUrl: './home.component.html',
     animations: [
         trigger('submenu', [
@@ -24,22 +24,10 @@ import { UtilService } from './../services/util.service';
             })),
             transition('visible => hidden', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
             transition('hidden => visible', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
-        ]),
-    ],
-    styles: [`
-    :host ::ng-deep button {
-        margin-right: .25em;
-     }`]
+        ])
+    ], providers: [MessageService]
 })
-export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
-
-    constructor(public renderer: Renderer,
-        public utilService: UtilService,
-        public mensageriaService: MensageriaService,
-        private menuService: MenuService,
-        public imagemService: ImagemService,
-        private authService: AuthService,
-        private confirmationService: ConfirmationService) { }
+export class HomeComponent implements AfterViewInit, OnDestroy {
 
     public menuInactiveDesktop: boolean;
 
@@ -59,22 +47,27 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     topMenuButtonClick: boolean;
 
-    versao;
-    usuarioAutenticado: UsuarioEntity;
-    titulo = '';
+    usuario$: Observable<Usuario>;
+    usuario: Usuario;
 
-    ngOnInit() {
-        this.versao = this.utilService.getVersaoSistema();
-        this.usuarioAutenticado = this.utilService.getUsuarioAutenticado();
-        this.titulo = this.utilService.getTituloAmbiente();
+    constructor(public renderer: Renderer2,
+        private router: Router,
+        private authService: AuthService,
+        private confirmationService: ConfirmationService,
+        public usuarioService: UsuarioService,
+        public mensageriaService: MensageriaService) {
+
         document.body.className = '';
+        this.usuario$ = usuarioService.getUsuario();
+        this.usuario$.subscribe(usuario => this.usuario = usuario);
+        this.router.navigate(['/dashboard']);
     }
 
     ngAfterViewInit() {
         setTimeout(() => { this.scrollerViewChild.moveBar(); }, 100);
 
         // hides the overlay menu and top menu if outside is clicked
-        this.documentClickListener = this.renderer.listenGlobal('body', 'click', (event) => {
+        this.documentClickListener = this.renderer.listen('body', 'click', (event) => {
             if (!this.isDesktop()) {
                 if (!this.menuClick) {
                     this.menuActiveMobile = false;
@@ -157,18 +150,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    confirmarSaida() {
+    deslogar() {
         this.confirmationService.confirm({
-            message: 'Tem certeza que deseja sair do sistema?',
+            message: 'Tem certeza que deseja sair?',
             header: 'Confirmação',
             icon: 'fa fa-question-circle',
             accept: () => {
                 this.mensageriaService.limparMensagens();
-                this.mensageriaService.processamento = true;
-                this.authService.logout();
+                this.authService.deslogar().subscribe(() => {
+                });
             }, reject: () => {
                 return;
             }
+
         });
+
     }
 }

@@ -1,0 +1,40 @@
+<div class="ui-g-12" style="text-align:left">
+  <button type="button" icon="fa fa-chevron-left" (click)="voltar()" pButton></button>
+
+</div>
+
+<div class="ui-g-12">
+  <div class="jumbotron" style="background-color:#59735d">
+    <h2 style="text-align:center">Liberar Pendencia de Pagamento</h2>
+  </div>
+</div>
+
+
+<div class="ui-g-12">
+
+  <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+    <thead>
+      <tr role="row">
+        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
+        <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 211px;">
+          <span class="hidden-xs">Liberar</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pendencia of pendencias; let i = index">
+        <td tabindex="0">
+          <div class="box-tabela-premiacao"><span class="datatable-colocacao">{{i + 1}}</span>
+            <div>
+              <img class="datatable-escudo" src="{{pendencia.url_escudo_png}}">
+              <span class="datatable-nome-time">{{pendencia.nome_cartola}}</span><span
+                class="datatable-nome-coach">{{pendencia.nome}}
+              </span>
+            </div>
+          </div>
+        </td>
+        <td class=" text-center"> <button pButton icon="pi pi-thumbs-up" class="ui-button-success" (click)="liberar(pendencia)"></button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
