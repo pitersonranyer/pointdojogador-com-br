@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pointdojogador-com-.br": {
+    "pointdojogador-com-br": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pointdojogador-com-.br",
+            "outputPath": "dist/pointdojogador-com-br",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -69,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pointdojogador-com-.br:build"
+            "browserTarget": "pointdojogador-com-br:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pointdojogador-com-.br:build:production"
+              "browserTarget": "pointdojogador-com-br:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pointdojogador-com-.br:build"
+            "browserTarget": "pointdojogador-com-br:build"
           }
         },
         "test": {
@@ -126,7 +126,7 @@
         }
       }
     },
-    "pointdojogador-com-.br-e2e": {
+    "pointdojogador-com-br-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -135,11 +135,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "pointdojogador-com-.br:serve"
+            "devServerTarget": "pointdojogador-com-br:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "pointdojogador-com-.br:serve:production"
+              "devServerTarget": "pointdojogador-com-br:serve:production"
             }
           }
         },
@@ -155,5 +155,5 @@
       }
     }
   },
-  "defaultProject": "pointdojogador-com-.br"
+  "defaultProject": "pointdojogador-com-br"
 }
