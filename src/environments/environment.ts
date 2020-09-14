@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  pointdojogadorApiUrl: 'http://localhost:3000/api',
+//  pointdojogadorApiUrl: 'http://localhost:3000/api',
+  pointdojogadorApiUrl: 'https://pointdojogador-api.herokuapp.com/api',
 };
 
 export const TOKEN_STORAGE = 'NOME_CHAVE_TOKEN';
