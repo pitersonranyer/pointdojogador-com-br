@@ -12,8 +12,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { TableModule } from 'primeng/table';
 
 import {  DataTableModule } from 'primeng/datatable';
-
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DynamicDialogModule } from 'primeng/components/dynamicdialog/dynamicdialog';
 
 import { AuthGuard } from '../guards/auth.guard';
 
@@ -21,6 +20,7 @@ import { UsuarioService } from '../services/usuario.service';
 import { RouterModule } from '@angular/router';
 import { ListarTimesCartolaComponent } from './listar-times-cartola.component';
 import { UtilsModule } from '../utils/utils.module';
+
 
 @NgModule({
   imports: [

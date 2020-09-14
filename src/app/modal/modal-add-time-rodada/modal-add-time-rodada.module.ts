@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PanelModule } from 'primeng/panel';
 
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DynamicDialogModule } from 'primeng/components/dynamicdialog/dynamicdialog';
 import { UtilsModule } from 'src/app/utils/utils.module';
 import { ProgressSpinnerModule } from 'primeng/primeng';
 
