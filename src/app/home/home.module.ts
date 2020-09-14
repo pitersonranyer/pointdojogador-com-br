@@ -72,7 +72,6 @@ import { TreeTableModule } from 'primeng/treetable';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { DataTableModule } from 'primeng/datatable';
 import { DialogService, MessageService } from 'primeng/api';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 import { MenuComponent, SubMenuComponent } from './menu.component';
 
@@ -171,7 +170,6 @@ import { UtilService } from '../services/util.service';
     TreeTableModule,
     VirtualScrollerModule,
     DataTableModule,
-    DynamicDialogModule,
     ProgressSpinnerModule,
 
 
