@@ -3,16 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server",
+    "start": "ng serve --aot --host 0.0.0.0 --disable-host-check",
+    "dev": "ng serve --aot",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "npm run build"
-  },
-  "engines": {
-    "node": "12.9.1",
-    "npm": "6.10.2"
   },
   "private": true,
   "dependencies": {
