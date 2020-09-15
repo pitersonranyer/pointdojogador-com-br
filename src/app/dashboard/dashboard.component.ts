@@ -61,6 +61,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
+    console.log('estou na umbler');
+
     this.listarRodadaAtual.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
       this.rodada = rodadaCartola;
 
