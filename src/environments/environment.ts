@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
 //  pointdojogadorApiUrl: 'http://localhost:3000/api',
-  pointdojogadorApiUrl: 'https://pointdojogador-api.herokuapp.com/api',
+//  pointdojogadorApiUrl: 'https://pointdojogador-api.herokuapp.com/api',
+ pointdojogadorApiUrl: 'http://pointdojogador-api-com-br.umbler.net/api',
+  
 };
 
 export const TOKEN_STORAGE = 'NOME_CHAVE_TOKEN';
