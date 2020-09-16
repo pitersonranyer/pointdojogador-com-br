@@ -85,27 +85,6 @@ export class UtilService {
 
 
     /**
-     * @description Resgata o título do ambiente que se está acessando
-     * @returns string url do backend e do frontend
-     */
-    getTituloAmbiente() {
-        const url = window.location.href;
-        let ambiente = '';
-        if (url.match(/localhost/)) {
-            ambiente = 'FRONTEND - LOCALHOST / BACKEND - ';
-        } else {
-            if (url.match(/motus-ui-desenv/)) {
-                ambiente = 'FRONTEND - DESENVOLVIMENTO / BACKEND - ';
-            }
-        }
-        const backend = this.getUrlBackend();
-        if (backend === 'http://localhost:3000/api') {
-            ambiente += 'LOCALHOST';
-        }
-        return ambiente;
-    }
-
-    /**
      * @description Resgata a versão atual do sistema
      * @returns 'Versão 0.0.0' onde 0.0.0 é o versionamento semântico
      */
