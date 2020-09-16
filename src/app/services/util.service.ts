@@ -66,7 +66,7 @@ export class UtilService {
      * @author Felipe
      * @description Resgata o usuário autenticado
      */
-    
+
     /**
      * @description Resgata url do backend
      * @returns string url do backend
@@ -74,32 +74,13 @@ export class UtilService {
     getUrlBackend() {
         const url = window.location.href;
         if (url.match(/localhost/)) {
-            return 'http://localhost:8080/';
+            return 'http://localhost:3000/api';
         }
-        if (url.match(/projeto50m-ui-desenv/)) {
-            return 'https://projeto50m-api-desenv.herokuapp.com/';
-        }
-        if (url.match(/projeto50m/)) {
-            return 'https://projeto50m-api.herokuapp.com/';
+        if (url.match(/pointdojogador/)) {
+            return 'http://pointdojogador-api-com-br.umbler.net/api';
         }
     }
 
-    /**
-    * @description Resgata url do backend
-    * @returns string url do backend
-    */
-    getUrlFrontend() {
-        const url = window.location.href;
-        if (url.match(/localhost/)) {
-            return 'http://localhost:4200';
-        }
-        if (url.match(/projeto50m-ui-desenv/)) {
-            return 'https://projeto50m-ui-desenv.herokuapp.com';
-        }
-        if (url.match(/motus/)) {
-            return 'https://www.projeto50m.com.br';
-        }
-    }
 
     /**
      * @description Resgata o título do ambiente que se está acessando
@@ -116,12 +97,8 @@ export class UtilService {
             }
         }
         const backend = this.getUrlBackend();
-        if (backend === 'http://localhost:8080/') {
+        if (backend === 'http://localhost:3000/api') {
             ambiente += 'LOCALHOST';
-        } else {
-            if (backend === 'https://projeto50m-api-desenv.herokuapp.com/') {
-                ambiente += 'DESENVOLVIMENTO';
-            }
         }
         return ambiente;
     }
