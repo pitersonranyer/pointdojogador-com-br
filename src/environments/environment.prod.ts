@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  pointdojogadorApiUrl: 'https://pointdojogador-api-com-br.umbler.net/api',
+  pointdojogadorApiUrl: 'http://pointdojogador-api-com-br.umbler.net/api',
 };
 
 export const TOKEN_GLOBO = '';
