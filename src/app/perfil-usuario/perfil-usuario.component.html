@@ -20,7 +20,7 @@
                 <label class="form-control-label" for="input-username">Nome</label>
                 <input type="text" class="form-control form-control-alternative" id="nome" value
                   aria-describedby="inputGroupPrepend" name="nome"
-                  ngModel="{{ (usuarioService.usuario$ | async)?.nome }}" disabled>
+                  ngModel="{{ usuario.nome }}" disabled>
               </div>
             </div>
             <div class="col-lg-6">
@@ -28,7 +28,7 @@
                 <label class="form-control-label" for="input-email">E-mail</label>
                 <input type="text" class="form-control form-control-alternative" id="email"
                   aria-describedby="inputGroupPrepend" name="email"
-                  ngModel="{{ (usuarioService.usuario$ | async)?.email }}" disabled>
+                  ngModel="{{ usuario.email }}" disabled>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
                 <label class="form-control-label" for="input-address">Contato</label>
                 <input type="text" class="form-control form-control-alternative" id="contato"
                   aria-describedby="inputGroupPrepend" name="celular"
-                  ngModel="{{ (usuarioService.usuario$ | async)?.contato }}" disabled>
+                  ngModel="{{ usuario.contato }}" disabled>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
                 <label class="form-control-label" for="input-city">Time favorito</label>
                 <input type="text" class="form-control form-control-alternative" id="timeFavorito"
                   aria-describedby="inputGroupPrepend" name="timeFavorito"
-                  ngModel="{{ (usuarioService.usuario$ | async)?.timeFavorito }}" disabled>
+                  ngModel="{{ usuario.timeFavorito }}" disabled>
               </div>
             </div>
 

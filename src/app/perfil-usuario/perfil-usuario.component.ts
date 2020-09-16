@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { Observable } from 'rxjs';
+import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../interfaces/usuario';
 
 @Component({
@@ -10,16 +11,21 @@ import { Usuario } from '../interfaces/usuario';
 })
 export class PerfilUsuarioComponent implements OnInit {
 
-  public usuario: Usuario = <Usuario>{};
 
-  constructor(private usuarioService: UsuarioService) { }
+  usuario$: Observable<Usuario>;
+  usuario: Usuario;
+
+  constructor(public usuarioService: UsuarioService) {
+    this.usuario$ = usuarioService.getUsuario();
+    this.usuario$.subscribe(usuario => this.usuario = usuario);
+  }
 
   ngOnInit() { }
 
-     onSubmit(form: NgForm) {
-      const dados = `
+  onSubmit(form: NgForm) {
+    const dados = `
       Codigo: ${form.value.codigo}`;
 
-    }
+  }
 
 }

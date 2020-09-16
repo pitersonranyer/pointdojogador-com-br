@@ -17,8 +17,8 @@ export class ConsultaTimeCartolaComponent implements OnInit {
   totPontos: number;
   pontuacaoParcial: number;
 
-  time: {};
-  scout: {};
+  time: any;
+  scout: any;
   atletas: Array<any> = [];
   arrayAtletasPontuados = [];
 
