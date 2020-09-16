@@ -96,7 +96,7 @@ export class CartolaAPIService {
 
   listarRodadaCartolaPorTemporada(anoTemporada: number): Observable<RodadaCartola> {
     const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarRodadaCartolaTemporada/${anoTemporada}`;
-    console.log(url);
+    console.log(url); 
    // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarRodadaCartolaTemporada/${anoTemporada}`;
     return this.http.get<RodadaCartola>(url);
   }
