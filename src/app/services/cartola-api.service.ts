@@ -109,63 +109,76 @@ export class CartolaAPIService {
 
   // -- TimeRodadaCartola
   cadastrarTimeRodadaCartola(rodadaCartola: TimeRodadaCartola) {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola`;
+   // const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola`;
     return this.http.post(url, rodadaCartola);
   }
 
   // lista times do usuario, vinculado ou não a rodada
   listarTimesUsuarioCartolaRodada(anoTemporada: number, idUsuario: number, idRodada: number): Observable<any[]> {
-    const url = `${environment.pointdojogadorApiUrl}`
-      + `/timeUsuarioCartola/listarTimesUsuarioCartolaRodada/${anoTemporada}/${idUsuario}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() 
+    + `/timeUsuarioCartola/listarTimesUsuarioCartolaRodada/${anoTemporada}/${idUsuario}/${idRodada}`;
+
+    // const url = `${environment.pointdojogadorApiUrl}`
+    //  + `/timeUsuarioCartola/listarTimesUsuarioCartolaRodada/${anoTemporada}/${idUsuario}/${idRodada}`;
     return this.http.get<any[]>(url);
   }
 
   // -- Count de inscritos ** Pagos
   consultaTimeRodadaCartolaCount(anoTemporada: number, idRodada: number) {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/consultaTimeRodadaCartolaCount/${anoTemporada}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/consultaTimeRodadaCartolaCount/${anoTemporada}/${idRodada}`;
+    // const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/consultaTimeRodadaCartolaCount/${anoTemporada}/${idRodada}`;
     return this.http.get(url);
   }
 
   // -- Meus Jogos Meus Pagamentos
   listaMeusJogosMeusPgtos(idUsuario: number): Observable<any[]> {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/listaMeusJogosMeusPgtos/${idUsuario}`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/listaMeusJogosMeusPgtos/${idUsuario}`;
+//    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/listaMeusJogosMeusPgtos/${idUsuario}`;
     return this.http.get<any[]>(url);
   }
 
 
   // -- Resultado parcial
   listaResutaldoParcialRodada(anoTemporada: number, idRodada: number): Observable<any[]> {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/listaTimeRodadaCartolaPorRodada/${anoTemporada}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/listaTimeRodadaCartolaPorRodada/${anoTemporada}/${idRodada}`;
+    // const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/listaTimeRodadaCartolaPorRodada/${anoTemporada}/${idRodada}`;
     return this.http.get<any[]>(url);
   }
 
   // -- Atualizar Resultado parcial
   atualizarPontosRodadaCartola(timeRodadaCartola: TimeRodadaCartola) {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/atualizarPontosRodadaCartola`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/atualizarPontosRodadaCartola`;
+    // const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/atualizarPontosRodadaCartola`;
     return this.http.put(url, timeRodadaCartola);
   }
 
 
   // Lista de Time Pendente de Pagamento
   listaTimeRodadaPendentePgto(anoTemporada: number, idRodada: number): Observable<any[]> {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/listaTimeRodadaPendentePgto/${anoTemporada}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/listaTimeRodadaPendentePgto/${anoTemporada}/${idRodada}`;
+    // const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/listaTimeRodadaPendentePgto/${anoTemporada}/${idRodada}`;
     return this.http.get<any[]>(url);
   }
 
   atualizarStatusPagamento(timeRodadaCartola: TimeRodadaCartola) {
-    const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/atualizarStatusPagamento`;
+    const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/atualizarStatusPagamento`;
+    // const url = `${environment.pointdojogadorApiUrl}/timeRodadaCartola/atualizarStatusPagamento`;
     return this.http.put(url, timeRodadaCartola);
   }
 
   // Lista de Time Pendente de Pagamento
   listarTimesUsuarioRodada(anoTemporada: number, idRodada: number, idUsuario: number): Observable<any[]> {
-    const url = `${environment.pointdojogadorApiUrl}` +
-      `/timeRodadaCartola/listaTimeRodadaCartolaPorId/${anoTemporada}/${idRodada}/${idUsuario}`;
+    const url = this.utilService.getUrlBackend() +
+     `/timeRodadaCartola/listaTimeRodadaCartolaPorId/${anoTemporada}/${idRodada}/${idUsuario}`;
+   // const url = `${environment.pointdojogadorApiUrl}` +
+   //   `/timeRodadaCartola/listaTimeRodadaCartolaPorId/${anoTemporada}/${idRodada}/${idUsuario}`;
     return this.http.get<any[]>(url);
   }
 
   atualizarStatusRodada(rodadaCartola: RodadaCartola) {
-    const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/alterarStatusRodada`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/alterarStatusRodada`;
+    // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/alterarStatusRodada`;
     return this.http.put(url, rodadaCartola);
   }
 
