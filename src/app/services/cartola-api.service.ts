@@ -102,7 +102,8 @@ export class CartolaAPIService {
   }
 
   excluirRodadaCartolaPorId(anoTemporada: number, idRodada: number) {
-    const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/excluirRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/excluirRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
+    // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/excluirRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
     return this.http.delete(url);
   }
 
