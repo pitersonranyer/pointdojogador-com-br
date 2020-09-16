@@ -3,11 +3,13 @@ const path = require('path')
 const port = process.env.PORT || 3000
 const app = express()
  
-app.use(express.static(path.join(__dirname, 'dist', 'pointdojogador-ui'
-)))
- 
+app.use(express.static(__dirname + '/dist'));
+
+
 app.get('*', function (req, res) {
-   res.sendFile(__dirname + '/public/index.html'); 
+
+  res.sendFile(__dirname + '/dist/index.html');
+
 });
  
 app.listen(port)
