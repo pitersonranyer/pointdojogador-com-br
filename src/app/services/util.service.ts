@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
-import { MensageriaService } from './mensageria.service';
+
 
 /**
  * @author Felipe
@@ -8,7 +7,7 @@ import { MensageriaService } from './mensageria.service';
 @Injectable()
 export class UtilService {
 
-    constructor(private mensageriaService: MensageriaService) { }
+    constructor() { }
 
     getUrlBackend() {
         //   const url = window.location.href;
