@@ -6,13 +6,14 @@ import { environment } from '../../environments/environment';
 import { TimeCartola } from '../interfaces/timeCartola';
 import { RodadaCartola } from '../interfaces/rodadaCartola';
 import { TimeRodadaCartola } from '../interfaces/timeRodadaCartola';
+import { UtilService } from './util.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartolaAPIService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private utilService: UtilService) { }
 
   private _listners = new Subject<any>();
 
@@ -21,27 +22,32 @@ export class CartolaAPIService {
       login: userCartola.toLowerCase(),
       senha: senhaCartola
     };
-    const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/loginCartola`;
+    const url = this.utilService.getUrlBackend() + '/cartolaAPI/loginCartola';
+   // const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/loginCartola`;
     return this.http.post<any>(url, loginSenhaCartola);
   }
 
   buscarTimeUsuarioLogado(glbId: string): Observable<any> {
-    const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/buscarTimeUsuarioLogado/${glbId}`;
+    const url = this.utilService.getUrlBackend() + `/cartolaAPI/buscarTimeUsuarioLogado/${glbId}`;
+    // const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/buscarTimeUsuarioLogado/${glbId}`;
     return this.http.get<any>(url);
   }
 
   listarTimesCartola(time: string): Observable<TimeCartola[]> {
-    const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/listarTimesCartola/${time}`;
+    const url = this.utilService.getUrlBackend() + `/cartolaAPI/listarTimesCartola/${time}`;
+   // const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/listarTimesCartola/${time}`;
     return this.http.get<TimeCartola[]>(url);
   }
 
   consultarTimeCartola(Idtime: number): Observable<any> {
-    const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/consultarTimeCartola/${Idtime}`;
+    const url = this.utilService.getUrlBackend() + `/cartolaAPI/consultarTimeCartola/${Idtime}`;
+  //  const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/consultarTimeCartola/${Idtime}`;
     return this.http.get<any>(url);
   }
 
   listarAtletasPontuados(): Observable<any> {
-    const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/listarAtletasPontuados`;
+    const url = this.utilService.getUrlBackend() + `/cartolaAPI/listarAtletasPontuados`;
+   // const url = `${environment.pointdojogadorApiUrl}/cartolaAPI/listarAtletasPontuados`;
     return this.http.get<any>(url);
   }
 
@@ -50,40 +56,47 @@ export class CartolaAPIService {
 
   // -- TimesUsuarioCartola
   cadastrarTimeUsuarioCartola(timeCartola: TimeCartola) {
-    const url = `${environment.pointdojogadorApiUrl}/timeUsuarioCartola`;
+    const url = this.utilService.getUrlBackend() + `/timeUsuarioCartola`;
+  //  const url = `${environment.pointdojogadorApiUrl}/timeUsuarioCartola`;
     return this.http.post(url, timeCartola);
   }
 
   listarTimesUsuarioCartola(id: number): Observable<TimeCartola[]> {
-    const url = `${environment.pointdojogadorApiUrl}/timeUsuarioCartola/listarTimesUsuarioCartola/${id}`;
+    const url = this.utilService.getUrlBackend() + `/timeUsuarioCartola/listarTimesUsuarioCartola/${id}`;
+   // const url = `${environment.pointdojogadorApiUrl}/timeUsuarioCartola/listarTimesUsuarioCartola/${id}`;
     return this.http.get<TimeCartola[]>(url);
   }
 
   deletaTimeUsuarioCartola(idUsuario: number, time_id: number) {
-    const url = `${environment.pointdojogadorApiUrl}/timeUsuarioCartola/excluirTimeUsuarioCartola/${idUsuario}/${time_id}`;
+    const url = this.utilService.getUrlBackend() + `/timeUsuarioCartola/excluirTimeUsuarioCartola/${idUsuario}/${time_id}`;
+  // const url = `${environment.pointdojogadorApiUrl}/timeUsuarioCartola/excluirTimeUsuarioCartola/${idUsuario}/${time_id}`;
     return this.http.delete(url);
   }
 
   // -- RodadaCartola
 
   cadastrarRodadaCartola(rodadaCartola: RodadaCartola) {
-    const url = `${environment.pointdojogadorApiUrl}/rodadaCartola`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola`;
+    // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola`;
     return this.http.post(url, rodadaCartola);
   }
 
 
   listarTodasRodadaCartola(): Observable<RodadaCartola[]> {
-    const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarTodasRodadaCartola`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarTodasRodadaCartola`;
+    // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarTodasRodadaCartola`;
     return this.http.get<RodadaCartola[]>(url);
   }
 
   listarRodadaCartolaPorId(anoTemporada: number, idRodada: number): Observable<RodadaCartola> {
-    const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarTodasRodadaCartola`;
+  // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
     return this.http.get<RodadaCartola>(url);
   }
 
   listarRodadaCartolaPorTemporada(anoTemporada: number): Observable<RodadaCartola> {
-    const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarRodadaCartolaTemporada/${anoTemporada}`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarRodadaCartolaTemporada/${anoTemporada}`;
+   // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarRodadaCartolaTemporada/${anoTemporada}`;
     return this.http.get<RodadaCartola>(url);
   }
 
