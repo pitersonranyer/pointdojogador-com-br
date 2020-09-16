@@ -72,13 +72,15 @@ export class UtilService {
      * @returns string url do backend
      */
     getUrlBackend() {
-        const url = window.location.href;
-        if (url.match(/localhost/)) {
-            return 'http://localhost:3000/api';
-        }
-        if (url.match(/pointdojogador/)) {
+     //   const url = window.location.href;
+     //   console.log('location', window.location.href);
+     //   console.log(url.match);
+     //   if (url.match(/localhost/)) {
+     //       return 'http://localhost:3000/api';
+     //   }
+     //   if (url.match(/pointdojogador/)) {
             return 'http://pointdojogador-api-com-br.umbler.net/api';
-        }
+     //   }
     }
 
 
