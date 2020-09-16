@@ -6,8 +6,8 @@ const app = express()
 app.use(express.static(path.join(__dirname, 'dist', 'pointdojogador-ui'
 )))
  
-app.get('/*', function (req, res) {
-   res.sendFile(path.join(__dirname, 'dist', 'pointdojogador-ui', 'index.html'))
-})
+app.get('*', function (req, res) {
+   res.sendFile(__dirname + '/public/index.html'); 
+});
  
 app.listen(port)
