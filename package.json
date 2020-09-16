@@ -7,7 +7,7 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "postinstall": "npm run build",
+    "postinstall": "ng build --aot --prod",
     "e2e": "ng e2e"
   },
   "engines": {
