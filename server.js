@@ -1,7 +1,11 @@
 var express = require('express');
 var app = express();
 
-//... your code here ...
+app.use(express.static(`${__dirname}/dist/${nomeApp}`));
+ 
+app.get('/*', (req, res) => {
+res.sendFile(path.join(`${__dirname}/dist/${nomeApp}/index.html`));
+});
                                 
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
