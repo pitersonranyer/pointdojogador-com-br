@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
     private tokenService: TokenService) {   }
 
     ngOnInit() {
-      
       if (this.tokenService.token) {
         this.authService.criarSessao(this.tokenService.token);
       }
