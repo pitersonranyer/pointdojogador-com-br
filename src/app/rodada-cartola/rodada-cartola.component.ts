@@ -100,6 +100,7 @@ export class RodadaCartolaComponent implements OnInit {
   }
 
   excluirRodadaCartola(rodada: RodadaCartola): void {
+    console.log(rodada);
 
     this.confirmationService.confirm({
       message: 'Tem certeza que deseja excluir essa Rodada?',
