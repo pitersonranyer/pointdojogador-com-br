@@ -15,7 +15,7 @@ export class UtilService {
             return 'http://localhost:3000/api';
         }
         if (url.match(/pointdojogador/)) {
-            return 'http://pointdojogador-api.com.br/api';
+            return 'http://pointdojogador-api-com-br.umbler.net/api';
         }
     }
 

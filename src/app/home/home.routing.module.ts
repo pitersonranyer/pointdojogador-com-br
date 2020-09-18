@@ -30,7 +30,7 @@ const homeRoutes = [
                 component: InicioComponent,
                 canActivate: [AuthGuard],
                 canLoad: [AuthGuard],
-                loadChildren: '../../app/inicio/inicio.module#InicioModule'
+          //      loadChildren: '../../app/inicio/inicio.module#InicioModule'
             },
             {
                 path: 'dashboard',

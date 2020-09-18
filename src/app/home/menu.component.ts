@@ -19,6 +19,7 @@ export class MenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/dashboard'] },
+            { label: 'Regras', icon: 'fa fa-fw fa-handshake-o', routerLink: ['/inicio'] },
 
 
             {
