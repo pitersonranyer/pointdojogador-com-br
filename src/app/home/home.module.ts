@@ -94,6 +94,9 @@ import { LoginGloboModule } from '../login-globo/login-globo.module';
 import { UtilsModule } from '../utils/utils.module';
 import { ProgressSpinnerModule } from 'primeng/primeng';
 import { UtilService } from '../services/util.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenApiService } from '../interceptadores/token-api.service';
+import { InvalidTokenApiService } from '../interceptadores/invalid-token-api.service';
 
 @NgModule({
   imports: [
@@ -205,7 +208,17 @@ import { UtilService } from '../services/util.service';
   providers: [
     DialogService,
     MessageService,
-    UtilService
+    UtilService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenApiService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InvalidTokenApiService,
+      multi: true
+    }
   ],
 
 })

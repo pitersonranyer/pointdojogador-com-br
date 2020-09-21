@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 })
 export class ListarUsuariosComponent implements OnInit {
   public usuarios: Usuario[];
+  httpsWapp = 'https://wa.me/55';
+  nrWapp = '';
+  urlWapp = [];
 
   constructor(private usuarioService: UsuarioService,
     private router: Router) { }
@@ -21,6 +24,10 @@ export class ListarUsuariosComponent implements OnInit {
   listarUsuarios() {
     this.usuarioService.listarUsuarios().subscribe((users: any[]) => {
       this.usuarios = users;
+      for (let x = 0; x < this.usuarios.length; x++) {
+        this.nrWapp = this.usuarios[x].contato.replace('(', '').replace(')', '').replace('-', '');
+        this.urlWapp[x] = this.httpsWapp + this.nrWapp  ;
+      }
     }, () => {
   //    this.toastr.error('Falha listar jogos.', 'Falha!');
     });
