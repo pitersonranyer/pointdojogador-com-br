@@ -61,7 +61,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log('estou na umbler');
 
     this.listarRodadaAtual.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
       this.rodada = rodadaCartola;
@@ -187,7 +186,7 @@ export class DashboardComponent implements OnInit {
               this.timeRodadaCartola.pontosTotais = this.totPontos;
               this.timeRodadaCartola.pontosTotais.toFixed(2);
 
-              console.log(this.timeRodadaCartola.pontosTotais);
+          //    console.log(this.timeRodadaCartola.pontosTotais);
 
               this.atualizarResultadoParcial.atualizarPontosRodadaCartola(this.timeRodadaCartola)
                 .subscribe(() => {

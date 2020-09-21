@@ -62,7 +62,6 @@ export class ListarMeusJogosMeusPagamentosComponent implements OnInit {
     this.listaResultadoParcialRodada.listaResutaldoParcialRodada(meuJogo.anoTemporada, meuJogo.idRodada)
         .subscribe((resultParcial: any[]) => {
           this.parciais = resultParcial;
-          console.log(this.parciais);
         });
 
   }

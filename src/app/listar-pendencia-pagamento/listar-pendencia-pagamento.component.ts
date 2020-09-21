@@ -46,7 +46,6 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
    this.timeRodadaCartola.idUsuario = pendencia.idUsuario;
    this.timeRodadaCartola.time_id = pendencia.time_id;
 
-   console.log(this.timeRodadaCartola);
 
    this.atualizarStatusPagamento.atualizarStatusPagamento(this.timeRodadaCartola).subscribe(
     () => {

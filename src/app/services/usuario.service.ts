@@ -51,7 +51,6 @@ export class UsuarioService {
 
   listarUsuarios(): Observable<Usuario[]> {
     const url = this.utilService.getUrlBackend() + '/usuarioComum/todos';
-    console.log(url);
     // const url = `${environment.pointdojogadorApiUrl}/usuarioComum/todos`;
     return this.http.get<Usuario[]>(url);
   }
