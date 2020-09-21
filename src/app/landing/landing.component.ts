@@ -37,7 +37,7 @@ export class LandingComponent implements OnInit {
         this.totalParticipantes = count;
 
         this.premiacaoTotal = this.totalParticipantes * this.rodada.valorRodada;
-        this.premiacaoPercentual = (this.premiacaoTotal * 20) / 100;
+        this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
         this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
 
         this.premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
