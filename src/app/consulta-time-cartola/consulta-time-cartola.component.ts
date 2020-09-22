@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartolaAPIService } from '../services/cartola-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilService } from '../services/util.service';
+import { MensageriaService } from '../services/mensageria.service';
 
 @Component({
   selector: 'app-consulta-time-cartola',
@@ -27,9 +28,12 @@ export class ConsultaTimeCartolaComponent implements OnInit {
     private atletasPontuados: CartolaAPIService,
     private route: ActivatedRoute,
     private router: Router,
-    private ordernar: UtilService) { }
+    private ordernar: UtilService,
+    public mensageria: MensageriaService) { }
 
   ngOnInit() {
+
+    this.mensageria.processamento = true;
 
     this.route.queryParams.subscribe(params => {
       this.idTime = params.time_id;
@@ -108,6 +112,7 @@ export class ConsultaTimeCartolaComponent implements OnInit {
         this.totPontos.toFixed(2);
       });
     });
+    this.mensageria.processamento = false;
   }
 
 

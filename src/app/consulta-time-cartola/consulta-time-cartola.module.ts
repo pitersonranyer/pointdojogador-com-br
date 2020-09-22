@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { InputTextModule, ButtonModule, ConfirmDialogModule, ConfirmationService,
-    PasswordModule, ProgressSpinnerModule, InputMaskModule } from 'primeng/primeng';
+    PasswordModule, ProgressSpinnerModule, InputMaskModule, PanelModule, DialogModule, MessageModule } from 'primeng/primeng';
 
 import { CarouselModule } from 'primeng/carousel';
 import { TableModule } from 'primeng/table';
@@ -19,6 +19,7 @@ import { UsuarioService } from '../services/usuario.service';
 import { RouterModule } from '@angular/router';
 import { ConsultaTimeCartolaComponent } from './consulta-time-cartola.component';
 import { UtilsModule } from '../utils/utils.module';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   imports: [
@@ -43,6 +44,11 @@ import { UtilsModule } from '../utils/utils.module';
     DataTableModule,
 
     UtilsModule,
+    PanelModule,
+    DialogModule,
+    ToastModule,
+    MessageModule,
+    MessageModule,
 
 
   ],

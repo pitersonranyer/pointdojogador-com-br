@@ -53,7 +53,6 @@ export class DashboardComponent implements OnInit {
     public mensageria: MensageriaService
   ) {
 
-    this.mensageria.processamento = false;
     this.usuario$ = usuarioService.getUsuario();
     this.usuario$.subscribe(usuario => this.usuario = usuario);
 
@@ -61,6 +60,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
+    this.mensageria.processamento = true;
 
     this.listarRodadaAtual.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
       this.rodada = rodadaCartola;
@@ -123,7 +123,7 @@ export class DashboardComponent implements OnInit {
   }
 
   atualizarParciais() {
-
+    this.mensageria.processamento = true;
 
     this.atletasPontuados.listarAtletasPontuados()
       .subscribe((pontuados) => this.trataRespostaAtletasPontuados(pontuados));
@@ -195,7 +195,7 @@ export class DashboardComponent implements OnInit {
             });
 
         }
-
+    //    this.mensageria.processamento = false;
       });
   }
 }
