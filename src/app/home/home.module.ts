@@ -98,6 +98,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenApiService } from '../interceptadores/token-api.service';
 import { InvalidTokenApiService } from '../interceptadores/invalid-token-api.service';
 import { AtribuirNovaSenhaUsuarioModule } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.module';
+import { PerfilUsuarioAlterarSenhaModule } from '../modal/perfil-usuario-alterar-senha/perfil-usuario-alterar-senha.module';
 
 @NgModule({
   imports: [
@@ -194,7 +195,8 @@ import { AtribuirNovaSenhaUsuarioModule } from '../modal/atribuir-nova-senha-usu
     PerfilUsuarioModule,
     LoginGloboModule,
     UtilsModule,
-    AtribuirNovaSenhaUsuarioModule
+    AtribuirNovaSenhaUsuarioModule,
+    PerfilUsuarioAlterarSenhaModule
 
 
   ],

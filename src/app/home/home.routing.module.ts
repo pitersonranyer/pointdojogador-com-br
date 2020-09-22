@@ -17,6 +17,7 @@ import { ListarUsuariosComponent } from '../listar-usuarios/listar-usuarios.comp
 import { PerfilUsuarioComponent } from '../perfil-usuario/perfil-usuario.component';
 import { LoginGloboComponent } from '../login-globo/login-globo.component';
 import { AtribuirNovaSenhaUsuarioComponent } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.component';
+import { PerfilUsuarioAlterarSenhaComponent } from '../modal/perfil-usuario-alterar-senha/perfil-usuario-alterar-senha.component';
 
 
 const homeRoutes = [
@@ -87,6 +88,13 @@ const homeRoutes = [
             {
                 path: 'modalAtribuirNovaSenhaUsuario',
                 component: AtribuirNovaSenhaUsuarioComponent,
+                canActivate: [AuthGuard],
+                canLoad: [AuthGuard],
+            },
+
+            {
+                path: 'modalPerfilUsuarioAlterarSenha',
+                component: PerfilUsuarioAlterarSenhaComponent,
                 canActivate: [AuthGuard],
                 canLoad: [AuthGuard],
             },
