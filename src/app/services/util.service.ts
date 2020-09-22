@@ -16,6 +16,7 @@ export class UtilService {
         }
         if (url.match(/pointdojogador/)) {
             return 'https://api.pointdojogador.com.br/api';
+           // return 'http://pointdojogador-api-com-br.umbler.net/api';
         }
     }
 
