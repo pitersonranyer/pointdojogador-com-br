@@ -32,27 +32,28 @@ export class UsuarioService {
 
   cadastrar(usuario: Usuario) {
     const url = this.utilService.getUrlBackend() + '/usuarios';
-    // const url = `${environment.pointdojogadorApiUrl}/usuarios`;
     return this.http.post(url, usuario);
   }
 
   alterarDadosUsuario(usuario: Usuario): Observable<Usuario> {
     const url = this.utilService.getUrlBackend() + '/usuarioComum/atualizar';
-    // const url = `${environment.pointdojogadorApiUrl}/usuarioComum/atualizar`;
     return this.http.put<Usuario>(url, usuario);
   }
 
   consutaUsuarioPorId(id: number): Observable<Usuario> {
     const url = this.utilService.getUrlBackend() + `/usuarioComum/${id}`;
-    //  const url = `${environment.pointdojogadorApiUrl}/usuarioComum/${id}`;
     return this.http.get<Usuario>(url);
   }
 
 
   listarUsuarios(): Observable<Usuario[]> {
     const url = this.utilService.getUrlBackend() + '/usuarioComum/todos';
-    // const url = `${environment.pointdojogadorApiUrl}/usuarioComum/todos`;
     return this.http.get<Usuario[]>(url);
+  }
+
+  atribuirNovaSenha(usuario: Usuario) {
+    const url = this.utilService.getUrlBackend() + '/usuarioComum/reiniciarSenhaUsuario';
+    return this.http.put(url, usuario);
   }
 
 }

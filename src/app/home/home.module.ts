@@ -97,6 +97,7 @@ import { UtilService } from '../services/util.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenApiService } from '../interceptadores/token-api.service';
 import { InvalidTokenApiService } from '../interceptadores/invalid-token-api.service';
+import { AtribuirNovaSenhaUsuarioModule } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.module';
 
 @NgModule({
   imports: [
@@ -192,7 +193,8 @@ import { InvalidTokenApiService } from '../interceptadores/invalid-token-api.ser
     ListarUsuariosModule,
     PerfilUsuarioModule,
     LoginGloboModule,
-    UtilsModule
+    UtilsModule,
+    AtribuirNovaSenhaUsuarioModule
 
 
   ],

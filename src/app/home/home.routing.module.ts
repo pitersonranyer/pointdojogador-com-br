@@ -16,6 +16,7 @@ import { ListarPendenciaPagamentoComponent } from '../listar-pendencia-pagamento
 import { ListarUsuariosComponent } from '../listar-usuarios/listar-usuarios.component';
 import { PerfilUsuarioComponent } from '../perfil-usuario/perfil-usuario.component';
 import { LoginGloboComponent } from '../login-globo/login-globo.component';
+import { AtribuirNovaSenhaUsuarioComponent } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.component';
 
 
 const homeRoutes = [
@@ -79,6 +80,13 @@ const homeRoutes = [
             {
                 path: 'modalMeusTimes',
                 component: ModalMeusTimesComponent,
+                canActivate: [AuthGuard],
+                canLoad: [AuthGuard],
+            },
+
+            {
+                path: 'modalAtribuirNovaSenhaUsuario',
+                component: AtribuirNovaSenhaUsuarioComponent,
                 canActivate: [AuthGuard],
                 canLoad: [AuthGuard],
             },

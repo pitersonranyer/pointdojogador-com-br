@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from '../interfaces/usuario';
 import { Router } from '@angular/router';
+import { AtribuirNovaSenhaUsuarioComponent } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.component';
+import { DialogService } from 'primeng/api';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -15,7 +17,8 @@ export class ListarUsuariosComponent implements OnInit {
   urlWapp = [];
 
   constructor(private usuarioService: UsuarioService,
-    private router: Router) { }
+    private router: Router,
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     this.listarUsuarios();
@@ -26,10 +29,24 @@ export class ListarUsuariosComponent implements OnInit {
       this.usuarios = users;
       for (let x = 0; x < this.usuarios.length; x++) {
         this.nrWapp = this.usuarios[x].contato.replace('(', '').replace(')', '').replace('-', '');
-        this.urlWapp[x] = this.httpsWapp + this.nrWapp  ;
+        this.urlWapp[x] = this.httpsWapp + this.nrWapp;
       }
     }, () => {
-  //    this.toastr.error('Falha listar jogos.', 'Falha!');
+      //    this.toastr.error('Falha listar jogos.', 'Falha!');
+    });
+  }
+
+  show(usuario: Usuario) {
+
+    this.dialogService.open(AtribuirNovaSenhaUsuarioComponent,   {
+      contentStyle: {
+        overflow: 'auto',
+        backgroundColor: '#fff',
+        'min-width': '300px',
+        'min-height': '100px'
+      },
+      dismissableMask: true,
+      data: { usuario }
     });
   }
 
