@@ -50,9 +50,8 @@ export class ConsultaTimeCartolaComponent implements OnInit {
       this.pontos_campeonato = data.pontos_campeonato;
 
       for (let x = 0; x < this.atletas.length; x++) {
-        // this.atletas[x].foto;
         this.atletas[x].foto = this.atletas[x].foto.replace('FORMATO', '140x140');
-
+    //   console.log(data.atletas[x].scout);
         switch (data.atletas[x].posicao_id) {
 
           case 1:

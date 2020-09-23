@@ -18,6 +18,7 @@
           <th scope="col">E-mail</th>
           <th scope="col">Contato</th>
           <th scope="col">Time Favorito</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -30,15 +31,17 @@
           </th>
           <th scope="row">
             {{usuario.email}}
-            &nbsp;
-            <button pButton icon="pi pi-key" (click)="show(usuario)"></button>
           </th>
           <th scope="row">
             {{usuario.contato}}
+            &nbsp;
             <a href="{{urlWapp[i]}}"><i class="fa fa-whatsapp"></i>  </a>
           </th>
           <th scope="row">
             {{usuario.timeFavorito}}
+          </th>
+          <th scope="row">
+            <button pButton icon="pi pi-key" (click)="show(usuario)"></button>
           </th>
         </tr>
       </tbody>
