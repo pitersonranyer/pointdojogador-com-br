@@ -10,6 +10,8 @@ import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../interfaces/usuario';
 import { Observable } from 'rxjs';
 import { MensageriaService } from '../services/mensageria.service';
+import { TimeCartola } from '../interfaces/timeCartola';
+import { ModalDetalheTimeUsuarioComponent } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -106,6 +108,20 @@ export class DashboardComponent implements OnInit {
       dismissableMask: true
     });
   }
+ 
+  showTime(time: TimeCartola) {
+
+    this.dialogService.open(ModalDetalheTimeUsuarioComponent,   {
+      contentStyle: {
+        overflow: 'auto',
+        backgroundColor: '#fff',
+        'min-width': '300px',
+        'min-height': '100px'
+      },
+      dismissableMask: true,
+      data: { time }
+    });
+  }
 
   trataRespostaAtletasPontuados(pontuados: any) {
     Object.keys(pontuados.atletas).forEach(atleta_id => {
@@ -130,24 +146,22 @@ export class DashboardComponent implements OnInit {
 
 
     // pontuação do JSON pontuados
-    this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
-
-      Object.keys(pontuados.atletas).forEach(atleta_id => {
-        const atleta = {
-          atleta_id: atleta_id,
-          apelido: pontuados.atletas[atleta_id].apelido,
-          pontuacao: pontuados.atletas[atleta_id].pontuacao,
-          scout: pontuados.atletas[atleta_id].scout,
-          foto: pontuados.atletas[atleta_id].foto,
-          posicao_id: pontuados.atletas[atleta_id].posicao_id,
-          clube_id: pontuados.atletas[atleta_id].clube_id
-        };
-        this.arrayAtletasPontuados.push(atleta);
-      });
-    });
+ //   this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
+ //      Object.keys(pontuados.atletas).forEach(atleta_id => {
+ //        const atleta = {
+ //          atleta_id: atleta_id,
+ //          apelido: pontuados.atletas[atleta_id].apelido,
+ //          pontuacao: pontuados.atletas[atleta_id].pontuacao,
+ //          scout: pontuados.atletas[atleta_id].scout,
+ //          foto: pontuados.atletas[atleta_id].foto,
+ //          posicao_id: pontuados.atletas[atleta_id].posicao_id,
+ //          clube_id: pontuados.atletas[atleta_id].clube_id
+ //       };
+ //        this.arrayAtletasPontuados.push(atleta);
+ //      });
+ //    });
 
     // Processar atualização de pontuação
-
     // busca times salvo na base de dados
     this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
       .subscribe((resultParcial: any[]) => {

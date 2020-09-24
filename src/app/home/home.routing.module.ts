@@ -18,6 +18,7 @@ import { PerfilUsuarioComponent } from '../perfil-usuario/perfil-usuario.compone
 import { LoginGloboComponent } from '../login-globo/login-globo.component';
 import { AtribuirNovaSenhaUsuarioComponent } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.component';
 import { PerfilUsuarioAlterarSenhaComponent } from '../modal/perfil-usuario-alterar-senha/perfil-usuario-alterar-senha.component';
+import { ModalDetalheTimeUsuarioComponent } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.component';
 
 
 const homeRoutes = [
@@ -32,7 +33,7 @@ const homeRoutes = [
                 component: InicioComponent,
                 canActivate: [AuthGuard],
                 canLoad: [AuthGuard],
-          //      loadChildren: '../../app/inicio/inicio.module#InicioModule'
+                //      loadChildren: '../../app/inicio/inicio.module#InicioModule'
             },
             {
                 path: 'dashboard',
@@ -98,6 +99,15 @@ const homeRoutes = [
                 canActivate: [AuthGuard],
                 canLoad: [AuthGuard],
             },
+
+            {
+                path: 'modalDetalheTimeUsuario',
+                component: ModalDetalheTimeUsuarioComponent,
+                canActivate: [AuthGuard],
+                canLoad: [AuthGuard],
+            },
+
+
 
             {
                 path: 'meusJogosMeusPagamentos',

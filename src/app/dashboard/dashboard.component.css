@@ -19,6 +19,11 @@ img.datatable-escudo {
     height: 40px;
     margin-right: 10px;
 }
+img.datatable-pro {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
 span.datatable-nome-time {
     margin-left: 2px;
     font-size: 13px;

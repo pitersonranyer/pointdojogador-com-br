@@ -1,3 +1,18 @@
+thead {
+    display:block;
+  }
+  tbody {
+    display:block;
+    overflow-y:scroll;
+    height:200px;
+  }
+  td, th {
+    width: 100px;
+  }
+  table {
+    width: 820px !important;
+  }
+  
 div.box-tabela-premiacao {
     width: 235px;
 }
@@ -13,21 +28,15 @@ span.datatable-colocacao {
     margin: 12px 2px 0 0;
     float: left;
 }
-
 img.datatable-escudo {
     width: 40px;
     float: left;
     height: 40px;
     margin-right: 10px;
 }
-img.datatable-capitao {
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-}
 span.datatable-nome-time {
     margin-left: 2px;
-    font-size: 14px;
+    font-size: 13px;
     display: block;
     font-family: "Open Sans";
     font-weight: bold;
@@ -40,9 +49,4 @@ span.datatable-nome-coach {
     font-family: "Open Sans";
     font-weight: 300;
     color: #333;
-}
-
-span.datatable-pontuacao {
-    font-size: 18px;
-    font-weight: 600;
 }

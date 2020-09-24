@@ -63,8 +63,11 @@
         <thead>
             <tr role="row">
                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
-                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 211px;">
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 100px;">
                     <span class="hidden-xs">Pts. Total</span>
+                </th>
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 15px;">
+                    <span class="hidden-xs"></span>
                 </th>
             </tr>
         </thead>
@@ -74,13 +77,18 @@
                     <div class="box-tabela-premiacao"><span class="datatable-colocacao">{{i + 1}}º</span>
                         <div>
                             <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
-                            <span class="datatable-nome-time">{{parcial.nome}}</span><span
-                                class="datatable-nome-coach">{{parcial.nome_cartola}}
+                            <span class="datatable-nome-time">{{parcial.nome}} <img *ngIf="parcial.assinante" class="datatable-pro" src="/assets/layout/images/cartolaPRO.png"></span>
+                            <span class="datatable-nome-coach">{{parcial.nome_cartola}}
                             </span>
                         </div>
                     </div>
                 </td>
-                <td class=" text-center"><span class="datatable-pontuacao">{{parcial.pontosTotais}}</span></td>
+                <td class=" text-center">
+                    <span class="datatable-pontuacao">{{parcial.pontosTotais}}</span>
+                </td>
+                <td class=" text-center">
+                    <button *ngIf="rodada.status === 'Fechada'" type="button" icon="fa fa-search" pButton (click)="showTime(parcial)"></button>
+                </td>
             </tr>
         </tbody>
     </table>

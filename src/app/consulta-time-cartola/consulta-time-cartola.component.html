@@ -51,9 +51,9 @@
         <td tabindex="0">
           <div class="box-tabela-premiacao"><span class="datatable-colocacao">{{atleta.posicao_lit}} </span>
             <div>
-              <img class="datatable-escudo" src="{{atleta.foto}}"> 
-              <span class="datatable-nome-time">{{atleta.apelido}}</span>
-              <span class="datatable-nome-coach">Scout:</span>
+              <img class="datatable-escudo" src="{{atleta.foto}}">
+              <span class="datatable-nome-time">{{atleta.apelido}} <img *ngIf="atleta.capitao" class="datatable-capitao"src="/assets/layout/images/capitao.png"></span> 
+              <span class="datatable-nome-coach">Scout: {{atleta.elementosScout}}</span>
 
             </div>
           </div>

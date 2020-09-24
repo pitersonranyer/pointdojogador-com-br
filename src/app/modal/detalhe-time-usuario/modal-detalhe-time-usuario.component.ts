@@ -1,55 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { CartolaAPIService } from '../services/cartola-api.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UtilService } from '../services/util.service';
-import { MensageriaService } from '../services/mensageria.service';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
+import { TimeCartola } from 'src/app/interfaces/timeCartola';
+import { CartolaAPIService } from 'src/app/services/cartola-api.service';
+import { MensageriaService } from 'src/app/services/mensageria.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
-  selector: 'app-consulta-time-cartola',
-  templateUrl: './consulta-time-cartola.component.html',
-  styleUrls: ['./consulta-time-cartola.component.css']
+  selector: 'app-modal-detalhe-time-usuario-rodada',
+  templateUrl: './modal-detalhe-time-usuario.component.html',
+  styleUrls: ['./modal-detalhe-time-usuario.component.css']
 })
-export class ConsultaTimeCartolaComponent implements OnInit {
+export class ModalDetalheTimeUsuarioComponent implements OnInit {
   idTime: number;
-  patrimonio: number;
-  pontos: number;
   capitao_id: number;
-  pontos_campeonato: number;
-  totPontos: number;
   pontuacaoParcial: number;
 
-  time: any;
+  time: TimeCartola;
   scout = [];
   elementos = '';
   atletas: Array<any> = [];
   arrayAtletasPontuados = [];
 
-
-
-  constructor(private consultarTimeCartola: CartolaAPIService,
+  constructor(
+    public activeModal: DynamicDialogRef,
+    public config: DynamicDialogConfig,
+    private consultarTimeCartola: CartolaAPIService,
     private atletasPontuados: CartolaAPIService,
-    private route: ActivatedRoute,
-    private router: Router,
     private ordernar: UtilService,
-    public mensageria: MensageriaService) { }
+    public mensageria: MensageriaService
+
+  ) { this.time = config.data.time; }
 
   ngOnInit() {
 
     this.mensageria.processamento = true;
 
-    this.route.queryParams.subscribe(params => {
-      this.idTime = params.time_id;
-    });
+    this.idTime = this.time.time_id;
 
     this.consultarTimeCartola.consultarTimeCartola(this.idTime).subscribe((data) => {
 
       this.atletas = this.ordernar.ordenarObjetoArray(data.atletas, 'posicao_id');
 
-      this.time = data.time;
-      this.patrimonio = data.patrimonio;
+      // this.time = data.time;
       this.capitao_id = data.capitao_id;
-      this.pontos = data.pontos.toFixed(2);
-      this.pontos_campeonato = data.pontos_campeonato;
 
 
 
@@ -104,7 +97,6 @@ export class ConsultaTimeCartolaComponent implements OnInit {
           this.arrayAtletasPontuados.push(atleta);
         });
 
-        this.totPontos = 0;
         this.pontuacaoParcial = 0;
         for (let x = 0; x < data.atletas.length; x++) {
           for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
@@ -118,7 +110,7 @@ export class ConsultaTimeCartolaComponent implements OnInit {
                 this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao;
               }
               data.atletas[x].pontos_num = this.pontuacaoParcial;
-              this.totPontos += this.pontuacaoParcial;
+
 
 
               this.elementos = '';
@@ -134,19 +126,16 @@ export class ConsultaTimeCartolaComponent implements OnInit {
             }
           }
         }
-        this.totPontos.toFixed(2);
+
       });
     });
     this.mensageria.processamento = false;
   }
 
 
-  voltar() {
-    this.router.navigate(['/listarTimesUsuarioCartola']);
+
+
+  close() {
+    this.activeModal.close();
   }
-
-
 }
-
-
-
