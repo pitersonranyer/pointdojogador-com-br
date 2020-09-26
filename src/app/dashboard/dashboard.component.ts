@@ -146,20 +146,20 @@ export class DashboardComponent implements OnInit {
 
 
     // pontuação do JSON pontuados
- //   this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
- //      Object.keys(pontuados.atletas).forEach(atleta_id => {
- //        const atleta = {
- //          atleta_id: atleta_id,
- //          apelido: pontuados.atletas[atleta_id].apelido,
- //          pontuacao: pontuados.atletas[atleta_id].pontuacao,
- //          scout: pontuados.atletas[atleta_id].scout,
- //          foto: pontuados.atletas[atleta_id].foto,
- //          posicao_id: pontuados.atletas[atleta_id].posicao_id,
- //          clube_id: pontuados.atletas[atleta_id].clube_id
- //       };
- //        this.arrayAtletasPontuados.push(atleta);
- //      });
- //    });
+    this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
+       Object.keys(pontuados.atletas).forEach(atleta_id => {
+         const atleta = {
+           atleta_id: atleta_id,
+           apelido: pontuados.atletas[atleta_id].apelido,
+           pontuacao: pontuados.atletas[atleta_id].pontuacao,
+           scout: pontuados.atletas[atleta_id].scout,
+           foto: pontuados.atletas[atleta_id].foto,
+           posicao_id: pontuados.atletas[atleta_id].posicao_id,
+           clube_id: pontuados.atletas[atleta_id].clube_id
+        };
+         this.arrayAtletasPontuados.push(atleta);
+       });
+     });
 
     // Processar atualização de pontuação
     // busca times salvo na base de dados
