@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit {
             });
 
         }
-    //    this.mensageria.processamento = false;
+        this.mensageria.processamento = false;
       });
   }
 }
