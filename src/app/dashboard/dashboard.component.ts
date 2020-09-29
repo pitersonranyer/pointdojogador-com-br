@@ -115,8 +115,7 @@ export class DashboardComponent implements OnInit {
       contentStyle: {
         overflow: 'auto',
         backgroundColor: '#fff',
-        'min-width': '300px',
-        'min-height': '100px'
+        height: '500px'
       },
       dismissableMask: true,
       data: { time }
@@ -146,20 +145,20 @@ export class DashboardComponent implements OnInit {
 
 
     // pontuação do JSON pontuados
-    this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
-       Object.keys(pontuados.atletas).forEach(atleta_id => {
-         const atleta = {
-           atleta_id: atleta_id,
-           apelido: pontuados.atletas[atleta_id].apelido,
-           pontuacao: pontuados.atletas[atleta_id].pontuacao,
-           scout: pontuados.atletas[atleta_id].scout,
-           foto: pontuados.atletas[atleta_id].foto,
-           posicao_id: pontuados.atletas[atleta_id].posicao_id,
-           clube_id: pontuados.atletas[atleta_id].clube_id
-        };
-         this.arrayAtletasPontuados.push(atleta);
-       });
-     });
+ //   this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
+ //      Object.keys(pontuados.atletas).forEach(atleta_id => {
+ //        const atleta = {
+ //          atleta_id: atleta_id,
+ //          apelido: pontuados.atletas[atleta_id].apelido,
+ //         pontuacao: pontuados.atletas[atleta_id].pontuacao,
+ //          scout: pontuados.atletas[atleta_id].scout,
+ //          foto: pontuados.atletas[atleta_id].foto,
+ //          posicao_id: pontuados.atletas[atleta_id].posicao_id,
+//          clube_id: pontuados.atletas[atleta_id].clube_id
+//        };
+//         this.arrayAtletasPontuados.push(atleta);
+//       });
+ //    });
 
     // Processar atualização de pontuação
     // busca times salvo na base de dados
@@ -174,6 +173,7 @@ export class DashboardComponent implements OnInit {
 
 
               // tratar pontuação do JSON pontuados
+              console.log(this.arrayAtletasPontuados);
               this.totPontos = 0;
               this.pontuacaoParcial = 0;
               for (let x = 0; x < data.atletas.length; x++) {

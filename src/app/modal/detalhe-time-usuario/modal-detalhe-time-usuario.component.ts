@@ -19,6 +19,7 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
   scout = [];
   elementos = '';
   atletas: Array<any> = [];
+  atletas2: Array<any> = [];
   arrayAtletasPontuados = [];
 
   constructor(
@@ -36,6 +37,7 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
     this.mensageria.processamento = true;
 
     this.idTime = this.time.time_id;
+    
 
     this.consultarTimeCartola.consultarTimeCartola(this.idTime).subscribe((data) => {
 
@@ -43,7 +45,6 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
 
       // this.time = data.time;
       this.capitao_id = data.capitao_id;
-
 
 
       for (let x = 0; x < this.atletas.length; x++) {
@@ -59,7 +60,6 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
           this.atletas[x].capitao = true;
         }
 
-        this.atletas[x].foto = this.atletas[x].foto.replace('FORMATO', '140x140');
         switch (data.atletas[x].posicao_id) {
 
           case 1:
@@ -83,6 +83,7 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
       }
 
       this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
+        console.log(pontuados.atletas);
 
         Object.keys(pontuados.atletas).forEach(atleta_id => {
           const atleta = {
@@ -98,6 +99,7 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
         });
 
         this.pontuacaoParcial = 0;
+        console.log('caraaaaaaaai', data.atletas.length);
         for (let x = 0; x < data.atletas.length; x++) {
           for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
             if (data.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
@@ -111,15 +113,14 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
               }
               data.atletas[x].pontos_num = this.pontuacaoParcial;
 
-
-
               this.elementos = '';
-              for (const [ix, [key, value]] of Object.entries(Object.entries(data.atletas[x].scout))) {
+              for (const [ix, [key, value]] of Object.entries(Object.entries(this.arrayAtletasPontuados[i].scout))) {
                 this.scout[ix] = key + ' ' + value;
                 this.elementos = this.scout.join(',');
               }
               this.atletas[x].elementosScout = this.elementos;
 
+              this.atletas[x].foto = this.arrayAtletasPontuados[i].foto.replace('FORMATO', '140x140');
 
               // finalizar leitura array interno.
               i = this.arrayAtletasPontuados.length;
