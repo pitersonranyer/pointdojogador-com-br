@@ -1,7 +1,7 @@
 <app-mensageria [mensagensFixas]="mensageria.mensagensFixas" [processamento]="mensageria.processamento">
 </app-mensageria>
 <br>
-<div class="ui-messages ui-widget ui-corner-all ui-messages-warn" style="margin: 0 0 1em 0; display: block">
+<div *ngIf="rodada.idRodada === 14" class="ui-messages ui-widget ui-corner-all ui-messages-warn" style="margin: 0 0 1em 0; display: block">
     <span class="ui-messages-icon fa fa-fw fa-2x fa-check"></span>
     <ul>
         <li>
