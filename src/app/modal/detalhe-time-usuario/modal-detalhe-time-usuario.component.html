@@ -16,11 +16,16 @@
               <img class="datatable-escudo" src="{{atleta.foto}}">
               <span class="datatable-nome-time">{{atleta.apelido}} <img *ngIf="atleta.capitao" class="datatable-capitao"
                   src="/assets/layout/images/capitao.png"></span>
-              <span class="datatable-nome-coach">Scout: {{atleta.elementosScout}}</span>
+             <!--
+                  <span class="datatable-nome-coach">Scout: {{atleta.elementosScout}}</span>
+             -->
             </div>
           </div>
         </td>
-        <td class=" text-center"><span class="datatable-pontuacao">{{atleta.pontos_num}}</span></td>
+        <td class=" text-center">
+          <span *ngIf="atleta.pontos_num === null" class="datatable-pontuacao"> -- </span>
+          <span *ngIf="atleta.pontos_num != null" class="datatable-pontuacao">{{atleta.pontos_num}}</span>
+        </td>
       </tr>
     </tbody>
   </table>

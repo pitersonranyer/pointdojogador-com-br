@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartolaAPIService } from '../services/cartola-api.service';
 import { RodadaCartola } from '../interfaces/rodadaCartola';
@@ -13,12 +13,18 @@ import { MensageriaService } from '../services/mensageria.service';
 import { TimeCartola } from '../interfaces/timeCartola';
 import { ModalDetalheTimeUsuarioComponent } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.component';
 
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
+
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('htmlData') htmlData: ElementRef;
 
   anoAtual = 2020;
 
@@ -76,8 +82,8 @@ export class DashboardComponent implements OnInit {
 
         this.premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
 
-        this.dataFim = this.rodada.dtFimInscricao.substring(0 , 5);
-        this.horaFim = this.rodada.hrFimInscricao.substring(0 , 5);
+        this.dataFim = this.rodada.dtFimInscricao.substring(0, 5);
+        this.horaFim = this.rodada.hrFimInscricao.substring(0, 5);
 
       });
 
@@ -108,10 +114,10 @@ export class DashboardComponent implements OnInit {
       dismissableMask: true
     });
   }
- 
+
   showTime(time: TimeCartola) {
 
-    this.dialogService.open(ModalDetalheTimeUsuarioComponent,   {
+    this.dialogService.open(ModalDetalheTimeUsuarioComponent, {
       contentStyle: {
         overflow: 'auto',
         backgroundColor: '#fff',
@@ -121,6 +127,36 @@ export class DashboardComponent implements OnInit {
       data: { time }
     });
   }
+
+
+  public generate() {
+
+    const doc = new jsPDF('p', 'pt');
+
+    const res = doc.autoTableHtmlToJson(document.getElementById('basic-table'));
+    doc.autoTable(res.columns, res.data, { margin: { top: 80 } });
+
+    const header = function (data) {
+      doc.setFontSize(18);
+      doc.setTextColor(40);
+      doc.setFontStyle('normal');
+      // doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+      doc.text('Testing Report', data.settings.margin.left, 50);
+    };
+
+    const options = {
+      beforePageContent: header,
+      margin: {
+        top: 80
+      },
+      startY: doc.autoTableEndPosY() + 20
+    };
+
+    // doc.autoTable(res.columns, res.data, options);
+
+    doc.save('table.pdf');
+  }
+
 
   trataRespostaAtletasPontuados(pontuados: any) {
     Object.keys(pontuados.atletas).forEach(atleta_id => {
@@ -145,20 +181,20 @@ export class DashboardComponent implements OnInit {
 
 
     // pontuação do JSON pontuados
- //   this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
- //      Object.keys(pontuados.atletas).forEach(atleta_id => {
- //        const atleta = {
- //          atleta_id: atleta_id,
- //          apelido: pontuados.atletas[atleta_id].apelido,
- //         pontuacao: pontuados.atletas[atleta_id].pontuacao,
- //          scout: pontuados.atletas[atleta_id].scout,
- //          foto: pontuados.atletas[atleta_id].foto,
- //          posicao_id: pontuados.atletas[atleta_id].posicao_id,
-//          clube_id: pontuados.atletas[atleta_id].clube_id
-//        };
-//         this.arrayAtletasPontuados.push(atleta);
-//       });
- //    });
+    //   this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
+    //      Object.keys(pontuados.atletas).forEach(atleta_id => {
+    //        const atleta = {
+    //          atleta_id: atleta_id,
+    //          apelido: pontuados.atletas[atleta_id].apelido,
+    //         pontuacao: pontuados.atletas[atleta_id].pontuacao,
+    //          scout: pontuados.atletas[atleta_id].scout,
+    //          foto: pontuados.atletas[atleta_id].foto,
+    //          posicao_id: pontuados.atletas[atleta_id].posicao_id,
+    //          clube_id: pontuados.atletas[atleta_id].clube_id
+    //        };
+    //         this.arrayAtletasPontuados.push(atleta);
+    //       });
+    //    });
 
     // Processar atualização de pontuação
     // busca times salvo na base de dados
@@ -171,9 +207,7 @@ export class DashboardComponent implements OnInit {
             .subscribe((data) => {
               this.capitao_id = data.capitao_id;
 
-
               // tratar pontuação do JSON pontuados
-              console.log(this.arrayAtletasPontuados);
               this.totPontos = 0;
               this.pontuacaoParcial = 0;
               for (let x = 0; x < data.atletas.length; x++) {
@@ -200,7 +234,6 @@ export class DashboardComponent implements OnInit {
               this.timeRodadaCartola.pontosTotais = this.totPontos;
               this.timeRodadaCartola.pontosTotais.toFixed(2);
 
-          //    console.log(this.timeRodadaCartola.pontosTotais);
 
               this.atualizarResultadoParcial.atualizarPontosRodadaCartola(this.timeRodadaCartola)
                 .subscribe(() => {

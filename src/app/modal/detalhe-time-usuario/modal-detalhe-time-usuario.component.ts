@@ -32,105 +32,98 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
 
   ) { this.time = config.data.time; }
 
+  trataRespostaAtletasPontuados(pontuados: any) {
+    Object.keys(pontuados.atletas).forEach(atleta_id => {
+      const atleta = {
+        atleta_id: atleta_id,
+        apelido: pontuados.atletas[atleta_id].apelido,
+        pontuacao: pontuados.atletas[atleta_id].pontuacao,
+        scout: pontuados.atletas[atleta_id].scout,
+        foto: pontuados.atletas[atleta_id].foto,
+        posicao_id: pontuados.atletas[atleta_id].posicao_id,
+        clube_id: pontuados.atletas[atleta_id].clube_id
+      };
+      this.arrayAtletasPontuados.push(atleta);
+    });
+  }
+
   ngOnInit() {
 
-    this.mensageria.processamento = true;
+    this.atletasPontuados.listarAtletasPontuados()
+      .subscribe((pontuados) => {
 
-    this.idTime = this.time.time_id;
-    
+        this.trataRespostaAtletasPontuados(pontuados);
 
-    this.consultarTimeCartola.consultarTimeCartola(this.idTime).subscribe((data) => {
+        this.mensageria.processamento = true;
 
-      this.atletas = this.ordernar.ordenarObjetoArray(data.atletas, 'posicao_id');
+        this.idTime = this.time.time_id;
 
-      // this.time = data.time;
-      this.capitao_id = data.capitao_id;
+        this.consultarTimeCartola.consultarTimeCartola(this.idTime).subscribe((data) => {
 
+          this.atletas = this.ordernar.ordenarObjetoArray(data.atletas, 'posicao_id');
 
-      for (let x = 0; x < this.atletas.length; x++) {
-        this.elementos = '';
-        for (const [i, [key, value]] of Object.entries(Object.entries(data.atletas[x].scout))) {
-          this.scout[i] = key + ' ' + value;
-          this.elementos = this.scout.join(',');
-        }
-        this.atletas[x].elementosScout = this.elementos;
+          this.capitao_id = data.capitao_id;
 
-        this.atletas[x].capitao = false;
-        if (this.capitao_id == data.atletas[x].atleta_id) {
-          this.atletas[x].capitao = true;
-        }
+          for (let x = 0; x < this.atletas.length; x++) {
 
-        switch (data.atletas[x].posicao_id) {
+            this.atletas[x].capitao = false;
+            if (this.capitao_id == this.atletas[x].atleta_id) {
+              this.atletas[x].capitao = true;
+            }
 
-          case 1:
-            this.atletas[x].posicao_lit = 'GOL';
-            break;
-          case 2:
-            this.atletas[x].posicao_lit = 'LAT';
-            break;
-          case 3:
-            this.atletas[x].posicao_lit = 'ZAG';
-            break;
-          case 4:
-            this.atletas[x].posicao_lit = 'MEI';
-            break;
-          case 5:
-            this.atletas[x].posicao_lit = 'ATA';
-            break;
-          case 6:
-            this.atletas[x].posicao_lit = 'TEC';
-        }
-      }
+            this.atletas[x].foto =this.atletas[x].foto.replace('FORMATO', '140x140');
 
-      this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
-        console.log(pontuados.atletas);
+            switch (data.atletas[x].posicao_id) {
 
-        Object.keys(pontuados.atletas).forEach(atleta_id => {
-          const atleta = {
-            atleta_id: atleta_id,
-            apelido: pontuados.atletas[atleta_id].apelido,
-            pontuacao: pontuados.atletas[atleta_id].pontuacao,
-            scout: pontuados.atletas[atleta_id].scout,
-            foto: pontuados.atletas[atleta_id].foto,
-            posicao_id: pontuados.atletas[atleta_id].posicao_id,
-            clube_id: pontuados.atletas[atleta_id].clube_id
-          };
-          this.arrayAtletasPontuados.push(atleta);
-        });
-
-        this.pontuacaoParcial = 0;
-        console.log('caraaaaaaaai', data.atletas.length);
-        for (let x = 0; x < data.atletas.length; x++) {
-          for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
-            if (data.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
-              // Dobrar pontuação do capitão
-              this.atletas[x].capitao = false;
-              if (this.capitao_id == data.atletas[x].atleta_id) {
-                this.atletas[x].capitao = true;
-                this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao * 2;
-              } else {
-                this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao;
-              }
-              data.atletas[x].pontos_num = this.pontuacaoParcial;
-
-              this.elementos = '';
-              for (const [ix, [key, value]] of Object.entries(Object.entries(this.arrayAtletasPontuados[i].scout))) {
-                this.scout[ix] = key + ' ' + value;
-                this.elementos = this.scout.join(',');
-              }
-              this.atletas[x].elementosScout = this.elementos;
-
-              this.atletas[x].foto = this.arrayAtletasPontuados[i].foto.replace('FORMATO', '140x140');
-
-              // finalizar leitura array interno.
-              i = this.arrayAtletasPontuados.length;
+              case 1:
+                this.atletas[x].posicao_lit = 'GOL';
+                break;
+              case 2:
+                this.atletas[x].posicao_lit = 'LAT';
+                break;
+              case 3:
+                this.atletas[x].posicao_lit = 'ZAG';
+                break;
+              case 4:
+                this.atletas[x].posicao_lit = 'MEI';
+                break;
+              case 5:
+                this.atletas[x].posicao_lit = 'ATA';
+                break;
+              case 6:
+                this.atletas[x].posicao_lit = 'TEC';
             }
           }
-        }
+
+          this.pontuacaoParcial = 0;
+
+          for (let x = 0; x < this.atletas.length; x++) {
+            for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
+              if (this.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
+                // Dobrar pontuação do capitão
+                this.atletas[x].capitao = false;
+                if (this.capitao_id == this.atletas[x].atleta_id) {
+                  this.atletas[x].capitao = true;
+                  this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao * 2;
+                } else {
+                  this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao;
+                }
+                this.atletas[x].pontos_num = this.pontuacaoParcial;
+
+                // finalizar leitura array interno.
+                i = this.arrayAtletasPontuados.length;
+              } else{
+                this.atletas[x].pontos_num = null ;
+              }
+            }
+          }
+
+        });
+
+        this.mensageria.processamento = false;
 
       });
-    });
-    this.mensageria.processamento = false;
+
   }
 
 

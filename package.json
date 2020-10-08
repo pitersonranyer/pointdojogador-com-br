@@ -27,6 +27,8 @@
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^4.0.0-alpha.2",
+    "jspdf": "^1.4.1",
+    "jspdf-autotable": "^3.5.13",
     "jwt-decode": "^2.2.0",
     "path": "^0.12.7",
     "primeicons": "^4.0.0",
