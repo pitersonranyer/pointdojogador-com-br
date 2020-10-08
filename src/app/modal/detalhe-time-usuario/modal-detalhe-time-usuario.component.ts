@@ -19,7 +19,6 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
   scout = [];
   elementos = '';
   atletas: Array<any> = [];
-  atletas2: Array<any> = [];
   arrayAtletasPontuados = [];
 
   constructor(

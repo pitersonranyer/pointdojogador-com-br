@@ -91,7 +91,8 @@
                     </div>
                 </td>
                 <td class=" text-center">
-                    <span class="datatable-pontuacao">{{parcial.pontosTotais}}</span>
+                    <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
+                    <span style="color:red" *ngIf="rodada.status === 'Fechada'" class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
                 </td>
                 
                 <td class=" text-center">

@@ -17,7 +17,6 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -49,6 +48,9 @@ export class DashboardComponent implements OnInit {
   dataFim: string;
   horaFim: string;
 
+  count: number;
+  atletas: Array<any> = [];
+
   constructor(private router: Router,
     private listarRodadaAtual: CartolaAPIService,
     private countRodadaAtual: CartolaAPIService,
@@ -69,6 +71,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
     this.mensageria.processamento = true;
+    this.count = 0;
 
     this.listarRodadaAtual.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
       this.rodada = rodadaCartola;
@@ -87,10 +90,43 @@ export class DashboardComponent implements OnInit {
 
       });
 
-      this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
-        .subscribe((resultParcial: any[]) => {
-          this.parciais = resultParcial;
-        });
+      if (this.rodada.status === 'Fechada') {
+        this.atletasPontuados.listarAtletasPontuados()
+          .subscribe((pontuados) => {
+            this.trataRespostaAtletasPontuados(pontuados);
+
+            this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
+              .subscribe((resultParcial: any[]) => {
+                this.parciais = resultParcial;
+                for (let j = 0; j < this.parciais.length; j++) {
+
+                  this.consultarTimeCartola.consultarTimeCartola(this.parciais[j].time_id).subscribe((data) => {
+                    this.atletas = data.atletas;
+                    this.count = 0;
+                    for (let x = 0; x < this.atletas.length; x++) {
+                      for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
+                        if (this.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
+                          // Dobrar pontuação do capitão
+                          this.count = this.count + 1;
+                          // finalizar leitura array interno.
+                          i = this.arrayAtletasPontuados.length;
+                        }
+                      }
+                    }
+                    this.parciais[j].atletasJogados = this.count;
+                  });
+
+                }
+
+              });
+
+          });
+      } else {
+        this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
+          .subscribe((resultParcial: any[]) => {
+            this.parciais = resultParcial;
+          });
+      }
 
     });
 
