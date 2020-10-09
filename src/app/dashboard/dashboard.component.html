@@ -60,12 +60,12 @@
 </div>
 
 <div class="ui-g-12" *ngIf="usuario.admin">
-    <button type="button" label="Gerar PDF" pButton icon="fa fa-download" (click)="generate()"
+    <button type="button" label="Gerar PDF" pButton icon="fa fa-download" (click)="gerarPDF()"
         class="ui-button-danger" style="margin-bottom:10px"></button>
 </div>
 
-<div class="ui-g-12" >
-    <table id="basic-table" class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0" >
+<div class="ui-g-12" id="pdf">
+    <table  class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0" >
         <thead>
             <tr role="row">
                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>

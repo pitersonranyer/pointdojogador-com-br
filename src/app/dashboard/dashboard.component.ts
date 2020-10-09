@@ -164,33 +164,67 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  public gerarPDF() {
 
-  public generate() {
-
-    const doc = new jsPDF('p', 'pt');
-
-    const res = doc.autoTableHtmlToJson(document.getElementById('basic-table'));
-    doc.autoTable(res.columns, res.data, { margin: { top: 80 } });
-
-    const header = function (data) {
-      doc.setFontSize(18);
-      doc.setTextColor(40);
-      doc.setFontStyle('normal');
-      // doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
-      doc.text('Testing Report', data.settings.margin.left, 50);
-    };
-
-    const options = {
-      beforePageContent: header,
-      margin: {
-        top: 80
-      },
-      startY: doc.autoTableEndPosY() + 20
-    };
-
-    // doc.autoTable(res.columns, res.data, options);
-
-    doc.save('table.pdf');
+    const printContents = document.getElementById('pdf').innerHTML;
+    const popupWin = window.open('', '_blank', 'width=794,height=1123');
+    popupWin.document.open();
+    popupWin.document.write(`
+  <html>
+    <head>
+      <style>
+      div.box-tabela-premiacao {
+        width: 235px;
+    }
+    span.datatable-colocacao {
+        font-weight: 600;
+        font-size: 14px;
+        margin: 10px 5px 0 0;
+        width: 32px;
+        float: left;
+    }
+    .pointer-variacao {
+        width: 23px;
+        margin: 12px 2px 0 0;
+        float: left;
+    }
+    img.datatable-escudo {
+        width: 40px;
+        float: left;
+        height: 40px;
+        margin-right: 10px;
+    }
+    img.datatable-pro {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+    }
+    span.datatable-nome-time {
+        margin-left: 2px;
+        font-size: 13px;
+        display: block;
+        font-family: "Open Sans";
+        font-weight: bold;
+        color: #333;
+    }
+    span.datatable-nome-coach {
+        margin-left: 2px;
+        font-size: 12px;
+        display: block;
+        font-family: "Open Sans";
+        font-weight: 300;
+        color: #333;
+    }
+    
+    span.datatable-pontuacao {
+        font-size: 18px;
+        font-weight: 600;
+    }
+      </style>
+    </head>
+<body onload="window.print()">${printContents}</body>
+  </html>`);
+    popupWin.document.close();
   }
 
 
