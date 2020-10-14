@@ -106,8 +106,12 @@ export class DashboardComponent implements OnInit {
                     for (let x = 0; x < this.atletas.length; x++) {
                       for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
                         if (this.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
-                          // Dobrar pontuação do capitão
-                          this.count = this.count + 1;
+                          if (this.arrayAtletasPontuados[i].posicao_id === 6 &&
+                            this.arrayAtletasPontuados[i].pontuacao === 0) {
+                            this.count = 0;
+                          } else {
+                            this.count = this.count + 1;
+                          }
                           // finalizar leitura array interno.
                           i = this.arrayAtletasPontuados.length;
                         }
@@ -165,6 +169,73 @@ export class DashboardComponent implements OnInit {
   }
 
   public gerarPDF() {
+    const minhaTabela = document.getElementById('pdf').innerHTML;
+
+
+    // CRIA UM OBJETO WINDOW
+    const win = window.open('', '', 'height=700,width=700');
+
+    win.document.write(`
+  <html>
+    <head>
+      <style>
+      div.box-tabela-premiacao {
+        width: 235px;
+    }
+    span.datatable-colocacao {
+        font-weight: 600;
+        font-size: 14px;
+        margin: 10px 5px 0 0;
+        width: 32px;
+        float: left;
+    }
+    .pointer-variacao {
+        width: 23px;
+        margin: 12px 2px 0 0;
+        float: left;
+    }
+    img.datatable-escudo {
+        width: 40px;
+        float: left;
+        height: 40px;
+        margin-right: 10px;
+    }
+    img.datatable-pro {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+    }
+    span.datatable-nome-time {
+        margin-left: 2px;
+        font-size: 13px;
+        display: block;
+        font-family: "Open Sans";
+        font-weight: bold;
+        color: #333;
+    }
+    span.datatable-nome-coach {
+        margin-left: 2px;
+        font-size: 12px;
+        display: block;
+        font-family: "Open Sans";
+        font-weight: 300;
+        color: #333;
+    }
+    
+    span.datatable-pontuacao {
+        font-size: 18px;
+        font-weight: 600;
+    }
+      </style>
+    </head>
+<body onload="window.print()">${minhaTabela}</body>
+  </html>`);
+
+    win.document.close(); 	                                         // FECHA A JANELA
+
+    win.print();                                                            // IMPRIME O CONTEUDO
+  }
+  public gerarPDF2() {
 
     const printContents = document.getElementById('pdf').innerHTML;
     const popupWin = window.open('', '_blank', 'width=794,height=1123');
