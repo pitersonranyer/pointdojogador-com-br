@@ -11,12 +11,12 @@ export class UtilService {
 
     getUrlBackend() {
         const url = window.location.href;
-        if (url.match(/localhost/)) {
-            return 'http://localhost:3000/api';
-        }
-        if (url.match(/pointdojogador/)) {
+  //      if (url.match(/localhost/)) {
+  //          return 'http://localhost:3000/api';
+  //      }
+  //      if (url.match(/pointdojogador/)) {
             return 'https://api.pointdojogador.com.br/api';
-        }
+  //      }
     }
 
     /**

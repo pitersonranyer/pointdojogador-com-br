@@ -106,12 +106,16 @@ export class DashboardComponent implements OnInit {
                     for (let x = 0; x < this.atletas.length; x++) {
                       for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
                         if (this.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
-                          if (this.arrayAtletasPontuados[i].posicao_id === 6 &&
-                            this.arrayAtletasPontuados[i].pontuacao === 0) {
-                            this.count = 0;
+                          if (this.arrayAtletasPontuados[i].posicao_id === 6) {
+                            if (this.arrayAtletasPontuados[i].pontuacao === 0) {
+                              continue;
+                            } else {
+                              this.count = this.count + 1;
+                            }
                           } else {
                             this.count = this.count + 1;
                           }
+
                           // finalizar leitura array interno.
                           i = this.arrayAtletasPontuados.length;
                         }
