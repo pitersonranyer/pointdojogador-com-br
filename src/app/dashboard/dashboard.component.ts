@@ -84,8 +84,8 @@ export class DashboardComponent implements OnInit {
         this.count = 0;
         this.countRodadaAtual.consultaTimeRodadaCartolaCount(this.rodadas[i].anoTemporada, this.rodadas[i].idRodada)
           .subscribe((count: number) => {
-            this.totalParticipantes = count;
-            this.premiacaoTotal = this.totalParticipantes * this.rodadas[i].valorRodada;
+            this.rodadas[i].totalParticipantes = count;
+            this.premiacaoTotal = this.rodadas[i].totalParticipantes * this.rodadas[i].valorRodada;
             this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
             this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
 
