@@ -100,6 +100,8 @@ import { InvalidTokenApiService } from '../interceptadores/invalid-token-api.ser
 import { AtribuirNovaSenhaUsuarioModule } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.module';
 import { PerfilUsuarioAlterarSenhaModule } from '../modal/perfil-usuario-alterar-senha/perfil-usuario-alterar-senha.module';
 import { ModalDetalheTimeUsuarioModule } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.module';
+import { ListarAddTimeRodadaModule } from '../listar-add-time-rodada/listar-add-time-rodada.module';
+import { ListarTimesDaRodadaModule } from '../listar-times-da-rodada/listar-times-da-rodada.module';
 
 
 @NgModule({
@@ -199,7 +201,9 @@ import { ModalDetalheTimeUsuarioModule } from '../modal/detalhe-time-usuario/mod
     UtilsModule,
     AtribuirNovaSenhaUsuarioModule,
     PerfilUsuarioAlterarSenhaModule,
-    ModalDetalheTimeUsuarioModule
+    ModalDetalheTimeUsuarioModule,
+    ListarAddTimeRodadaModule,
+    ListarTimesDaRodadaModule
 
 
   ],

@@ -1,0 +1,110 @@
+<div class="ui-g ui-fluid dashboard">
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Participantes</span>
+            <span class="detail">Times Registrados</span>
+            <span class="count visitors">{{totalParticipantes}}</span>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Rodada</span>
+            <span class="detail">{{ status}}</span>
+            <span class="count purchases">#{{ idRodada}}</span>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Premiação</span>
+            <span class="detail">Estimativa</span>
+            <span class="count revenue">R$ {{premiacaoFinalFormat}} </span>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+        <div class="card clearfix summary">
+            <span class="title">Inscrições</span>
+            <span class="detail">Encerram</span>
+            <span class="count revenue2">{{dataFim}} às {{horaFim}} </span>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="style-content" *ngIf="status === 'Aberta' || status === 'Próxima'">
+    <h2>RODADA #17 </h2>
+    <p>Fala Jogador,</p>
+    <p>Pra quem mitou na rodada passada é hora de continuar a boa fase e pra quem não foi tão bem é sua chance de mudar
+        o jogo. Participe da #{{idRodada}} rodada com o point!</p>
+    <p>Com apenas R$ 10,00 você pode participar. Quanto mais times, maiores suas chances de concorrer a premiação!
+        Garanta seu lugar para rodada #{{idRodada}}. &nbsp;</p>
+    
+    <p>Após a inscrição do seu time na rodada converse com um dos Admistradores do Point, ele te orietará como realizar 
+       os pagamentos e liberar seu time para rodada.
+    </p>
+
+    <p> CREDIBILIDADE e TRANSPARÊNCIA. </p>
+    
+    <p>Venha mitar no POINT DO JOGADOR!</p> 
+    <a class="btn btn--green btn--default btn--center margin-bottom" (click)="show(idRodada)" >CLIQUE AQUI PARA PARTICIPAR</a>
+</div>
+
+
+<div class="ui-g-12" *ngIf="usuario.admin">
+    <button type="button" label="Gerar PDF" pButton icon="fa fa-download" (click)="gerarPDF()" class="ui-button-danger"
+        style="margin-bottom:10px"></button>
+</div>
+
+<div class="ui-g-12" >
+    <button type="button" label="Voltar" pButton icon="fa fa-arrow-left" (click)="voltar()" class="ui-button-primary"
+        style="margin-bottom:10px"></button>
+</div>
+
+<div class="ui-g-12" *ngIf="usuario.admin && status === 'Fechada'">
+    <button type="button" label="ATUALIZAR PARCIAIS" pButton icon="fa fa-refresh" (click)="atualizarParciais()"
+        class="ui-button-success" style="margin-bottom:10px"></button>
+</div>
+<div class="ui-g-12" id="pdf">
+    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+        <thead>
+            <tr role="row">
+                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 100px;">
+                    <span class="hidden-xs">Pts. Total</span>
+                </th>
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 15px;">
+                    <span class="hidden-xs"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let parcial of parciais; let i = index">
+                <td tabindex="0">
+                    <div class="box-tabela-premiacao"><span class="datatable-colocacao">{{i + 1}}º</span>
+                        <div>
+                            <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
+                            <span class="datatable-nome-time">{{parcial.nome}} <img *ngIf="parcial.assinante"
+                                    class="datatable-pro" src="/assets/layout/images/cartolaPRO.png"></span>
+                            <span class="datatable-nome-coach">{{parcial.nome_cartola}}
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td class=" text-center">
+                    <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
+                    <span style="color:red" *ngIf="status === 'Fechada'"
+                        class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
+                </td>
+
+                <td class=" text-center">
+                    <button *ngIf="status === 'Fechada'" type="button" icon="fa fa-search" pButton
+                        (click)="showTime(parcial)"></button>
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+</div>

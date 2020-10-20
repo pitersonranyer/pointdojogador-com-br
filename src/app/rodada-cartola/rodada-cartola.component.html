@@ -33,11 +33,16 @@
             <input type="text" [(ngModel)]="rodada.status" name="status" maxlength="9" size="9"> &nbsp;
           </td>
           <td>
-            <button pButton (click)="alterarStautsRodada(rodada)" icon="pi pi-save"></button>
+            <button pButton (click)="alterarStautsRodada(rodada)" icon="pi pi-save" class="ui-button-success"></button>
           </td>
           <td>
-            <button pButton (click)="excluirRodadaCartola(rodada)" icon="pi pi-trash"></button>
+            <button pButton (click)="excluirRodadaCartola(rodada)" icon="pi pi-trash" class="ui-button-danger" ></button>
           </td>
+          <td>
+            <button pButton (click)="listarTimesDaRodada(rodada)" icon="pi pi-list" class="ui-button-secondary"></button>
+          </td>
+
+          
         </tr>
       </tbody>
     </table>

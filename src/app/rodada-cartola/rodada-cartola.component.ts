@@ -69,6 +69,10 @@ export class RodadaCartolaComponent implements OnInit {
 
   }
 
+  listarTimesDaRodada(rodada: RodadaCartola): void {
+    this.router.navigate(['/listarTimesDaRodada'], { queryParams: rodada });
+  }
+
 
   alterarStautsRodada(rodada: RodadaCartola): void {
 

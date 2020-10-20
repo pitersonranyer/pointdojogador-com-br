@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard.component';
+import { ListarAddTimeRodadaComponent } from './listar-add-time-rodada.component';
 import {
   PanelModule, ButtonModule,
   ProgressSpinnerModule, DialogModule,
@@ -10,12 +10,10 @@ import { UtilsModule } from '../utils/utils.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
-import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   imports: [
-    RouterModule,
     CommonModule,
     ReactiveFormsModule,
     ButtonModule,
@@ -29,6 +27,6 @@ import { RouterModule } from '@angular/router';
     MessageModule,
     MessagesModule,
   ],
-  declarations: [DashboardComponent]
+  declarations: [ListarAddTimeRodadaComponent]
 })
-export class DashboardModule { }
+export class ListarAddTimeRodadaModule { }

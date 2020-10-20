@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
 
   anoAtual = 2020;
 
-  public rodada: RodadaCartola;
+
   public totalParticipantes = 0;
   public premiacaoTotal = 0;
   public premiacaoPercentual = 0;
@@ -51,14 +51,12 @@ export class DashboardComponent implements OnInit {
   count: number;
   atletas: Array<any> = [];
 
+  public rodadas = [];
+
   constructor(private router: Router,
     private listarRodadaAtual: CartolaAPIService,
     private countRodadaAtual: CartolaAPIService,
-    private listaResultadoParcialRodada: CartolaAPIService,
-    private atualizarResultadoParcial: CartolaAPIService,
-    private consultarTimeCartola: CartolaAPIService,
-    private atletasPontuados: CartolaAPIService,
-    private dialogService: DialogService,
+    private listarTodasRodadaCartolaAtivas: CartolaAPIService,
     public usuarioService: UsuarioService,
     public mensageria: MensageriaService
   ) {
@@ -69,325 +67,38 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listarRodadaCartolaAtivas();
+  }
 
+  addTimeRodada(rodada: RodadaCartola): void {
+    this.router.navigate(['/listarAddTimeRodada'], { queryParams: rodada });
+  }
+
+
+  listarRodadaCartolaAtivas() {
     this.mensageria.processamento = true;
-    this.count = 0;
+    this.listarTodasRodadaCartolaAtivas.listarTodasRodadaCartolaAtivas().subscribe((rodadasCartola: RodadaCartola[]) => {
+      this.rodadas = rodadasCartola;
 
-    this.listarRodadaAtual.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
-      this.rodada = rodadaCartola;
+      for (let i = 0; i < this.rodadas.length; i++) {
+        this.count = 0;
+        this.countRodadaAtual.consultaTimeRodadaCartolaCount(this.rodadas[i].anoTemporada, this.rodadas[i].idRodada)
+          .subscribe((count: number) => {
+            this.totalParticipantes = count;
+            this.premiacaoTotal = this.totalParticipantes * this.rodadas[i].valorRodada;
+            this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
+            this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
 
-      this.countRodadaAtual.consultaTimeRodadaCartolaCount(this.rodada.anoTemporada, this.rodada.idRodada).subscribe((count: number) => {
-        this.totalParticipantes = count;
+            this.rodadas[i].premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            this.rodadas[i].dataFim = this.rodadas[i].dtFimInscricao.substring(0, 5);
+            this.rodadas[i].horaFim = this.rodadas[i].hrFimInscricao.substring(0, 5);
 
-        this.premiacaoTotal = this.totalParticipantes * this.rodada.valorRodada;
-        this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
-        this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
-
-        this.premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-
-        this.dataFim = this.rodada.dtFimInscricao.substring(0, 5);
-        this.horaFim = this.rodada.hrFimInscricao.substring(0, 5);
-
-      });
-
-      if (this.rodada.status === 'Fechada') {
-        this.atletasPontuados.listarAtletasPontuados()
-          .subscribe((pontuados) => {
-            this.trataRespostaAtletasPontuados(pontuados);
-
-            this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
-              .subscribe((resultParcial: any[]) => {
-                this.parciais = resultParcial;
-                for (let j = 0; j < this.parciais.length; j++) {
-
-                  this.consultarTimeCartola.consultarTimeCartola(this.parciais[j].time_id).subscribe((data) => {
-                    this.atletas = data.atletas;
-                    this.count = 0;
-                    for (let x = 0; x < this.atletas.length; x++) {
-                      for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
-                        if (this.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
-                          if (this.arrayAtletasPontuados[i].posicao_id === 6) {
-                            if (this.arrayAtletasPontuados[i].pontuacao === 0) {
-                              continue;
-                            } else {
-                              this.count = this.count + 1;
-                            }
-                          } else {
-                            this.count = this.count + 1;
-                          }
-
-                          // finalizar leitura array interno.
-                          i = this.arrayAtletasPontuados.length;
-                        }
-                      }
-                    }
-                    this.parciais[j].atletasJogados = this.count;
-                  });
-
-                }
-
-              });
-
-          });
-      } else {
-        this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
-          .subscribe((resultParcial: any[]) => {
-            this.parciais = resultParcial;
           });
       }
-
     });
-
     this.mensageria.processamento = false;
-
-  }
-
-  addTimeRodada(): void {
-    this.router.navigate(['/addTimeRodada']);
-  }
-
-  show() {
-
-    this.dialogService.open(ModalAddTimeRodadaComponent, {
-      contentStyle: {
-        overflow: 'auto',
-        backgroundColor: '#fff',
-        'min-width': '300px',
-        'min-height': '100px'
-      },
-      dismissableMask: true
-    });
-  }
-
-  showTime(time: TimeCartola) {
-
-    this.dialogService.open(ModalDetalheTimeUsuarioComponent, {
-      contentStyle: {
-        overflow: 'auto',
-        backgroundColor: '#fff',
-        height: '500px'
-      },
-      dismissableMask: true,
-      data: { time }
-    });
-  }
-
-  public gerarPDF() {
-    const minhaTabela = document.getElementById('pdf').innerHTML;
-
-
-    // CRIA UM OBJETO WINDOW
-    const win = window.open('', '', 'height=700,width=700');
-
-    win.document.write(`
-  <html>
-    <head>
-      <style>
-      div.box-tabela-premiacao {
-        width: 235px;
-    }
-    span.datatable-colocacao {
-        font-weight: 600;
-        font-size: 14px;
-        margin: 10px 5px 0 0;
-        width: 32px;
-        float: left;
-    }
-    .pointer-variacao {
-        width: 23px;
-        margin: 12px 2px 0 0;
-        float: left;
-    }
-    img.datatable-escudo {
-        width: 40px;
-        float: left;
-        height: 40px;
-        margin-right: 10px;
-    }
-    img.datatable-pro {
-        width: 15px;
-        height: 15px;
-        margin-right: 5px;
-    }
-    span.datatable-nome-time {
-        margin-left: 2px;
-        font-size: 13px;
-        display: block;
-        font-family: "Open Sans";
-        font-weight: bold;
-        color: #333;
-    }
-    span.datatable-nome-coach {
-        margin-left: 2px;
-        font-size: 12px;
-        display: block;
-        font-family: "Open Sans";
-        font-weight: 300;
-        color: #333;
-    }
-    
-    span.datatable-pontuacao {
-        font-size: 18px;
-        font-weight: 600;
-    }
-      </style>
-    </head>
-<body onload="window.print()">${minhaTabela}</body>
-  </html>`);
-
-    win.document.close(); 	                                         // FECHA A JANELA
-
-    win.print();                                                            // IMPRIME O CONTEUDO
-  }
-  public gerarPDF2() {
-
-    const printContents = document.getElementById('pdf').innerHTML;
-    const popupWin = window.open('', '_blank', 'width=794,height=1123');
-    popupWin.document.open();
-    popupWin.document.write(`
-  <html>
-    <head>
-      <style>
-      div.box-tabela-premiacao {
-        width: 235px;
-    }
-    span.datatable-colocacao {
-        font-weight: 600;
-        font-size: 14px;
-        margin: 10px 5px 0 0;
-        width: 32px;
-        float: left;
-    }
-    .pointer-variacao {
-        width: 23px;
-        margin: 12px 2px 0 0;
-        float: left;
-    }
-    img.datatable-escudo {
-        width: 40px;
-        float: left;
-        height: 40px;
-        margin-right: 10px;
-    }
-    img.datatable-pro {
-        width: 15px;
-        height: 15px;
-        margin-right: 5px;
-    }
-    span.datatable-nome-time {
-        margin-left: 2px;
-        font-size: 13px;
-        display: block;
-        font-family: "Open Sans";
-        font-weight: bold;
-        color: #333;
-    }
-    span.datatable-nome-coach {
-        margin-left: 2px;
-        font-size: 12px;
-        display: block;
-        font-family: "Open Sans";
-        font-weight: 300;
-        color: #333;
-    }
-    
-    span.datatable-pontuacao {
-        font-size: 18px;
-        font-weight: 600;
-    }
-      </style>
-    </head>
-<body onload="window.print()">${printContents}</body>
-  </html>`);
-    popupWin.document.close();
   }
 
 
-  trataRespostaAtletasPontuados(pontuados: any) {
-    Object.keys(pontuados.atletas).forEach(atleta_id => {
-      const atleta = {
-        atleta_id: atleta_id,
-        apelido: pontuados.atletas[atleta_id].apelido,
-        pontuacao: pontuados.atletas[atleta_id].pontuacao,
-        scout: pontuados.atletas[atleta_id].scout,
-        foto: pontuados.atletas[atleta_id].foto,
-        posicao_id: pontuados.atletas[atleta_id].posicao_id,
-        clube_id: pontuados.atletas[atleta_id].clube_id
-      };
-      this.arrayAtletasPontuados.push(atleta);
-    });
-  }
-
-  atualizarParciais() {
-    this.mensageria.processamento = true;
-
-    this.atletasPontuados.listarAtletasPontuados()
-      .subscribe((pontuados) => this.trataRespostaAtletasPontuados(pontuados));
-
-
-    // pontuação do JSON pontuados
-    //   this.atletasPontuados.listarAtletasPontuados().subscribe((pontuados) => {
-    //      Object.keys(pontuados.atletas).forEach(atleta_id => {
-    //        const atleta = {
-    //          atleta_id: atleta_id,
-    //          apelido: pontuados.atletas[atleta_id].apelido,
-    //         pontuacao: pontuados.atletas[atleta_id].pontuacao,
-    //          scout: pontuados.atletas[atleta_id].scout,
-    //          foto: pontuados.atletas[atleta_id].foto,
-    //          posicao_id: pontuados.atletas[atleta_id].posicao_id,
-    //          clube_id: pontuados.atletas[atleta_id].clube_id
-    //        };
-    //         this.arrayAtletasPontuados.push(atleta);
-    //       });
-    //    });
-
-    // Processar atualização de pontuação
-    // busca times salvo na base de dados
-    this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.rodada.anoTemporada, this.rodada.idRodada)
-      .subscribe((resultParcial: any[]) => {
-        this.parciais = resultParcial;
-        for (let i = 0; i < this.parciais.length; i++) {
-          // Recuperar atletas por time
-          this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
-            .subscribe((data) => {
-              this.capitao_id = data.capitao_id;
-
-              // tratar pontuação do JSON pontuados
-              this.totPontos = 0;
-              this.pontuacaoParcial = 0;
-              for (let x = 0; x < data.atletas.length; x++) {
-                for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
-                  if (data.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
-                    // Dobrar pontuação do capitão
-                    if (this.capitao_id == data.atletas[x].atleta_id) {
-                      this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao * 2;
-                    } else {
-                      this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao;
-                    }
-                    this.totPontos += this.pontuacaoParcial;
-
-                    // finalizar leitura array interno.
-                    i = this.arrayAtletasPontuados.length;
-                  }
-                }
-              }
-              // Atualizar pontuação.
-              this.timeRodadaCartola.anoTemporada = this.parciais[i].anoTemporada;
-              this.timeRodadaCartola.idRodada = this.parciais[i].idRodada;
-              this.timeRodadaCartola.idUsuario = this.parciais[i].idUsuario;
-              this.timeRodadaCartola.time_id = this.parciais[i].time_id;
-              this.timeRodadaCartola.pontosTotais = this.totPontos;
-              this.timeRodadaCartola.pontosTotais.toFixed(2);
-
-
-              this.atualizarResultadoParcial.atualizarPontosRodadaCartola(this.timeRodadaCartola)
-                .subscribe(() => {
-                });
-
-            });
-
-        }
-        this.mensageria.processamento = false;
-      });
-  }
 }
+

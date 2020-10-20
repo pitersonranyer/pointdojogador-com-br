@@ -1,106 +1,34 @@
 <app-mensageria [mensagensFixas]="mensageria.mensagensFixas" [processamento]="mensageria.processamento">
 </app-mensageria>
 <br>
-<div *ngIf="rodada.idRodada === 14" class="ui-messages ui-widget ui-corner-all ui-messages-warn" style="margin: 0 0 1em 0; display: block">
+<div  class="ui-messages ui-widget ui-corner-all ui-messages-warn"
+    style="margin: 0 0 1em 0; display: block">
     <span class="ui-messages-icon fa fa-fw fa-2x fa-check"></span>
     <ul>
         <li>
-            <span class="ui-messages-summary" style="font-size:16px">Bônus especial para o primeiro colocado, APROVEITE!
-                * 350,00 reais se fizer mais de 100 pontos OU * 700,00 reais se fizer mais de 110 pontos!</span>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <span class="ui-messages-summary" style="font-size:16px"><a href="https://wa.me/5561982104100"><i
-                        class="fa fa-whatsapp"></i> Informações </a></span>
+            <span class="ui-messages-summary" style="font-size:16px">Conheça nossas ligas TIRO CURTO!</span>
         </li>
     </ul>
 </div>
 
+<div class="leagues-summary__container">
+    <ul class="leagues-summary__list ">
+        <!-- Item-->
+        <li class="leagues-summary__item" *ngFor="let rodada of rodadas ">
+            <h3 class="leagues-summary__name">Tiro curto</h3>
+            <div class="leagues-summary__award">
+                <h2 class="leagues-summary__title">RODADA #{{ rodada.idRodada}}</h2>
+            </div>
 
-<div class="ui-g ui-fluid dashboard">
-    <div class="ui-g-12 ui-md-3">
-        <div class="card clearfix summary">
-            <span class="title">Participantes</span>
-            <span class="detail">Times Registrados</span>
-            <span class="count visitors">{{totalParticipantes}}</span>
-        </div>
-    </div>
-    <div class="ui-g-12 ui-md-3">
-        <div class="card clearfix summary">
-            <span class="title">Rodada</span>
-            <span class="detail">{{ rodada.status}}</span>
-            <span class="count purchases">#{{ rodada.idRodada}}</span>
-        </div>
-    </div>
-    <div class="ui-g-12 ui-md-3">
-        <div class="card clearfix summary">
-            <span class="title">Premiação</span>
-            <span class="detail">Estimativa</span>
-            <span class="count revenue">R$ {{premiacaoFinalFormat}} </span>
-        </div>
-    </div>
-    <div class="ui-g-12 ui-md-3">
-        <div class="card clearfix summary">
-            <span class="title">Inscrições</span>
-            <span class="detail">Encerram</span>
-            <span class="count revenue2">{{dataFim}} às {{horaFim}} </span>
-        </div>
-    </div>
-
-    <div class="ui-g-12" *ngIf="rodada.status === 'Aberta'">
-        <button type="button" label="ADICIONAR" pButton icon="fa fa-plus" (click)="show($event)"
-            class="ui-button-success" style="margin-bottom:10px"></button>
-    </div>
-
-    <div class="ui-g-12" *ngIf="usuario.admin">
-        <button type="button" label="ATUALIZAR PARCIAIS" pButton icon="fa fa-refresh" (click)="atualizarParciais()"
-            class="ui-button-success" style="margin-bottom:10px"></button>
-    </div>
-</div>
-
-<div class="ui-g-12" *ngIf="usuario.admin">
-    <button type="button" label="Gerar PDF" pButton icon="fa fa-download" (click)="gerarPDF()"
-        class="ui-button-danger" style="margin-bottom:10px"></button>
-</div>
-
-<div class="ui-g-12" id="pdf">
-    <table  class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0" >
-        <thead>
-            <tr role="row">
-                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
-                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 100px;">
-                    <span class="hidden-xs">Pts. Total</span>
-                </th>
-                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 15px;">
-                    <span class="hidden-xs"></span>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let parcial of parciais; let i = index">
-                <td tabindex="0">
-                    <div class="box-tabela-premiacao"><span class="datatable-colocacao">{{i + 1}}º</span>
-                        <div>
-                            <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
-                            <span class="datatable-nome-time">{{parcial.nome}} <img *ngIf="parcial.assinante"
-                                    class="datatable-pro" src="/assets/layout/images/cartolaPRO.png"></span>
-                            <span class="datatable-nome-coach">{{parcial.nome_cartola}}
-                            </span>
-                        </div>
-                    </div>
-                </td>
-                <td class=" text-center">
-                    <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
-                    <span style="color:red" *ngIf="rodada.status === 'Fechada'" class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
-                </td>
-                
-                <td class=" text-center">
-                    <button *ngIf="rodada.status === 'Fechada'" type="button" icon="fa fa-search" pButton (click)="showTime(parcial)"></button>
-                </td>
-                
-
-            </tr>
-        </tbody>
-    </table>
+            <h4 class="leagues-summary__participants">
+                <small>VALOR DO PALPITE: R$ {{rodada.valorRodada}}</small>
+                <small>Participantes: {{rodada.totalParticipantes}}</small>
+                <small>Premiação: {{rodada.premiacaoFinalFormat}}</small>
+                <small>Inscrições até: {{rodada.dataFim}} às {{rodada.horaFim}}</small>
+                <small>Situação: {{rodada.status}}</small>
+            </h4>
+            <a *ngIf="rodada.status === 'Fechada'" class="btn--gray btn btn--full" (click)="addTimeRodada(rodada)">Ver parciais</a> 
+            <a *ngIf="rodada.status === 'Aberta' || rodada.status === 'Próxima'" class="btn--green btn btn--full"  (click)="addTimeRodada(rodada)"  >PARTICIPAR</a>
+        </li>
+    </ul>
 </div>

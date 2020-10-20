@@ -88,9 +88,13 @@ export class CartolaAPIService {
     return this.http.get<RodadaCartola[]>(url);
   }
 
+  listarTodasRodadaCartolaAtivas(): Observable<RodadaCartola[]> {
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarRodadaCartolaAtivas`;
+    return this.http.get<RodadaCartola[]>(url);
+  }
+
   listarRodadaCartolaPorId(anoTemporada: number, idRodada: number): Observable<RodadaCartola> {
-    const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarTodasRodadaCartola`;
-  // const url = `${environment.pointdojogadorApiUrl}/rodadaCartola/listarRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
+    const url = this.utilService.getUrlBackend() + `/rodadaCartola/listarRodadaCartolaPorId/${anoTemporada}/${idRodada}`;
     return this.http.get<RodadaCartola>(url);
   }
 

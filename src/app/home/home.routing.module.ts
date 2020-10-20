@@ -19,6 +19,8 @@ import { LoginGloboComponent } from '../login-globo/login-globo.component';
 import { AtribuirNovaSenhaUsuarioComponent } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.component';
 import { PerfilUsuarioAlterarSenhaComponent } from '../modal/perfil-usuario-alterar-senha/perfil-usuario-alterar-senha.component';
 import { ModalDetalheTimeUsuarioComponent } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.component';
+import { ListarAddTimeRodadaComponent } from '../listar-add-time-rodada/listar-add-time-rodada.component';
+import { ListarTimesDaRodadaComponent } from '../listar-times-da-rodada/listar-times-da-rodada.component';
 
 
 const homeRoutes = [
@@ -143,6 +145,23 @@ const homeRoutes = [
                 canActivate: [AuthGuard],
                 canLoad: [AuthGuard],
             },
+
+            {
+                path: 'listarAddTimeRodada',
+                component: ListarAddTimeRodadaComponent,
+                canActivate: [AuthGuard],
+                canLoad: [AuthGuard],
+            },
+
+            {
+                path: 'listarTimesDaRodada',
+                component: ListarTimesDaRodadaComponent,
+                canActivate: [AuthGuard],
+                canLoad: [AuthGuard],
+            },
+
+
+
 
         ]
     }

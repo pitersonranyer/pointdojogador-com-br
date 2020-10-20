@@ -7,7 +7,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 
 import * as moment from 'moment';
-import { DynamicDialogRef } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/api';
 import { RodadaCartola } from '../../interfaces/rodadaCartola';
 import { TimeRodadaCartola } from '../../interfaces/timeRodadaCartola';
 import { MensageriaService } from 'src/app/services/mensageria.service';
@@ -34,14 +34,17 @@ export class ModalAddTimeRodadaComponent implements OnInit {
 
   id: number;
 
-  constructor(private listarRodadaAtualService: CartolaAPIService,
+  idRodada: number;
+
+  constructor(private consutarRodadaById: CartolaAPIService,
     private listarTimesUsuarioCartolaRodada: CartolaAPIService,
     private cadastrarTimeRodadaCartolaService: CartolaAPIService,
     private usuarioService: UsuarioService,
     public mensageria: MensageriaService,
-    public activeModal: DynamicDialogRef
+    public activeModal: DynamicDialogRef,
+    public config: DynamicDialogConfig,
 
-  ) { }
+  ) { this.idRodada = config.data.idRodada; }
 
   ngOnInit() {
 
@@ -53,8 +56,10 @@ export class ModalAddTimeRodadaComponent implements OnInit {
         this.id = usuario.id;
       });
 
-    this.listarRodadaAtualService.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
+      console.log(this.idRodada);
+    this.consutarRodadaById.listarRodadaCartolaPorId(this.anoAtual, this.idRodada).subscribe((rodadaCartola: RodadaCartola) => {
       this.rodada = rodadaCartola;
+      console.log(rodadaCartola);
 
       this.listarTimesUsuarioCartolaRodada
         .listarTimesUsuarioCartolaRodada(this.anoAtual, this.id, this.rodada.idRodada)
@@ -63,9 +68,6 @@ export class ModalAddTimeRodadaComponent implements OnInit {
         });
 
     });
-
-
-
   }
 
   onSubmit(): void {

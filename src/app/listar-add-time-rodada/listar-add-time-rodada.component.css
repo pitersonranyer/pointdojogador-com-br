@@ -1,0 +1,145 @@
+div.box-tabela-premiacao {
+    width: 235px;
+}
+span.datatable-colocacao {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 10px 5px 0 0;
+    width: 32px;
+    float: left;
+}
+.pointer-variacao {
+    width: 23px;
+    margin: 12px 2px 0 0;
+    float: left;
+}
+img.datatable-escudo {
+    width: 40px;
+    float: left;
+    height: 40px;
+    margin-right: 10px;
+}
+img.datatable-pro {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    
+}
+span.datatable-nome-time {
+    margin-left: 90px;
+    font-size: 13px;
+    display: block;
+    font-family: "Open Sans";
+    font-weight: bold;
+    color: #333;
+}
+span.datatable-nome-coach {
+    margin-left: 2px;
+    font-size: 12px;
+    display: block;
+    font-family: "Open Sans";
+    font-weight: 300;
+    color: #333;
+}
+
+span.datatable-pontuacao {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.style-content {
+  margin-bottom: 60px !important;
+}
+.style-content h2 {
+  font-size: 20px !important;
+}
+.style-content h2 {
+  margin-bottom: 20px;
+  color: #363434;
+  font-size: 30px;
+  font-weight: 700;
+}
+.style-content p {
+  margin-bottom: 28px;
+  color: #363434;
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  border-radius: 30px;
+  -webkit-border-radius: 30px; }
+  .btn--full {
+    width: 100%;
+    padding: 19px 22px 18px;
+    font-size: 17px; }
+    @media (max-width: 768px) {
+      .btn--full {
+        padding: 14px 20px 13px;
+        font-size: 15px; } }
+  .btn--small {
+    padding: 18px 28px 17px;
+    font-size: 16px; }
+  .btn--medium {
+    padding: 17px 70px 16px;
+    font-size: 18px; }
+    @media (max-width: 768px) {
+      .btn--medium {
+        padding: 15px 70px 14px;
+        font-size: 13px; } }
+  .btn--large {
+    padding: 21px 68px 19px;
+    font-size: 19px; }
+    @media (max-width: 768px) {
+      .btn--large {
+        padding: 14px 60px 13px;
+        font-size: 16px; } }
+  .btn--red {
+    color: #FFF;
+    background-color: #F0370F; }
+    .btn--red:hover {
+      background-color: #B92B0D; }
+  .btn--green {
+    color: #FFF;
+    background-color: #55A24B; }
+    .btn--green:hover {
+      background-color: #45843C; }
+  .btn--gray {
+    color: #FFF;
+    background-color: #363434; }
+    .btn--gray:hover {
+      background-color: #211F1F; }
+  .btn--dark {
+    color: #FFF;
+    background-color: #000; }
+    .btn--dark:hover {
+      background-color: #211F1F; }
+  .btn--orange {
+    color: #FFF;
+    background-color: #F0370F; }
+  .btn--orange:hover {
+    background-color: #FF6300; }
+  .btn--blue {
+    color: #FFF;
+    background-color: #4d66f5; }
+  .btn--blue:hover {
+    background-color: #0084ff; }
+
+  .btn--center {
+    display: table;
+    margin: 0 auto; }
+  .btn--default {
+    width: 260px;
+    padding: 14px 20px 12px;
+    font-size: 16px; }
+    @media (max-width: 768px) {
+      .btn--default {
+        display: table;
+        margin: 0 auto; } }
