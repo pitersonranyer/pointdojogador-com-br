@@ -24,7 +24,8 @@
       <tbody>
         <tr *ngFor="let usuario of usuarios; let i = index">
           <th scope="row">
-            {{usuario.id}}
+            {{usuario.id}} &nbsp; 
+            <button pButton icon="pi pi-plus" (click)="showTimesUsuario(usuario.id)"></button>
           </th>
           <th scope="row">
             {{usuario.nome}}

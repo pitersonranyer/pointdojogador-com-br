@@ -51,8 +51,8 @@ export class ListarTimesCartolaComponent implements OnInit {
       });
 
     const glbId = this.tokenService.tokenGlobo;
-    this.timeUsuarioLogado.buscarTimeUsuarioLogado(glbId).subscribe((timeUsarioLogado: any[]) => {
-      this.times = Object.values(timeUsarioLogado);
+    this.timeUsuarioLogado.buscarTimeUsuarioLogado(glbId).subscribe((timeUsuarioLogado: any[]) => {
+      this.times = Object.values(timeUsuarioLogado);
       this.tokenService.resetarTokenGlobo();
     });
 
@@ -69,11 +69,11 @@ export class ListarTimesCartolaComponent implements OnInit {
         this.mensageria.processamento = false;
         this.mensageria.setMensagemSucesso();
 
-        const glbId = this.tokenService.tokenGlobo;
-        this.timeUsuarioLogado.buscarTimeUsuarioLogado(glbId).subscribe((timeUsarioLogado: any[]) => {
-          this.times = Object.values(timeUsarioLogado);
-          this.timeCadastrado = true;
-        });
+//        const glbId = this.tokenService.tokenGlobo;
+//        this.timeUsuarioLogado.buscarTimeUsuarioLogado(glbId).subscribe((timeUsuarioLogado: any[]) => {
+//          this.times = Object.values(timeUsuarioLogado);
+//          this.timeCadastrado = true;
+//        });
 
 
       },

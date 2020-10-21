@@ -102,6 +102,7 @@ import { PerfilUsuarioAlterarSenhaModule } from '../modal/perfil-usuario-alterar
 import { ModalDetalheTimeUsuarioModule } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.module';
 import { ListarAddTimeRodadaModule } from '../listar-add-time-rodada/listar-add-time-rodada.module';
 import { ListarTimesDaRodadaModule } from '../listar-times-da-rodada/listar-times-da-rodada.module';
+import { ModalAddTimeUsuarioModule } from '../modal/modal-add-time-usuario/modal-add-time-usuario.module';
 
 
 @NgModule({
@@ -203,7 +204,8 @@ import { ListarTimesDaRodadaModule } from '../listar-times-da-rodada/listar-time
     PerfilUsuarioAlterarSenhaModule,
     ModalDetalheTimeUsuarioModule,
     ListarAddTimeRodadaModule,
-    ListarTimesDaRodadaModule
+    ListarTimesDaRodadaModule,
+    ModalAddTimeUsuarioModule
 
 
   ],

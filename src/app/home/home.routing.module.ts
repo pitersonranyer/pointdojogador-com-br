@@ -21,6 +21,7 @@ import { PerfilUsuarioAlterarSenhaComponent } from '../modal/perfil-usuario-alte
 import { ModalDetalheTimeUsuarioComponent } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.component';
 import { ListarAddTimeRodadaComponent } from '../listar-add-time-rodada/listar-add-time-rodada.component';
 import { ListarTimesDaRodadaComponent } from '../listar-times-da-rodada/listar-times-da-rodada.component';
+import { ModalAddTimeUsuarioComponent } from '../modal/modal-add-time-usuario/modal-add-time-usuario.component';
 
 
 const homeRoutes = [
@@ -109,7 +110,12 @@ const homeRoutes = [
                 canLoad: [AuthGuard],
             },
 
-
+            {
+                path: 'modalAddTimeUsuario',
+                component: ModalAddTimeUsuarioComponent,
+                canActivate: [AuthGuard],
+                canLoad: [AuthGuard],
+            },
 
             {
                 path: 'meusJogosMeusPagamentos',

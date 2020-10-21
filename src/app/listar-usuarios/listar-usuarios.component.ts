@@ -4,6 +4,7 @@ import { Usuario } from '../interfaces/usuario';
 import { Router } from '@angular/router';
 import { AtribuirNovaSenhaUsuarioComponent } from '../modal/atribuir-nova-senha-usuario/atribuir-nova-senha-usuario.component';
 import { DialogService } from 'primeng/api';
+import { ModalAddTimeUsuarioComponent } from '../modal/modal-add-time-usuario/modal-add-time-usuario.component';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -47,6 +48,19 @@ export class ListarUsuariosComponent implements OnInit {
       },
       dismissableMask: true,
       data: { usuario }
+    });
+  }
+
+  showTimesUsuario(idUsuario: number) {
+
+    this.dialogService.open(ModalAddTimeUsuarioComponent, {
+      contentStyle: {
+        overflow: 'auto',
+        backgroundColor: '#fff',
+        height: '500px'
+      },
+      dismissableMask: true,
+      data: { idUsuario }
     });
   }
 
