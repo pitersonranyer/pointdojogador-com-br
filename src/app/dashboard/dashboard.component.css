@@ -68,10 +68,10 @@ span.datatable-pontuacao {
           margin-bottom: 10px; } }
     .leagues-summary__item {
       width: 44%;
-      margin: 0 3% 70px;
+      margin: 0 1% 70px;
       padding: 24px 80px;
       text-align: center;
-      background-color: #FF6300;
+      background-color: #026629 ;
       border-radius: 14px;
       -webkit-border-radius: 14px;
       box-shadow: 3px 6px 15px 0 rgba(0, 0, 0, 0.2); }
@@ -83,7 +83,7 @@ span.datatable-pontuacao {
       .leagues-summary__item.item-color-one {
         background-color: #FF9300 !important; }
       .leagues-summary__item.item-color-two {
-        background-color: #FF6300 !important; }
+        background-color: #026629  !important; }
       .leagues-summary__item.item-color-three {
         background-color: #FF4500 !important; }
       .leagues-summary__item .btn--green {
@@ -93,7 +93,7 @@ span.datatable-pontuacao {
       width: 100%;
       margin-bottom: 10px;
       padding-bottom: 18px;
-      color: #FFF;
+      color: #ECE808;
       font-size: 30px;
       font-weight: 700;
       text-transform: uppercase;
@@ -115,7 +115,7 @@ span.datatable-pontuacao {
           font-size: 18px; } }
       .leagues-summary__participants small {
         
-            color: #070707 ;
+            color: #e3c41b ;
             text-transform: none ;
             font-weight: bold;
         display: block;
@@ -155,7 +155,7 @@ span.datatable-pontuacao {
       z-index: 10;
       width: 100%;
       padding-top: 16px;
-      color: #FFF;
+      color: #ECE808;;
       font-size: 25px;
       font-weight: 700;
       text-transform: uppercase; }
@@ -183,7 +183,7 @@ span.datatable-pontuacao {
       z-index: 10;
       width: 100%;
       margin: auto 60px;
-      color: #FF6300;
+      color: #026629 ;
       font-size: 30px;
       font-weight: 700;
       line-height: 1.25;
@@ -272,7 +272,7 @@ span.datatable-pontuacao {
                   color: #FFF;
                   background-color: #363434; }
                   .btn--gray:hover {
-                    background-color: #55A24B; }
+                    background-color: #0084ff; }
                 .btn--dark {
                   color: #FFF;
                   background-color: #000; }
@@ -282,7 +282,7 @@ span.datatable-pontuacao {
                   color: #FFF;
                   background-color: #F0370F; }
                 .btn--orange:hover {
-                  background-color: #FF6300; }
+                  background-color: #026629 ; }
                 .btn--blue {
                   color: #FFF;
                   background-color: #4d66f5; }

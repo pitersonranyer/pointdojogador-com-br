@@ -250,8 +250,5 @@ export class ListarAddTimeRodadaComponent implements OnInit {
         }
         this.mensageria.processamento = false;
       });
-
-    this.ngOnInit();
-
   }
 }

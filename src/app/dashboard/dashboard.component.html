@@ -1,6 +1,7 @@
 <app-mensageria [mensagensFixas]="mensageria.mensagensFixas" [processamento]="mensageria.processamento">
 </app-mensageria>
 <br>
+
 <div  class="ui-messages ui-widget ui-corner-all ui-messages-warn"
     style="margin: 0 0 1em 0; display: block">
     <span class="ui-messages-icon fa fa-fw fa-2x fa-check"></span>
@@ -11,7 +12,7 @@
     </ul>
 </div>
 
-<div class="leagues-summary__container">
+<div class="ui-g-12">
     <ul class="leagues-summary__list ">
         <!-- Item-->
         <li class="leagues-summary__item" *ngFor="let rodada of rodadas ">
@@ -28,7 +29,7 @@
                 <small>Situação: {{rodada.status}}</small>
             </h4>
             <a *ngIf="rodada.status === 'Fechada'" class="btn--gray btn btn--full" (click)="addTimeRodada(rodada)">Ver parciais</a> 
-            <a *ngIf="rodada.status === 'Aberta' || rodada.status === 'Próxima'" class="btn--green btn btn--full"  (click)="addTimeRodada(rodada)"  >PARTICIPAR</a>
+            <a *ngIf="rodada.status === 'Aberta' || rodada.status === 'Próxima'" class="btn--blue btn btn--full"  (click)="addTimeRodada(rodada)"  >PARTICIPAR</a>
         </li>
     </ul>
 </div>

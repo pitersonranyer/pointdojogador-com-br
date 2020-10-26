@@ -4,17 +4,12 @@ import { CartolaAPIService } from '../services/cartola-api.service';
 import { RodadaCartola } from '../interfaces/rodadaCartola';
 import { ModalAddTimeRodadaComponent } from '../modal/modal-add-time-rodada/modal-add-time-rodada.component';
 
-import { DialogService } from 'primeng/api';
 import { TimeRodadaCartola } from '../interfaces/timeRodadaCartola';
 import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../interfaces/usuario';
 import { Observable } from 'rxjs';
 import { MensageriaService } from '../services/mensageria.service';
-import { TimeCartola } from '../interfaces/timeCartola';
-import { ModalDetalheTimeUsuarioComponent } from '../modal/detalhe-time-usuario/modal-detalhe-time-usuario.component';
 
-import * as jsPDF from 'jspdf';
-import 'jspdf-autotable';
 
 
 @Component({
@@ -67,7 +62,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mensageria.processamento = true;
     this.listarRodadaCartolaAtivas();
+    this.mensageria.processamento = false;
   }
 
   addTimeRodada(rodada: RodadaCartola): void {
@@ -76,7 +73,6 @@ export class DashboardComponent implements OnInit {
 
 
   listarRodadaCartolaAtivas() {
-    this.mensageria.processamento = true;
     this.listarTodasRodadaCartolaAtivas.listarTodasRodadaCartolaAtivas().subscribe((rodadasCartola: RodadaCartola[]) => {
       this.rodadas = rodadasCartola;
 
@@ -96,7 +92,6 @@ export class DashboardComponent implements OnInit {
           });
       }
     });
-    this.mensageria.processamento = false;
   }
 
 

@@ -42,7 +42,8 @@ export class PerfilUsuarioComponent implements OnInit {
         'min-height': '100px'
       },
       dismissableMask: true,
-      data: { user }
+      data: { user },
+      header: 'Informe a nova Senha'
     });
   }
 
