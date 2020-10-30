@@ -30,6 +30,8 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   public premiacaoPercentualLista = 0;
   public premiacaoFinalLista = 0;
   public premiacaoTotal = 0;
+  public valorRodada = 0;
+  public totalParticipantes = 0;
 
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
 
@@ -52,7 +54,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.anoTemporada = params.anoTemporada;
       this.idRodada = params.idRodada;
-      this.premiacaoTotal = params.valorRodada;
+      this.valorRodada = params.valorRodada;
 
 
     });
@@ -64,7 +66,11 @@ export class ListarTimesDaRodadaComponent implements OnInit {
     this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
       .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
-        console.log(this.parciais);
+
+        this.totalParticipantes = this.parciais.length;
+
+        this.premiacaoTotal = this.totalParticipantes * this.valorRodada;
+
         for (let j = 0; j < this.parciais.length; j++) {
           this.premiacaoPercentualLista = 0;
           this.premiacaoFinalLista = 0;
