@@ -50,10 +50,9 @@ export class RegisterComponent implements OnInit {
       this.usuario.admin = false;
     }
 
-    if (this.usuario.timeFavorito === 'Selecione...') {
+    if (this.usuario.timeFavorito === 'Selecione...' || this.usuario.timeFavorito === ' ' ) {
       this.mensageria.setMensagemAlerta(false, true, 'Infome seu time favorito!');
     } else {
-      // console.log(this.usuario);
       this.usuarioService.cadastrar(this.usuario).subscribe(
         () => {
           this.authService.logar(this.usuario).subscribe(() => {

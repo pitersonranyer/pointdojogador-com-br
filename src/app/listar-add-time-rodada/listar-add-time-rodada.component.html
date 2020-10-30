@@ -40,18 +40,19 @@
         o jogo. Participe da #{{idRodada}} rodada com o point!</p>
     <p>Com apenas R$ 10,00 você pode participar. Quanto mais times, maiores suas chances de concorrer a premiação!
         Garanta seu lugar para rodada #{{idRodada}}. &nbsp;</p>
-    
-    <p>Após a inscrição do seu time na rodada converse com um dos Admistradores do Point, ele te orietará como realizar 
-       os pagamentos e liberar seu time para rodada.
+
+    <p>Após a inscrição do seu time na rodada converse com um dos Admistradores do Point, ele te orietará como realizar
+        os pagamentos e liberar seu time para rodada.
     </p>
 
     <p> CREDIBILIDADE e TRANSPARÊNCIA. </p>
-    
-    <p>Venha mitar no POINT DO JOGADOR!</p> 
-    <a class="btn btn--green btn--default btn--center margin-bottom" (click)="show(idRodada)" >CLIQUE AQUI PARA PARTICIPAR</a>
+
+    <p>Venha mitar no POINT DO JOGADOR!</p>
+    <a class="btn btn--green btn--default btn--center margin-bottom" (click)="show(idRodada)">CLIQUE AQUI PARA
+        PARTICIPAR</a>
 </div>
 
-<div class="ui-g-12" >
+<div class="ui-g-12">
     <button type="button" label="Voltar" pButton icon="fa fa-arrow-left" (click)="voltar()" class="ui-button-primary"
         style="margin-bottom:10px"></button>
 </div>
@@ -65,9 +66,13 @@
         <thead>
             <tr role="row">
                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 15px;">
+                    <span class="hidden-xs">Premiação</span>
+                </th>    
                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 100px;">
                     <span class="hidden-xs">Pts. Total</span>
                 </th>
+                
                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 15px;">
                     <span class="hidden-xs"></span>
                 </th>
@@ -85,6 +90,9 @@
                             </span>
                         </div>
                     </div>
+                </td>
+                <td class=" text-center">
+                    <span class="datatable-premiacao"> {{parcial.premiacaoFinalFormatLista}} </span>
                 </td>
                 <td class=" text-center">
                     <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>

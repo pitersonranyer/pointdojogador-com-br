@@ -2,6 +2,16 @@
 <div class="ui-g-12" >
     <button type="button" label="Voltar" pButton icon="fa fa-arrow-left" (click)="voltar()" class="ui-button-primary"
         style="margin-bottom:10px"></button>
+
+        &nbsp; &nbsp;
+
+    <button type="button" label="Gerar PDF" pButton icon="fa fa-download" (click)="gerarPDF()" class="ui-button-danger"
+        style="margin-bottom:10px"></button>
+
+        &nbsp; &nbsp;
+
+        <button type="button" label="ATUALIZAR FINAL RODADA" pButton icon="fa fa-refresh" (click)="atualizarParciais()"
+        class="ui-button-success" style="margin-bottom:10px"></button>
 </div>
 
 <div class="ui-g-12">
@@ -10,22 +20,14 @@
     </div>
   </div>
 
-<div class="ui-g-12" >
-    <button type="button" label="Gerar PDF" pButton icon="fa fa-download" (click)="gerarPDF()" class="ui-button-danger"
-        style="margin-bottom:10px"></button>
-
-        &nbsp; &nbsp;
-
-        <button type="button" label="ATUALIZAR PARCIAIS" pButton icon="fa fa-refresh" (click)="atualizarParciais()"
-        class="ui-button-success" style="margin-bottom:10px"></button>
-</div>
-
-
 <div class="ui-g-12" id="pdf">
     <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
         <thead>
             <tr role="row">
                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 15px;">
+                    <span class="hidden-xs">Premiação</span>
+                </th>  
                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 100px;">
                     <span class="hidden-xs">Pts. Total</span>
                 </th>
@@ -46,6 +48,9 @@
                             </span>
                         </div>
                     </div>
+                </td>
+                <td class=" text-center">
+                    <span class="datatable-premiacao"> {{parcial.premiacaoFinalFormatLista}} </span>
                 </td>
                 <td class=" text-center">
                     <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>

@@ -26,6 +26,9 @@ export class ListarAddTimeRodadaComponent implements OnInit {
   public premiacaoFinal = 0;
   public premiacaoFinalFormat = '';
 
+  public premiacaoPercentualLista = 0;
+  public premiacaoFinalLista = 0;
+
   parciais = [];
 
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
@@ -130,16 +133,45 @@ export class ListarAddTimeRodadaComponent implements OnInit {
                     this.parciais[j].atletasJogados = this.count;
                   });
 
+                  this.premiacaoPercentualLista = 0;
+                  this.premiacaoFinalLista = 0;
+                  this.parciais[j].premiacaoFinalFormatLista = 0;
+                  if (j === 0) {
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 1) {
+                    console.log(this.premiacaoTotal);
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 2) {
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 3) {
+                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  }
+                  if (j === 4) {
+                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  }
+                  if (j === 5) {
+                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  }
+
                 }
 
               });
 
           });
       } else {
-        this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
-          .subscribe((resultParcial: any[]) => {
-            this.parciais = resultParcial;
-          });
+        this.atualizarlistaResultadoParcialRodada();
       }
 
     });
@@ -147,6 +179,44 @@ export class ListarAddTimeRodadaComponent implements OnInit {
     this.mensageria.processamento = false;
 
 
+  }
+
+
+  atualizarlistaResultadoParcialRodada() {
+    this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
+      .subscribe((resultParcial: any[]) => {
+        this.parciais = resultParcial;
+        for (let j = 0; j < this.parciais.length; j++) {
+          this.premiacaoPercentualLista = 0;
+          this.premiacaoFinalLista = 0;
+          this.parciais[j].premiacaoFinalFormatLista = 0;
+          if (j === 0) {
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+          }
+          if (j === 1) {
+            console.log(this.premiacaoTotal);
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+          }
+          if (j === 2) {
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+          }
+          if (j === 3) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+          if (j === 4) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+          if (j === 5) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+        }
+      });
   }
 
   voltar() {
@@ -246,9 +316,9 @@ export class ListarAddTimeRodadaComponent implements OnInit {
                 });
 
             });
-
         }
-        this.mensageria.processamento = false;
       });
+      this.atualizarlistaResultadoParcialRodada();
+      this.mensageria.processamento = false;
   }
 }

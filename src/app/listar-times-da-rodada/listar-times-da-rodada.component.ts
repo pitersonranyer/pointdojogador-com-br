@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartolaAPIService } from '../services/cartola-api.service';
-
-
-
 import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../interfaces/usuario';
 import { Observable } from 'rxjs';
@@ -30,6 +27,10 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   totPontos: number;
   pontuacaoParcial: number;
 
+  public premiacaoPercentualLista = 0;
+  public premiacaoFinalLista = 0;
+  public premiacaoTotal = 0;
+
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
 
   constructor(private router: Router,
@@ -51,15 +52,51 @@ export class ListarTimesDaRodadaComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.anoTemporada = params.anoTemporada;
       this.idRodada = params.idRodada;
+      this.premiacaoTotal = params.valorRodada;
+
 
     });
+    this.atualizarlistaResultadoParcialRodada();
+  }
 
+  atualizarlistaResultadoParcialRodada() {
+    this.parciais = [];
     this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
       .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
-
+        console.log(this.parciais);
+        for (let j = 0; j < this.parciais.length; j++) {
+          this.premiacaoPercentualLista = 0;
+          this.premiacaoFinalLista = 0;
+          this.parciais[j].premiacaoFinalFormatLista = 0;
+          if (j === 0) {
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+          }
+          if (j === 1) {
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+          }
+          if (j === 2) {
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+          }
+          if (j === 3) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+          if (j === 4) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+          if (j === 5) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+        }
       });
   }
+
 
   atualizarParciais() {
 
@@ -93,15 +130,9 @@ export class ListarTimesDaRodadaComponent implements OnInit {
           this.atualizarResultadoParcial.atualizarPontosRodadaCartola(this.timeRodadaCartola)
             .subscribe(() => {
             });
-
         });
-
-
     }
-
-    this.ngOnInit();
-
-
+    this.atualizarlistaResultadoParcialRodada();
   }
 
   voltar() {
