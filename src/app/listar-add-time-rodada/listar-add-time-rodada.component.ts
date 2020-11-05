@@ -318,7 +318,7 @@ export class ListarAddTimeRodadaComponent implements OnInit {
             });
         }
       });
-      this.atualizarlistaResultadoParcialRodada();
+      this.ngOnInit();
       this.mensageria.processamento = false;
   }
 }

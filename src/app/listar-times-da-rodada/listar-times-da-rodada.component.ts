@@ -105,6 +105,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
 
 
   atualizarParciais() {
+    this.mensageria.processamento = true;
 
     for (let i = 0; i < this.parciais.length; i++) {
       // Recuperar atletas por time
@@ -138,7 +139,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
             });
         });
     }
-    this.atualizarlistaResultadoParcialRodada();
+    this.mensageria.processamento = false;
   }
 
   voltar() {
