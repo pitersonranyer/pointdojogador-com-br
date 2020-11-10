@@ -25,7 +25,7 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     ToastModule,
     MessageModule,
-    MessagesModule,
+    MessagesModule
   ],
   declarations: [ListarAddTimeRodadaComponent]
 })

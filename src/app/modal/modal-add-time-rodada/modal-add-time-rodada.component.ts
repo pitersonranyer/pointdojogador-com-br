@@ -56,10 +56,8 @@ export class ModalAddTimeRodadaComponent implements OnInit {
         this.id = usuario.id;
       });
 
-      console.log(this.idRodada);
     this.consutarRodadaById.listarRodadaCartolaPorId(this.anoAtual, this.idRodada).subscribe((rodadaCartola: RodadaCartola) => {
       this.rodada = rodadaCartola;
-      console.log(rodadaCartola);
 
       this.listarTimesUsuarioCartolaRodada
         .listarTimesUsuarioCartolaRodada(this.anoAtual, this.id, this.rodada.idRodada)

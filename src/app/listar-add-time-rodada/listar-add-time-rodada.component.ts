@@ -143,7 +143,7 @@ export class ListarAddTimeRodadaComponent implements OnInit {
                       this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
                   }
                   if (j === 1) {
-                    console.log(this.premiacaoTotal);
+                    
                     this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
                     this.premiacaoFinalLista = this.premiacaoPercentualLista;
                     this.parciais[j].premiacaoFinalFormatLista =
@@ -196,7 +196,6 @@ export class ListarAddTimeRodadaComponent implements OnInit {
             this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
           }
           if (j === 1) {
-            console.log(this.premiacaoTotal);
             this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
             this.premiacaoFinalLista = this.premiacaoPercentualLista;
             this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
@@ -229,8 +228,7 @@ export class ListarAddTimeRodadaComponent implements OnInit {
       contentStyle: {
         overflow: 'auto',
         backgroundColor: '#fff',
-        'min-width': '300px',
-        'min-height': '100px'
+        height: '500px'
       },
       dismissableMask: true,
       data: { idRodada }
@@ -319,6 +317,6 @@ export class ListarAddTimeRodadaComponent implements OnInit {
         }
       });
       this.ngOnInit();
-      this.mensageria.processamento = false;
+   //   this.mensageria.processamento = false;
   }
 }
