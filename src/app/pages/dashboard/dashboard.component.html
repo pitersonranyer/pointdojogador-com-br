@@ -1,0 +1,36 @@
+<div class="panel-header">
+  <div class="header text-center">
+    <h2 class="title">LIGA POINT DO JOGADOR</h2>
+    <p class="category">
+      Logo abaixo estão nossas ligas TIRO CURTO.
+    </p>
+  </div>
+</div>
+<div class="main-content">
+  <div class="places-sweet-alerts">
+    <div class="row" >
+      <div class="col-md-4 " *ngFor="let rodada of rodadas ">
+        <div class="card ">
+          <div class="card-body text-center">
+            <h2> RODADA #{{ rodada.idRodada}}</h2> 
+            <p class="card-text">VALOR DO PALPITE: R$ {{rodada.valorRodada}} </p>
+            <p class="card-text">Participantes:  {{rodada.totalParticipantes}}</p>
+            <p class="card-text">Premiação: R$ {{rodada.premiacaoFinalFormat}} </p>
+            <p class="card-text">Inscrições até: {{rodada.dataFim}} às {{rodada.horaFim}} </p>
+            <p class="card-text">Situação: {{rodada.status}}</p>
+
+            <button *ngIf="rodada.status === 'Fechada'" class="btn btn-default btn-fill" (click)="participarDaRodada(rodada)">
+              VER PARCIAIS
+            </button>
+            <button *ngIf="rodada.status === 'Aberta' || rodada.status === 'Próxima'" class="btn btn-primary btn-fill" (click)="participarDaRodada(rodada)">
+              PARTICIPAR
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+</div>

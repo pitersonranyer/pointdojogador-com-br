@@ -1,0 +1,96 @@
+<div class="modal-header">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h6 class="title title-up">{{usuario.email}}</h6>
+  </div>
+</div>
+
+<div class="modal-body">
+
+  <div class="card">
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="form-control-label" for="input-address">Nome do Time</label>
+        <input type="text" class="form-control" id="nomeTimeBusca" aria-describedby="inputGroupPrepend"
+          name="nomeTimeBusca" [(ngModel)]="nomeTimeBusca" required>
+      </div>
+
+      <div class="form-group" style="text-align:right">
+        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f.valid"
+          (click)="listarTimesPorNome(nomeTimeBusca)">
+          Buscar</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="card">
+    <div *ngIf="times.length  && !timesCartola.length">
+      <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Times Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let time of times ">
+            <td tabindex="0">
+              <div >
+                <div>
+                  <img class="datatable-escudo" src="{{time.url_escudo_png}}">
+                  <span class="datatable-nome-time">{{time.nome}}</span>
+                  <span class="datatable-nome-coach">{{time.nome_cartola}}</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div *ngIf="timesCartola.length">
+      <h1>Adicionar Time</h1>
+      <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Times</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timeUsuario of timesCartola ">
+            <td tabindex="0">
+              <div >
+                <div>
+                  <img class="datatable-escudo" src="{{timeUsuario.url_escudo_png}}">
+                  <span class="datatable-nome-time">{{timeUsuario.nome}}</span>
+                  <span class="datatable-nome-coach">{{timeUsuario.nome_cartola}}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div>
+                <a href="javascript:void(0)" 
+                class="btn btn-round btn-info btn-icon btn-sm edit" 
+                (click)="cadastrarTimeCartola(timeUsuario)"><i class="fa fa-cart-plus"></i></a>
+                <!-- <button pButton icon="pi pi-plus" (click)="cadastrarTimeCartola(timeUsuario)"></button>
+                -->
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">
+    Fechar
+  </button>
+</div>

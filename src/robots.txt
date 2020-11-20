@@ -1,5 +1,4 @@
 User-agent: * (todos os robos irão seguir essa diretiva)
-Allow: /landing/
 Allow: /dashboad/
 
 #Sitemap

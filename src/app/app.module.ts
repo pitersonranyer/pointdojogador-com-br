@@ -1,41 +1,37 @@
-import { UsuarioService } from './services/usuario.service';
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { ComponentsModule } from './components/components.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
+
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routing.module';
-import { HomeModule } from './home/home.module';
-import { LoginModule } from './login/login.module';
-import { RegisterModule } from './register/register.module';
-import { LandingModule } from './landing/landing.module';
-import { MensageriaService } from './services/mensageria.service';
-import { UtilsModule } from './utils/utils.module';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+
+import { AppRoutes } from './app.routing';
 import { UtilService } from './services/util.service';
+import { UsuarioService } from './services/usuario.service';
+import { AuthGuard } from './components/guards/auth.guard';
+import { AdminGuard } from './components/guards/admin.guard';
+
 
 @NgModule({
-   imports: [
-      BrowserModule,
-      HttpClientModule,
-
-      HomeModule,
-      LoginModule,
-      RegisterModule,
-      LandingModule,
-
-      AppRoutingModule,
-      UtilsModule
-
-   ],
-   declarations: [
-      AppComponent
-   ],
-   providers: [
-      MensageriaService,
-      UsuarioService,
-      UtilService
-   ],
-   bootstrap: [AppComponent],
-   
-
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
+  imports: [
+    BrowserAnimationsModule,
+    RouterModule.forRoot(AppRoutes, {
+      useHash: true
+    }),
+    NgbModule,
+    ToastrModule.forRoot(), // ToastrModule added
+    ComponentsModule
+  ],
+  providers: [UtilService,
+    UsuarioService,
+    AuthGuard,
+    AdminGuard
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

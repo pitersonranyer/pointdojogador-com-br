@@ -7,7 +7,6 @@ import * as jwtDecode from 'jwt-decode';
 
 import { TokenService } from './token.service';
 import { Usuario } from '../interfaces/usuario';
-import { environment } from '../../environments/environment';
 import { TokenApi } from '../interfaces/respostas/token-api';
 import { UsuarioService } from './usuario.service';
 import { UtilService } from './util.service';
@@ -25,7 +24,7 @@ export class AuthService {
     private usuarioService: UsuarioService,
     private utilService: UtilService
   ) {
-    
+
     this._autenticado = new BehaviorSubject(false);
     this.autenticado$ = this._autenticado.asObservable();
 
@@ -33,7 +32,6 @@ export class AuthService {
 
   logar(usuario: Usuario): Observable<boolean> {
     const url = this.utilService.getUrlBackend() + '/auth/login';
-    // const url = `${environment.pointdojogadorApiUrl}/auth/login`;
     return this.http.post(url, usuario).pipe(
       map((resposta: TokenApi) => {
         if (!this.criarSessao(resposta.token)) {
@@ -46,7 +44,6 @@ export class AuthService {
 
   deslogar() {
     const url = this.utilService.getUrlBackend() + '/auth/logout';
-  //  const url = `${environment.pointdojogadorApiUrl}/auth/logout`;
     return this.http.post<TokenApi>(url, {}).pipe(
       finalize(() => { this.resetarSessao(); })
     );

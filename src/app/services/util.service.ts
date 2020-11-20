@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
-/**
- * @author Felipe
- */
 @Injectable()
 export class UtilService {
 
@@ -15,6 +11,9 @@ export class UtilService {
             return 'http://localhost:3000/api';
         }
         if (url.match(/pointdojogador/)) {
+            return 'https://api.pointdojogador.com.br/api';
+        }
+        if (url.match(/now-pointdojogador-ui/)) {
             return 'https://api.pointdojogador.com.br/api';
         }
     }

@@ -1,0 +1,108 @@
+<div class="panel-header panel-header-sm"></div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Ligas</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <tr>
+                  <th>Rodada</th>
+                  <th>Valor</th>
+                  <th>Situação</th>
+                  <th class="text-right"> </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let meuJogo of meusJogos ">
+                  <td> #{{meuJogo.idRodada}}</td>
+                  <td>{{meuJogo.sum}}</td>
+                  <td>{{meuJogo.statusPgto}}</td>
+                  <td> 
+                    <a href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit" (click)="open(classic, meuJogo, '2')"><i class="fas fa-search"></i></a>
+                  </td>
+                  <td> 
+                    <a href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm like" (click)="open(classic, meuJogo, '1')"><i class="fa fa-id-card"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #classic let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="d('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">Point</h4>
+  </div>
+  <div class="modal-body" *ngIf="times.length">
+    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+      <thead class="text-primary">
+        <tr>
+          <th scope="col">Times</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let time of times ">
+          <td tabindex="0">
+            <div >
+              <div>
+                <img class="datatable-escudo" src="{{time.url_escudo_png}}">
+                <span class="datatable-nome-time">{{time.nome}}</span>
+                <span class="datatable-nome-coach">{{time.nome_cartola}}</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <div class="modal-body" *ngIf="parciais.length">
+    <table class="table table-striped" style="width: 100%;" role="grid" width="100%"
+        cellspacing="0">
+        <thead class="text-primary">
+            <tr role="row">
+                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 215px;">Time</th>
+                <th class="text-center sorting_disabled" rowspan="1" colspan="1" style="width: 211px;">
+                    <span class="hidden-xs">Pts. Total</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let parcial of parciais; let i = index">
+                <td tabindex="0">
+                    <div ><span class="datatable-colocacao">{{i + 1}}º</span>
+                        <div>
+                            <img class="datatable-escudo"
+                                src="{{parcial.url_escudo_png}}">
+                            <span class="datatable-nome-time">{{parcial.nome}}</span><span
+                                class="datatable-nome-coach">{{parcial.nome_cartola}}
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td class=" text-center"><span class="datatable-pontuacao">{{parcial.pontosTotais}}</span></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="c('Close click')">
+      Fechar
+    </button>
+  </div>
+</ng-template>

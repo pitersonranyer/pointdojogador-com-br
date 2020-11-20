@@ -1,0 +1,175 @@
+<div class="panel-header panel-header-sm"></div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header"><h5 class="title"> Perfil </h5> </div>
+        <div class="text-right">
+          <button type="button" class="btn btn-primary btn-sm" (click)="alterarSenha(usuario)">Alterar Senha</button>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+     
+              <div class="col-md-5 pr-1">
+                <div class="form-group">
+                  <label>Nome </label>
+                  <input
+                  input type="text" 
+                  class="form-control"
+                  id="nome" 
+                  name="nome"
+                  ngModel="{{ usuario.nome }}"
+                  disabled=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input
+                  input type="text" 
+                  class="form-control"
+                  id="email" 
+                  name="email"
+                  ngModel="{{ usuario.email }}"
+                  disabled=""
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-5 pr-1">
+                <div class="form-group">
+                  <label>Contato</label>
+                  <input
+                  input type="text" 
+                  class="form-control"
+                  id="contato" 
+                  name="contato"
+                  ngModel="{{ usuario.contato }}"
+                  disabled=""
+                    
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-5 pr-1">
+                <div class="form-group">
+                  <label>Time Favorito</label>
+                  <input
+                  input type="text" 
+                  class="form-control"
+                  id="timeFavorito" 
+                  name="timeFavorito"
+                  ngModel="{{ usuario.timeFavorito }}"
+                  disabled=""
+                    
+                  />
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Endereço</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    disabled=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>Cidade</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    disabled=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 px-1">
+                <div class="form-group">
+                  <label>País</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    disabled=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label>CEP</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    disabled=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Sobre mim</label>
+                  <textarea
+                    rows="4"
+                    cols="80"
+                    class="form-control"
+                    disabled=""
+                  >
+                  </textarea
+                  >
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-user">
+        <div class="image">
+          <img src="../../assets/img/bg5.jpg" alt="..." />
+        </div>
+        <div class="card-body">
+          <div class="author">
+            <a href="#">
+              <img
+                class="avatar border-gray"
+                src="../../assets/img/user.jpg"
+                alt="..."
+              />
+              <h5 class="title">{{usuario.nome}}</h5>
+            </a>
+            <p class="description">{{usuario.email}}</p>
+          </div>
+          <p class="description text-center">
+            Saldo: {{usuario.saldo}}
+          </p>
+        </div>
+        <hr />
+        <div class="button-container">
+          <button href="javascript:void(0)" class="btn btn-neutral btn-icon btn-round btn-lg">
+            <i class="fab fa-facebook-square"></i>
+          </button>
+          <button href="javascript:void(0)" class="btn btn-neutral btn-icon btn-round btn-lg">
+            <i class="fab fa-twitter"></i>
+          </button>
+          <button href="javascript:void(0)" class="btn btn-neutral btn-icon btn-round btn-lg">
+            <i class="fab fa-google-plus-square"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

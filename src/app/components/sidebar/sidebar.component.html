@@ -1,0 +1,119 @@
+<div class="sidebar" data-color="red">
+  <div class="logo">
+    <a class="simple-text logo-mini">
+      <div class="logo-img">
+        <img src="./assets/img/pointWeb.png" />
+      </div>
+    </a>
+    <a routerLink="/" class="simple-text logo-normal">
+      LIGA POINT
+    </a>
+    <div class="navbar-minimize">
+      <button
+        id="minimizeSidebar"
+        class="btn btn-simple btn-icon btn-neutral btn-round"
+        (click)="minimizeSidebar()"
+      >
+        <i
+          class="now-ui-icons text_align-center visible-on-sidebar-regular"
+        ></i>
+        <i
+          class="now-ui-icons design_bullet-list-67 visible-on-sidebar-mini"
+        ></i>
+      </button>
+    </div>
+  </div>
+  <div class="sidebar-wrapper">
+    <div class="user" *ngIf="usuario?.nome != undefined">
+      <div class="photo"><img src="../assets/img/user.jpg" /></div>
+      <div class="info">
+        <a
+          data-toggle="collapse"
+          href="#collapseExample"
+          (click)="isCollapsed = !isCollapsed; myFunc($event)"
+          [attr.aria-expanded]="!isCollapsed"
+          aria-controls="collapseExample"
+        >
+          <span> {{ nomeAbr }} <b class="caret"></b> </span>
+        </a>
+        <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
+          <ul class="nav">
+            <li>
+              <a routerLink="/cartola/listarPendenciaPagamento" *ngIf="usuario.admin">
+                <span class="sidebar-mini-icon">AL</span>
+                <span class="sidebar-normal">Alertas</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/cartola/listarRodadaCartola" *ngIf="usuario.admin">
+                <span class="sidebar-mini-icon">RD</span>
+                <span class="sidebar-normal">Rodadas</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/cartola/listarUsuarios" *ngIf="usuario.admin">
+                <span class="sidebar-mini-icon">US</span>
+                <span class="sidebar-normal">Usuários</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" (click)="deslogar()">
+                <span class="sidebar-mini-icon">SR</span>
+                <span class="sidebar-normal">Sair</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <ul class="nav">
+      <li routerLinkActive="active" *ngFor="let menuitem of menuItems">
+        <!--If is a single link-->
+        <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'">
+          <i class="now-ui-icons {{ menuitem.icontype }}"></i>
+          <p>{{ menuitem.title }}</p>
+        </a>
+        <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link1' && !usuario?.nome">
+          <i class="now-ui-icons {{ menuitem.icontype }}"></i>
+          <p>{{ menuitem.title }}</p>
+        </a>
+
+        <!--If it have a submenu-->
+        <a
+          data-toggle="collapse"
+          href="#{{ menuitem.collapse }}"
+          *ngIf="menuitem.type === 'sub' && usuario?.nome"
+          (click)="
+            myFunc($event, menuitem);
+            menuitem.isCollapsing === undefined &&
+              (menuitem.isCollapsed = !menuitem.isCollapsed)
+          "
+          [attr.aria-expanded]="!menuitem.isCollapsed"
+        >
+          <i class="now-ui-icons {{ menuitem.icontype }}"></i>
+          <p>{{ menuitem.title }}<b class="caret"></b></p>
+        </a>
+
+        <!--Display the submenu items-->
+        <div
+          id="{{ menuitem.collapse }}"
+          class="collapse"
+          *ngIf="menuitem.type === 'sub'"
+          [ngbCollapse]="menuitem.isCollapsed"
+        >
+          <ul class="nav">
+            <li
+              routerLinkActive="active"
+              *ngFor="let childitem of menuitem.children"
+            >
+              <a [routerLink]="[menuitem.path, childitem.path]">
+                <span class="sidebar-mini-icon">{{ childitem.ab }}</span>
+                <span class="sidebar-normal">{{ childitem.title }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

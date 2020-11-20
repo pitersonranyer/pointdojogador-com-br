@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from './services/app.service';
-
 import { Router } from '@angular/router';
-
 import { AuthService } from './services/auth.service';
 import { TokenService } from './services/token.service';
 
@@ -14,8 +11,7 @@ export class AppComponent implements OnInit {
   title = 'point do jogador';
  
 
-  constructor(private appService: AppService,
-    private router: Router,
+  constructor(private router: Router,
     public authService: AuthService,
     private tokenService: TokenService) {   }
 
@@ -27,7 +23,7 @@ export class AppComponent implements OnInit {
         if (autenticado) {
           this.router.navigate(['']);
         } else {
-          this.router.navigate(['/landing']);
+          this.router.navigate(['']);
         }
       });
     }

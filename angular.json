@@ -25,22 +25,15 @@
               "src/sitemap.xml"
             ],
             "styles": [
-              "node_modules/font-awesome/css/font-awesome.min.css",
-              "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "src/assets/layout/css/layout.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/fullcalendar/dist/fullcalendar.min.css",
-              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/angular2-multiselect-dropdown/themes/default.theme.css",
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "src/assets/scss/now-ui-dashboard.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/jspdf/dist/jspdf.min.js",
-              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ]
           },
           "configurations": {
@@ -59,14 +52,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
+              "buildOptimizer": true
             }
           }
         },
@@ -94,28 +80,13 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "scripts": [
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/jspdf/dist/jspdf.min.js",
-              "node_modules/html2canvas/dist/html2canvas.min.js",
-              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
-            ],
             "styles": [
-              "node_modules/font-awesome/css/font-awesome.min.css",
-              "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "src/assets/layout/css/layout.css",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/fullcalendar/dist/fullcalendar.min.css",
-              "node_modules/quill/dist/quill.snow.css",
               "src/styles.css"
             ],
+            "scripts": [],
             "assets": [
-              "src/assets",
               "src/favicon.ico",
-              "src/upload.php"
+              "src/assets"
             ]
           }
         },
@@ -136,18 +107,12 @@
     "pointdojogador-ui-e2e": {
       "root": "e2e/",
       "projectType": "application",
-      "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
             "devServerTarget": "pointdojogador-ui:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "pointdojogador-ui:serve:production"
-            }
           }
         },
         "lint": {
@@ -162,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "pointdojogador-ui"
+  "defaultProject": "pointdojogador-ui",
+  "cli": {
+    "analytics": false
+  }
 }
