@@ -110,6 +110,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
 
   atualizarlistaResultadoParcialRodada() {
+    this.parciais = [];
     if (this.status === 'Fechada') {
       this.atletasPontuados.listarAtletasPontuados()
         .subscribe((pontuados) => {
@@ -186,6 +187,41 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
         .subscribe((resultParcial: any[]) => {
           this.parciais = resultParcial;
+          for (let j = 0; j < this.parciais.length; j++) {
+
+            this.premiacaoTotal = this.parciais.length * this.valorRodada;
+            this.premiacaoPercentualLista = 0;
+            this.premiacaoFinalLista = 0;
+            this.parciais[j].premiacaoFinalFormatLista = 0;
+            if (j === 0) {
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista =
+                this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 1) {
+
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista =
+                this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 2) {
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista =
+                this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 3) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            }
+            if (j === 4) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            }
+            if (j === 5) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            }
+          }
         });
     }
 

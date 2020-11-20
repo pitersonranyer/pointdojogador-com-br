@@ -32,6 +32,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   public premiacaoTotal = 0;
   public valorRodada = 0;
   public totalParticipantes = 0;
+  public podeAtualizar = false;
 
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
 
@@ -41,7 +42,8 @@ export class ListarTimesDaRodadaComponent implements OnInit {
     private atualizarResultadoParcial: CartolaAPIService,
     public usuarioService: UsuarioService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private consultarMercadoStatus: CartolaAPIService
   ) {
 
     this.usuario$ = usuarioService.getUsuario();
@@ -55,6 +57,12 @@ export class ListarTimesDaRodadaComponent implements OnInit {
       this.anoTemporada = params.anoTemporada;
       this.idRodada = params.idRodada;
       this.valorRodada = params.valorRodada;
+
+      this.consultarMercadoStatus.consultarMercadoStatus().subscribe(status => {
+         if ( ( status.rodada_atual - 1)  == this.idRodada) {
+          this.podeAtualizar = true;
+        }
+      });
 
 
     });
@@ -144,6 +152,6 @@ export class ListarTimesDaRodadaComponent implements OnInit {
       this.atualizarlistaResultadoParcialRodada();
     }, 6000);
     this.ngOnInit();
-  }  
+  }
 
 }
