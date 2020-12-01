@@ -18,6 +18,7 @@ export class ModalAddTimeUsuarioComponent implements OnInit {
   usuario: Usuario;
   public times: TimeCartola[];
   timesCartola = [];
+  nomeTimeBusca = '';
 
 
   constructor(

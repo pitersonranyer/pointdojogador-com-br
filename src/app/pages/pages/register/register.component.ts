@@ -11,11 +11,11 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  private focus;
-  private focus2;
-  private focus3;
-  private focus4;
-  private focus5;
+  public focus;
+  public focus2;
+  public focus3;
+  public focus4;
+  public focus5;
 
   public times = [];
   public usuario: Usuario = <Usuario>{};

@@ -11,8 +11,8 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private focus;
-  private focus2;
+  public focus;
+  public focus2;
 
   formulario: FormGroup;
 
