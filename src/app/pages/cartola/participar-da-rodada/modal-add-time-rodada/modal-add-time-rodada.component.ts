@@ -123,9 +123,7 @@ export class ModalAddTimeRodadaComponent implements OnInit {
   }
 
 
-
   addTodosTimes() {
-
     swal({
       title: 'Deseja adicionar todos os times na Rodada?',
       text: 'Confirmação',
@@ -138,6 +136,7 @@ export class ModalAddTimeRodadaComponent implements OnInit {
       buttonsStyling: false
     }).then(result => {
       if (result.value) {
+        this.spinner.show('rodadaModal');
         this.listarTimesUsuarioCartolaRodada
           .listarTimesUsuarioCartolaRodada(this.rodada.anoTemporada, this.id, this.rodada.idRodada)
           .subscribe((timesCartola) => {
@@ -156,22 +155,10 @@ export class ModalAddTimeRodadaComponent implements OnInit {
                   });
               }
             }
-            this.toastr.success(
-              '<span class="now-ui-icons ui-1_bell-53"></span>' +
-              ' Times adicionados com sucesso!',
-              '',
-              {
-                timeOut: 8000,
-                closeButton: true,
-                enableHtml: true,
-                toastClass: 'alert alert-success alert-with-icon',
-                positionClass: 'toast-' + 'top' + '-' + 'right'
-              }
-            );
           });
 
         setTimeout(() => {
-          this.spinner.hide('rodada');
+          this.spinner.hide('rodadaModal');
           this.timesUsuarioCartola = [];
           this.listarTimesUsuarioCartolaRodada
             .listarTimesUsuarioCartolaRodada(this.rodada.anoTemporada, this.id, this.rodada.idRodada)
@@ -180,6 +167,17 @@ export class ModalAddTimeRodadaComponent implements OnInit {
             });
         }, 6000);
 
+        this.toastr.success(
+          '<span class="now-ui-icons ui-1_bell-53"></span>' +
+          ' Times adicionados com sucesso!',
+          '',
+          {
+            timeOut: 8000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: 'alert alert-success alert-with-icon',
+            positionClass: 'toast-' + 'top' + '-' + 'right'
+          });
 
 
       } else {
