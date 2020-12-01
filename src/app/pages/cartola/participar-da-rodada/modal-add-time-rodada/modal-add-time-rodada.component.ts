@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
 import { TimeCartola } from 'src/app/interfaces/timeCartola';
@@ -26,13 +27,16 @@ export class ModalAddTimeRodadaComponent implements OnInit {
   public timesUsuarioCartola: Array<any> = [];
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
 
+  public listaTimesAdd = [];
+
   constructor(
     private _NgbActiveModal: NgbActiveModal,
     private usuarioService: UsuarioService,
     private consutarRodadaById: CartolaAPIService,
     private cadastrarTimeRodadaCartolaService: CartolaAPIService,
     private listarTimesUsuarioCartolaRodada: CartolaAPIService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   get activeModal() {
@@ -116,5 +120,81 @@ export class ModalAddTimeRodadaComponent implements OnInit {
             }).catch(swal.noop);
           }
         });
+  }
+
+
+
+  addTodosTimes() {
+
+    swal({
+      title: 'Deseja adicionar todos os times na Rodada?',
+      text: 'Confirmação',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      cancelButtonText: 'Não!',
+      confirmButtonText: 'Sim!',
+      buttonsStyling: false
+    }).then(result => {
+      if (result.value) {
+        this.listarTimesUsuarioCartolaRodada
+          .listarTimesUsuarioCartolaRodada(this.rodada.anoTemporada, this.id, this.rodada.idRodada)
+          .subscribe((timesCartola) => {
+            this.listaTimesAdd = timesCartola;
+            for (let i = 0; i < this.listaTimesAdd.length; i++) {
+              if (this.listaTimesAdd[i].idRodada === null) {
+
+                this.timeRodadaCartola.anoTemporada = this.rodada.anoTemporada;
+                this.timeRodadaCartola.idRodada = this.rodada.idRodada;
+                this.timeRodadaCartola.idUsuario = this.id;
+                this.timeRodadaCartola.time_id = this.listaTimesAdd[i].time_id;
+
+                this.cadastrarTimeRodadaCartolaService.cadastrarTimeRodadaCartola(this.timeRodadaCartola)
+                  .subscribe(() => {
+
+                  });
+              }
+            }
+            this.toastr.success(
+              '<span class="now-ui-icons ui-1_bell-53"></span>' +
+              ' Times adicionados com sucesso!',
+              '',
+              {
+                timeOut: 8000,
+                closeButton: true,
+                enableHtml: true,
+                toastClass: 'alert alert-success alert-with-icon',
+                positionClass: 'toast-' + 'top' + '-' + 'right'
+              }
+            );
+          });
+
+        setTimeout(() => {
+          this.spinner.hide('rodada');
+          this.timesUsuarioCartola = [];
+          this.listarTimesUsuarioCartolaRodada
+            .listarTimesUsuarioCartolaRodada(this.rodada.anoTemporada, this.id, this.rodada.idRodada)
+            .subscribe((timesCartola) => {
+              this.timesUsuarioCartola = timesCartola;
+            });
+        }, 6000);
+
+
+
+      } else {
+        swal({
+          title: 'Cancelado',
+          text: 'Operação cancelada',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      }
+    });
+
+
+
+
   }
 }
