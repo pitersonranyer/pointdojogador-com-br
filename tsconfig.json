@@ -20,11 +20,5 @@
   "include":[
     "src/**/*",
     "node_modules/@swimlane/ngx-datatable/**/*"
-  ],
-  
-  "paths": {
-    "rxjs": [
-      "./vendor/rxjs.ts"
-    ]
-  }
+  ]
 }
