@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const compression = require('compression');
 
 const configs = {
     caminho: "dist/pointdojogador-ui", //Aqui será definido a pasta de saída onde contém o index.html e os outros arquivos. Troque "myapp" pelo nome da sua aplicação
@@ -17,6 +18,8 @@ if (configs.forcarHTTPS) //Se o redirecionamento HTTP estiver habilitado, regist
     });
 
 app.use(express.static(configs.caminho)); //Serve os outros arquivos, como CSSs, Javascripts, Imagens etc.
+
+app.use(compression()) //compressing dist folder
 
 app.get("*", (req, res) => {// O wildcard '*' serve para servir o mesmo index.html independente do caminho especificado pelo navegador.
     res.sendFile(path.join(__dirname, configs.caminho, "index.html"));
