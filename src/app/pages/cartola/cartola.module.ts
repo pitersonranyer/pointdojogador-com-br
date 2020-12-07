@@ -22,6 +22,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ModalAlterarSenhaComponent } from './user-profile/modal-alterar-senha/modal-alterar-senha.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AdminGuard } from 'src/app/components/guards/admin.guard';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AdminGuard } from 'src/app/components/guards/admin.guard';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    Ng2SearchPipeModule
   ],
   declarations: [MeusTimesComponent,
     MinhasLigasComponent,

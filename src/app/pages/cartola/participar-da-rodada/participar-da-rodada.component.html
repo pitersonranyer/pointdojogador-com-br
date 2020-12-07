@@ -16,9 +16,20 @@
         </div>
       </div>
 
+
       <div class="text-right" *ngIf="status === 'Fechada'">
         <a href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
           (click)="atualizarParciais()"><i class="now-ui-icons loader_refresh"></i></a>
+      </div>
+
+
+      <div class="input-group no-border">
+        <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <i class="now-ui-icons ui-1_zoom-bold"></i>
+          </div>
+        </div>
       </div>
 
       <div class="table-responsive">
@@ -31,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let parcial of parciais; let i = index">
+            <tr *ngFor="let parcial of parciais | filter:nomeTimeBusca; let i = index ">
               <td>
                 <div> <span class="datatable-colocacao">{{i + 1}}º</span>
                   <div>
@@ -41,7 +52,7 @@
                         {{parcial.nome}}
                       </a>
                     </span>
-                     <span class="datatable-nome-time" *ngIf="status != 'Fechada'">
+                    <span class="datatable-nome-time" *ngIf="status != 'Fechada'">
                       <a href="javascript:void(0)" (click)="showTime(parcial)">
                         {{parcial.nome}}
                       </a>
@@ -52,7 +63,8 @@
                 </div>
               </td>
               <td>
-                <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' "> {{parcial.premiacaoFinalFormatLista}} </span>
+                <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' ">
+                  {{parcial.premiacaoFinalFormatLista}} </span>
               </td>
               <td class=" text-right">
                 <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>

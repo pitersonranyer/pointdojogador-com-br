@@ -43,15 +43,16 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   atletas: Array<any> = [];
   public rodada_atual = 0;
   public status_mercado = 0;
+  nomeTimeBusca: string ;
 
 
-  constructor(private listaResultadoParcialRodada: CartolaAPIService,
-    private modalService: NgbModal,
+  constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
     public authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private listaResultadoParcialRodada: CartolaAPIService,
     private atletasPontuados: CartolaAPIService,
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
@@ -59,8 +60,6 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.showSpinner();
-
     this.authService.autenticado$.subscribe(autenticado => {
       if (autenticado) {
         this.autenticado = autenticado;
@@ -110,7 +109,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
 
   atualizarlistaResultadoParcialRodada() {
-    this.parciais = [];
+    this.showSpinner();
+     this.parciais = [];
     if (this.status === 'Fechada') {
       this.atletasPontuados.listarAtletasPontuados()
         .subscribe((pontuados) => {
