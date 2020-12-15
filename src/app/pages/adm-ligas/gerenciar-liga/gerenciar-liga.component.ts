@@ -13,6 +13,7 @@ export class GerenciarLigaComponent implements OnInit {
   // timesCartola = [];
   timesCartola: Array<TimeCartola> = [];
   nomeTimePsq = '';
+  nomeTimeBusca = '';
   codigo = '';
 
   constructor(private modalService: NgbModal,

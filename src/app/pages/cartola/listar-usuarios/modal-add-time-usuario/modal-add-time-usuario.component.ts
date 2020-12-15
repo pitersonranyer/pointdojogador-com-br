@@ -21,6 +21,7 @@ export class ModalAddTimeUsuarioComponent implements OnInit {
   timesCartola = [];
   time_id: number;
   timeUsuario: TimeCartola;
+  nomeTimeBusca = '';
 
   constructor(
     private _NgbActiveModal: NgbActiveModal,
