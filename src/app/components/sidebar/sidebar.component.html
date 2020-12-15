@@ -40,7 +40,7 @@
           <ul class="nav">
             <li>
               <a routerLink="/cartola/listarPendenciaPagamento" *ngIf="usuario.admin">
-                <span class="sidebar-mini-icon">AL</span>
+                <span class="sidebar-mini-icon">AT</span>
                 <span class="sidebar-normal">Alertas</span>
               </a>
             </li>
@@ -54,6 +54,12 @@
               <a routerLink="/cartola/listarUsuarios" *ngIf="usuario.admin">
                 <span class="sidebar-mini-icon">US</span>
                 <span class="sidebar-normal">Usuários</span>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/adm-ligas/admLigas" *ngIf="usuario.admin">
+                <span class="sidebar-mini-icon">AL</span>
+                <span class="sidebar-normal">Admin Ligas</span>
               </a>
             </li>
             <li>

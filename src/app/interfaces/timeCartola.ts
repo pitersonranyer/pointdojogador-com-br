@@ -9,4 +9,5 @@ export interface TimeCartola {
     url_escudo_png: string;
     url_escudo_svg: string;
     facebook_id: number;
+    inPoint: boolean;
 }

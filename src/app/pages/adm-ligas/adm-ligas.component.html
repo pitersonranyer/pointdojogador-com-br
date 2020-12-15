@@ -1,0 +1,73 @@
+<div class="panel-header">
+  <div class="header text-center">
+    <h2 class="title">ADMINISTRAR LIGAS</h2>
+    <p class="category">
+      Administre aqui sua liga tiro curto.
+    </p>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="places-sweet-alerts">
+    <div class="row">
+
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-body text-center">
+            <form>
+
+              <div class="form-row align-items-center">
+
+                <div class="col-sm-3 my-1">
+                  <input type="text" class="form-control" id="nomeLiga" placeholder="Liga">
+                </div>
+
+                <div class="col-sm-3 my-1">
+                  <input type="text" class="form-control" id="valorLiga" placeholder="Valor">
+                </div>
+
+                <div class="col-sm-3 my-1">
+                  <select class="form-control" id="exampleFormControlSelect1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+
+                <div class="col-auto my-1">
+                  <button type="submit" class="btn btn-primary">Gerar</button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 ">
+        <div class="card ">
+          <div class="card-body text-center">
+            <h2> DEPRECHANCE TIRO CURTO #25</h2>
+            <p class="card-text">VALOR POR TIME: R$ 10,00 </p>
+            <p class="card-text">Participantes: 1500</p>
+            <p class="card-text">Premiação: R$ 15.000,00 </p>
+            <p class="card-text">Inscrições até: 12/12 às 16:00hs </p>
+            <p class="card-text">Situação: Aberta</p>
+            <button class="btn btn-success btn-fill" (click)="gerenciarLiga()">
+              GERENCIAR
+            </button>
+          </div>
+          <div class="text-right">
+            <a href="javascript:void(0)" class="btn btn-round btn-danger btn-icon btn-sm edit" data-toggle="tooltip"
+              data-placement="top" title="Excluir" (click)="teste"><i
+                class="now-ui-icons ui-1_simple-remove"></i></a>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

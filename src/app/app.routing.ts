@@ -22,6 +22,11 @@ export const AppRoutes: Routes = [
         loadChildren: './pages/cartola/cartola.module#CartolaModule'
       },
 
+      {
+        path: 'adm-ligas',
+        loadChildren: './pages/adm-ligas/adm-ligas.module#AdmLigasModule'
+      },
+
     ]
   },
   {

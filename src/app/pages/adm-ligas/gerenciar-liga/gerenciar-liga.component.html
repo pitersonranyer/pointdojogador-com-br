@@ -1,0 +1,167 @@
+<div class="panel-header panel-header-sm"></div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card">
+        <div style="text-align:center">
+          <h4 class="card-title"> NOME DA LIGA #25</h4>
+        </div>
+      </div>
+
+
+
+      <div class="text-right">
+
+        <a href="javascript:void(0)" class="btn btn-round btn-primary btn-icon btn-sm edit" data-toggle="tooltip"
+          data-placement="top" title="Exportar Times" (click)="teste"><i
+            class="now-ui-icons arrows-1_cloud-download-93"></i></a>
+
+        &nbsp; &nbsp;
+
+        <a href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit" data-toggle="tooltip"
+          data-placement="top" title="Importar Times" (click)="open(classic)"><i
+            class="now-ui-icons arrows-1_share-66"></i></a>
+
+        &nbsp; &nbsp;
+
+        <a href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit" data-toggle="tooltip"
+          data-placement="top" title="Atualizar Parciais" (click)="atualizarParciais()"><i
+            class="now-ui-icons loader_refresh"></i></a>
+      </div>
+
+
+      <div class="input-group no-border">
+        <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <i class="now-ui-icons ui-1_zoom-bold"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+          <thead class=" text-primary">
+            <tr>
+              <th>Time</th>
+              <th class="text-right">Pts. Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div> <span class="datatable-colocacao">1º</span>
+                  <div>
+                    <img class="datatable-escudo"
+                      src="https://s2.glbimg.com/pMoHKZ8OSWs2CmFpJOgWoW-dY2s=/https://s3.glbimg.com/v1/AUTH_58d78b787ec34892b5aaa0c7a146155f/cartola_svg_139/escudo/0f/21/43/0089a743fb-2cab-42af-a977-2ab8a8f6e50f20190423222143">
+
+                    <span class="datatable-nome-time">
+                      <a href="javascript:void(0)">
+                        Pointdojogador
+                      </a>
+                    </span>
+                    <span class="datatable-nome-coach"> Piterson </span>
+                  </div>
+                </div>
+              </td>
+              <td class=" text-right">
+                <span class="datatable-pontuacao"> 0 </span>
+                <span style="color:red" class="datatable-nome-coach">12/12 </span>
+              </td>
+
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<ng-template #classic let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="d('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">Importar Times</h4>
+  </div>
+  <div class="modal-body">
+
+    <!-- IMPORTAR TIMES POR CODIGOS -->
+
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="form-control-label" for="input-address">
+          Códigos no formato: time_id1;time_id2;time_id3</label>
+        <input type="text" class="form-control" id="codigo" aria-describedby="inputGroupPrepend" name="codigo"
+          [(ngModel)]="codigo" required>
+      </div>
+
+      <div class="form-group" style="text-align:right">
+        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f.valid" (click)="listarTimesPorId(codigo)">
+          Buscar</button>
+      </div>
+    </form>
+
+    <!-- BUSCAR TIMES POR NOME -->
+
+    <form #f2="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="form-control-label" for="input-address">Nome do Time</label>
+        <input type="text" class="form-control" id="nomeTimePsq" aria-describedby="inputGroupPrepend"
+          name="nomeTimePsq" [(ngModel)]="nomeTimePsq" required>
+      </div>
+
+      <div class="form-group" style="text-align:right">
+        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f2.valid"
+          (click)="listarTimesPorNome(nomeTimePsq)">
+          Buscar</button>
+      </div>
+    </form>
+
+    <!-- LISTA TIMES -->
+
+    <div *ngIf="timesCartola.length">
+      <h1>Adicionar Time</h1>
+
+      <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Times</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timeUsuario of timesCartola; let i = index ">
+            <td>
+              <div> <span class="datatable-colocacao">{{i + 1}}</span>
+                <div>
+                  <img class="datatable-escudo" src="{{timeUsuario.url_escudo_png}}">
+                  <span class="datatable-nome-time">{{timeUsuario.nome}}</span>
+                  <span class="datatable-nome-coach">{{timeUsuario.nome_cartola}}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div>
+
+                <a *ngIf="!timeUsuario.inPoint" href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit"
+                  (click)="cadastrarTimeCartola(timeUsuario)"><i class="fa fa-cart-plus"></i></a>
+
+                  <a *ngIf="timeUsuario.inPoint" href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
+                  ><i class="fa fa-check"></i></a>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+</ng-template>

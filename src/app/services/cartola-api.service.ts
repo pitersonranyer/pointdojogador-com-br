@@ -40,6 +40,11 @@ export class CartolaAPIService {
     return this.http.get<any>(url);
   }
 
+  consultarTimeInfoCartolaById(Idtime: number): Observable<any> {
+    const url = this.utilService.getUrlBackend() + `/cartolaAPI/consultarTimeInfoCartolaById/${Idtime}`;
+    return this.http.get<any>(url);
+  }
+
   listarAtletasPontuados(): Observable<any> {
     const url = this.utilService.getUrlBackend() + `/cartolaAPI/listarAtletasPontuados`;
     return this.http.get<any>(url);
