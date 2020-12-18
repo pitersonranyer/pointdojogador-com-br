@@ -139,18 +139,24 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                     this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
                 }
                 if (j === 2) {
-                  this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+                  this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
                   this.premiacaoFinalLista = this.premiacaoPercentualLista;
                   this.parciais[j].premiacaoFinalFormatLista =
                     this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
                 }
                 if (j === 3) {
-                  this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
+                  this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                  this.parciais[j].premiacaoFinalFormatLista =
+                    this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
                 }
                 if (j === 4) {
                   this.parciais[j].premiacaoFinalFormatLista = '10,00';
                 }
                 if (j === 5) {
+                  this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                }
+                if (j === 6) {
                   this.parciais[j].premiacaoFinalFormatLista = '10,00';
                 }
 
@@ -196,29 +202,30 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
             if (j === 0) {
               this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
               this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista =
-                this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
             }
             if (j === 1) {
-
               this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
               this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista =
-                this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
             }
             if (j === 2) {
-              this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
               this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista =
-                this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
             }
             if (j === 3) {
-              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
             }
             if (j === 4) {
               this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
             if (j === 5) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            }
+            if (j === 6) {
               this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
           }

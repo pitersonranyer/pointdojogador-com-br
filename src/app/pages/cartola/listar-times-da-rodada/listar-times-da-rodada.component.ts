@@ -94,17 +94,22 @@ export class ListarTimesDaRodadaComponent implements OnInit {
             this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
           }
           if (j === 2) {
-            this.premiacaoPercentualLista = (this.premiacaoTotal * 15) / 100;
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
             this.premiacaoFinalLista = this.premiacaoPercentualLista;
             this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
           }
           if (j === 3) {
-            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
+            this.premiacaoFinalLista = this.premiacaoPercentualLista;
+            this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
           }
           if (j === 4) {
             this.parciais[j].premiacaoFinalFormatLista = '10,00';
           }
           if (j === 5) {
+            this.parciais[j].premiacaoFinalFormatLista = '10,00';
+          }
+          if (j === 6) {
             this.parciais[j].premiacaoFinalFormatLista = '10,00';
           }
         }
