@@ -6,6 +6,8 @@ import { TimeCartola } from '../interfaces/timeCartola';
 import { RodadaCartola } from '../interfaces/rodadaCartola';
 import { TimeRodadaCartola } from '../interfaces/timeRodadaCartola';
 import { UtilService } from './util.service';
+import { Liga } from '../interfaces/liga';
+import { TimeLigaCartola } from '../interfaces/timeLigaCartola';
 
 @Injectable({
   providedIn: 'root'
@@ -168,6 +170,37 @@ export class CartolaAPIService {
   atualizarStatusRodada(rodadaCartola: RodadaCartola) {
     const url = this.utilService.getUrlBackend() + `/rodadaCartola/alterarStatusRodada`;
     return this.http.put(url, rodadaCartola);
+  }
+
+  // GERENCIA LIGAS
+  listarLigasAdms(idUsuarioAdmLiga: number): Observable<any[]> {
+    const url = this.utilService.getUrlBackend() 
+    + `/liga/listarLigasAdms/${idUsuarioAdmLiga}`;
+    return this.http.get<any[]>(url);
+  }
+
+  // GERENCIA LIGAS
+  cadastrarLiga(liga: Liga) {
+    const url = this.utilService.getUrlBackend() + `/liga`;
+    return this.http.post(url, liga);
+  }
+
+  excluirLiga(anoTemporada: number, idRodada: number, idUsuarioAdmLiga: number, idLiga: number) {
+    const url = this.utilService.getUrlBackend() + `/liga/excluirLiga/${anoTemporada}/${idRodada}/${idUsuarioAdmLiga}/${idLiga}`;
+    return this.http.delete(url);
+  }
+
+  
+  listarTimeLigaPorRodada(anoTemporada: number, idRodada: number, idUsuarioAdmLiga: number, idLiga: number): Observable<any[]> {
+    const url = this.utilService.getUrlBackend() +
+     `/timeLiga/listarTimeLigaPorRodada/${anoTemporada}/${idRodada}/${idUsuarioAdmLiga}/${idLiga}`;
+    return this.http.get<any[]>(url);
+  }
+
+  
+  cadastrarTimesLiga(timeLiga: TimeLigaCartola) {
+    const url = this.utilService.getUrlBackend() + `/timeLiga`;
+    return this.http.post(url, timeLiga);
   }
 
 

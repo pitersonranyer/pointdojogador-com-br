@@ -49,25 +49,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let parcial of parciais | filter:nomeTimeBusca; let i = index ">
               <td>
-                <div> <span class="datatable-colocacao">1º</span>
+                <div> <span class="datatable-colocacao">{{i + 1}}º</span>
                   <div>
-                    <img class="datatable-escudo"
-                      src="https://s2.glbimg.com/pMoHKZ8OSWs2CmFpJOgWoW-dY2s=/https://s3.glbimg.com/v1/AUTH_58d78b787ec34892b5aaa0c7a146155f/cartola_svg_139/escudo/0f/21/43/0089a743fb-2cab-42af-a977-2ab8a8f6e50f20190423222143">
-
-                    <span class="datatable-nome-time">
-                      <a href="javascript:void(0)">
-                        Pointdojogador
+                    <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
+                    <span class="datatable-nome-time" >
+                      <a href="javascript:void(0)" >
+                        {{parcial.nome}}
                       </a>
                     </span>
-                    <span class="datatable-nome-coach"> Piterson </span>
+                    <span class="datatable-nome-coach"> <img *ngIf="parcial.assinante" class="datatable-pro"
+                        src="/assets/img/cartolaPRO.png"> {{parcial.nome_cartola}} </span>
                   </div>
                 </div>
               </td>
+         
               <td class=" text-right">
-                <span class="datatable-pontuacao"> 0 </span>
-                <span style="color:red" class="datatable-nome-coach">12/12 </span>
+                <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
+                <span style="color:red" 
+                  class="datatable-nome-coach">{{parcial.qtJogadoresPontuados}}/12 </span>
               </td>
 
 
@@ -124,7 +125,7 @@
 
     <!-- LISTA TIMES -->
 
-    <div *ngIf="timesCartola.length">
+    <div *ngIf="timesLigaCartola.length">
       <h1>Adicionar Time</h1>
 
       <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
@@ -135,23 +136,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let timeUsuario of timesCartola; let i = index ">
+          <tr *ngFor="let timeLiga of timesLigaCartola; let i = index ">
             <td>
               <div> <span class="datatable-colocacao">{{i + 1}}</span>
                 <div>
-                  <img class="datatable-escudo" src="{{timeUsuario.url_escudo_png}}">
-                  <span class="datatable-nome-time">{{timeUsuario.nome}}</span>
-                  <span class="datatable-nome-coach">{{timeUsuario.nome_cartola}}</span>
+                  <img class="datatable-escudo" src="{{timeLiga.url_escudo_png}}">
+                  <span class="datatable-nome-time">{{timeLiga.nome}}</span>
+                  <span class="datatable-nome-coach">{{timeLiga.nome_cartola}}</span>
                 </div>
               </div>
             </td>
             <td>
               <div>
 
-                <a *ngIf="!timeUsuario.inPoint" href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit"
-                  (click)="cadastrarTimeCartola(timeUsuario)"><i class="fa fa-cart-plus"></i></a>
+                <a *ngIf="!timeLiga.inPoint" href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit"
+                  (click)="cadastrarTimeLigaCartola(timeLiga)"><i class="fa fa-cart-plus"></i></a>
 
-                  <a *ngIf="timeUsuario.inPoint" href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
+                  <a *ngIf="timeLiga.inPoint" href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
                   ><i class="fa fa-check"></i></a>
 
               </div>

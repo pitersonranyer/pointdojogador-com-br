@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { TimeCartola } from 'src/app/interfaces/timeCartola';
+import { TimeLigaCartola } from 'src/app/interfaces/timeLigaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 
 @Component({
@@ -11,22 +13,33 @@ import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 export class GerenciarLigaComponent implements OnInit {
   closeResult: string;
   // timesCartola = [];
-  timesCartola: Array<TimeCartola> = [];
+  timesLigaCartola: Array<TimeLigaCartola> = [];
   nomeTimePsq = '';
-  nomeTimeBusca = '';
+  nomeTimeBusca: string ;
   codigo = '';
+  parciais = [];
+  
 
-  constructor(private modalService: NgbModal,
-    private listarTimesCartola: CartolaAPIService,) {}
+  constructor(private toastr: ToastrService,
+    private modalService: NgbModal,
+    private listarTimesCartola: CartolaAPIService,
+    private listarTimeLigaPorRodada: CartolaAPIService,
+    private cadastrarTimesLigaService: CartolaAPIService) { }
 
   ngOnInit() {
-    this.timesCartola = [];
+    this.timesLigaCartola = [];
     this.nomeTimePsq = '';
     this.codigo = '';
+
+    this.listarTimeLigaPorRodada.listarTimeLigaPorRodada(2020, 21, 1, 1 )
+      .subscribe((resultParcial: any[]) => {
+        this.parciais = resultParcial;
+      });
+
   }
 
   open(content) {
-    
+
     this.ngOnInit();
 
     this.modalService.open(content).result.then(
@@ -43,24 +56,74 @@ export class GerenciarLigaComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
+      this.ngOnInit();
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      this.ngOnInit();
       return 'by clicking on a backdrop';
     } else {
+      this.ngOnInit();
       return `with: ${reason}`;
     }
+    
   }
 
   listarTimesPorNome(nomeTime: string) {
     this.listarTimesCartola.listarTimesCartola(nomeTime).subscribe((listaTimes: []) => {
-      this.timesCartola = listaTimes;
+      this.timesLigaCartola = listaTimes;
     });
   }
 
-  cadastrarTimeCartola(time: TimeCartola): void {
-    for (let i = 0; i < this.timesCartola.length; i++) {
-      if (time.time_id === this.timesCartola[i].time_id) {
-        this.timesCartola[i].inPoint = true;
+  cadastrarTimeLigaCartola(time: TimeLigaCartola): void {
+    for (let i = 0; i < this.timesLigaCartola.length; i++) {
+      if (time.time_id === this.timesLigaCartola[i].time_id) {
+        time.idLiga = 1
+        this.cadastrarTimesLigaService.cadastrarTimesLiga(time).subscribe(
+          () => {
+            this.toastr.success(
+              '<span class="now-ui-icons ui-1_bell-53"></span>' +
+              ' Time cadastrado com sucesso!',
+              '',
+              {
+                timeOut: 8000,
+                closeButton: true,
+                enableHtml: true,
+                toastClass: 'alert alert-success alert-with-icon',
+                positionClass: 'toast-' + 'top' + '-' + 'right'
+              }
+            );
+            this.timesLigaCartola[i].inPoint = true;
+          },
+          (erro) => {
+    
+            if (erro.status && erro.status === 409) {
+              this.toastr.info(
+                '<span class="now-ui-icons ui-1_bell-53"></span>' +
+                ' Time já cadastrado!',
+                '',
+                {
+                  timeOut: 8000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: 'alert alert-info alert-with-icon',
+                  positionClass: 'toast-' + 'top' + '-' + 'right'
+                }
+              );
+            } else {
+              this.toastr.info(
+                '<span class="now-ui-icons ui-1_bell-53"></span>' +
+                ' Não foi possível realizar o cadastro do time!',
+                '',
+                {
+                  timeOut: 8000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: 'alert alert-info alert-with-icon',
+                  positionClass: 'toast-' + 'top' + '-' + 'right'
+                }
+              );
+            }
+          });
       }
     }
   }

@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs/Observable';
+import { Liga } from 'src/app/interfaces/liga';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { CartolaAPIService } from 'src/app/services/cartola-api.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-adm-ligas',
@@ -7,106 +14,189 @@ import { Router } from '@angular/router';
   styleUrls: ['./adm-ligas.component.css']
 })
 export class AdmLigasComponent implements OnInit {
-  private tagItems = ["Minimal", "Light", "New", "Friends"];
 
-  private simpleSlider = 40;
-  private doubleSlider = [20, 60];
+  ligas = [];
 
-  private state: boolean = true;
-  private state1: boolean = true;
-  private state2: boolean = true;
+  public totalParticipantes = 0;
+  public premiacaoTotal = 0;
+  public premiacaoPercentual = 0;
+  public premiacaoFinal = 0;
+  public premiacaoFinalFormat = '';
 
-  private dropdownList = [];
-  private selectedItems = [];
-  private dropdownSettings = {};
+  dataFim: string;
+  horaFim: string;
 
-  private dropdownList1 = [];
-  private selectedItems1 = [];
-  private dropdownSettings1 = {};
+  count: number;
 
+  public liga: Liga = <Liga>{};
   
+  usuario$: Observable<Usuario>;
+  usuario: Usuario;
 
-  // @Input() footerTemplate: TemplateRef<any>;
-
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private listarLigasAdms: CartolaAPIService,
+    private cadastrarLiga: CartolaAPIService,
+    private excluirLigaCartola: CartolaAPIService,
+    public usuarioService: UsuarioService,
+    private toastr: ToastrService) {
+    this.usuario$ = usuarioService.getUsuario();
+    this.usuario$.subscribe(usuario => this.usuario = usuario);
+  }
 
   ngOnInit() {
-    this.dropdownList = [
-      { id: 1, itemName: "Roman", category: "All" },
-      { id: 2, itemName: "Paris", category: "All" },
-      { id: 3, itemName: "Bucharest", category: "All" },
-      { id: 4, itemName: "Rome", category: "All" },
-      { id: 5, itemName: "New York", category: "All" },
-      { id: 6, itemName: "Miami", category: "All" },
-      { id: 7, itemName: "Piatra Neamt", category: "All" },
-      { id: 8, itemName: "Paris", category: "All" },
-      { id: 9, itemName: "Bucharest", category: "All" },
-      { id: 10, itemName: "Rome", category: "All" },
-      { id: 11, itemName: "New York", category: "All" },
-      { id: 12, itemName: "Miami", category: "All" },
-      { id: 13, itemName: "Piatra Neamt", category: "All" }
-    ];
-    this.selectedItems = [];
-    this.dropdownSettings = {
-      singleSelection: false,
-      text: "Multiple Select",
-      enableSearchFilter: true,
-      classes: "",
-      groupBy: "category"
-    };
 
-    this.dropdownList1 = [
-      { id: 1, itemName: "Roman" },
-      { id: 2, itemName: "Paris" },
-      { id: 3, itemName: "Bucharest" },
-      { id: 4, itemName: "Rome" },
-      { id: 5, itemName: "New York" },
-      { id: 6, itemName: "Miami" },
-      { id: 7, itemName: "Piatra Neamt" },
-      { id: 8, itemName: "Paris" },
-      { id: 9, itemName: "Bucharest" },
-      { id: 10, itemName: "Rome" },
-      { id: 11, itemName: "New York" },
-      { id: 12, itemName: "Miami" },
-      { id: 13, itemName: "Piatra Neamt" }
-    ];
-    this.selectedItems1 = [];
-    this.dropdownSettings1 = {
-      singleSelection: true,
-      text: "Single Select",
-      selectAllText: "Select All",
-      unSelectAllText: "UnSelect All",
-      enableSearchFilter: true,
-      classes: "",
-      lazyLoading: true
-    };
+    this.listarLigasAdms.listarLigasAdms(this.usuario.id).subscribe((ligas: any[]) => {
+      this.ligas = ligas;
+      for (let i = 0; i < this.ligas.length; i++) {
+        this.count = 0;
+        // AJUSTAR CONTADOR
+        this.ligas[i].totalParticipantes = 10;
+        this.premiacaoTotal = this.ligas[i].totalParticipantes * this.ligas[i].valorLiga;
+        this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
+        this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
 
-    var slider = document.getElementById("sliderRegular");
+        this.ligas[i].premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+        this.ligas[i].dataFim = this.ligas[i].dtFimInscricao.substring(0, 5);
+        this.ligas[i].horaFim = this.ligas[i].hrFimInscricao.substring(0, 5);
+      }
+    });
 
-    
-
-    var slider2 = document.getElementById("sliderDouble");
-
-    
-  }
-  onItemSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems);
-  }
-  OnItemDeSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  onDeSelectAll(items: any) {
-    console.log(items);
   }
 
-  gerenciarLiga(){
+  onSubmit() {
+
+    swal({
+      title: 'Cadastrar',
+      text: 'Deseja cadastrar essa Liga?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: false
+    }).then(result => {
+      if (result.value) {
+        this.liga.anoTemporada = 2020;
+        this.liga.idUsuarioAdmLiga = this.usuario.id;
+        this.liga.tipoLiga =  'Tiro Curto';
+        this.cadastrarLiga.cadastrarLiga(this.liga).subscribe(
+          () => {
+            this.toastr.success(
+              '<span class="now-ui-icons ui-1_bell-53"></span>' +
+              ' Liga Cadastrada com sucesso!',
+              '',
+              {
+                timeOut: 8000,
+                closeButton: true,
+                enableHtml: true,
+                toastClass: 'alert alert-success alert-with-icon',
+                positionClass: 'toast-' + 'top' + '-' + 'right'
+              }
+            );
+            this.ngOnInit();
+          },
+          (erro) => {
+            if (erro.status && erro.status === 409) {
+              swal({
+                title: 'Cadastro não efetuado',
+                text: 'registro existente :)',
+                type: 'error',
+                confirmButtonClass: 'btn btn-info',
+                buttonsStyling: false
+              }).catch(swal.noop);
+            } else {
+              swal({
+                title: 'Cadastro não efetuado',
+                text: 'Não foi possível realizar a alteração :)',
+                type: 'error',
+                confirmButtonClass: 'btn btn-info',
+                buttonsStyling: false
+              }).catch(swal.noop);
+            }
+          }
+        );
+      } else {
+        swal({
+          title: 'Cancelado',
+          text: 'Alteração cancelada :)',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      }
+    });
+  }
+
+
+  gerenciarLiga() {
     this.router.navigate(['/adm-ligas/gerenciarLiga']);
   }
-  
- 
+
+
+  excluirLiga(liga: Liga) {
+    swal({
+      title: 'Excluir',
+      text: 'Deseja excluir essa Liga?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: false
+    }).then(result => {
+      if (result.value) {
+        
+        this.excluirLigaCartola.excluirLiga(liga.anoTemporada, liga.idRodada, liga.idUsuarioAdmLiga, liga.idLiga)
+        .subscribe(
+          () => {
+            this.toastr.success(
+              '<span class="now-ui-icons ui-1_bell-53"></span>' +
+              ' Liga excluída com sucesso!',
+              '',
+              {
+                timeOut: 8000,
+                closeButton: true,
+                enableHtml: true,
+                toastClass: 'alert alert-success alert-with-icon',
+                positionClass: 'toast-' + 'top' + '-' + 'right'
+              }
+            );
+            this.ngOnInit();
+          },
+          (erro) => {
+            if (erro.status && erro.status === 409) {
+              swal({
+                title: 'Exclusão não efetuada',
+                text: 'registro existente :(',
+                type: 'error',
+                confirmButtonClass: 'btn btn-info',
+                buttonsStyling: false
+              }).catch(swal.noop);
+            } else {
+              swal({
+                title: 'Exclusão não efetuada',
+                text: 'Não foi possível realizar a exclusão :)',
+                type: 'error',
+                confirmButtonClass: 'btn btn-info',
+                buttonsStyling: false
+              }).catch(swal.noop);
+            }
+          }
+        );
+      } else {
+        swal({
+          title: 'Cancelado',
+          text: 'Exclusão cancelada :)',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      }
+    });
+
+  }
+
+
 }

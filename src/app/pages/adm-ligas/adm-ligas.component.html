@@ -14,25 +14,34 @@
       <div class="col-md-12">
         <div class="card ">
           <div class="card-body text-center">
-            <form>
+            <form (ngSubmit)="onSubmit()">
 
               <div class="form-row align-items-center">
 
                 <div class="col-sm-3 my-1">
-                  <input type="text" class="form-control" id="nomeLiga" placeholder="Liga">
+                  <input 
+                        class="form-control" 
+                        type="text" 
+                        [(ngModel)]="liga.nomeLiga" 
+                        name="nomeLiga" />
                 </div>
 
                 <div class="col-sm-3 my-1">
-                  <input type="text" class="form-control" id="valorLiga" placeholder="Valor">
+                  <input 
+                        class="form-control" 
+                        type="text" 
+                        [(ngModel)]="liga.valorLiga" 
+                        name="valorLiga" />
                 </div>
 
                 <div class="col-sm-3 my-1">
-                  <select class="form-control" id="exampleFormControlSelect1">
+                  <select class="form-control" [(ngModel)]="liga.idRodada" 
+                  name="idRodada">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
-                    <option>5</option>
+                    <option>21</option>
                   </select>
                 </div>
 
@@ -46,22 +55,22 @@
         </div>
       </div>
 
-      <div class="col-md-4 ">
-        <div class="card ">
+      <div class="col-md-4 " *ngFor="let liga of ligas ">
+        <div class="card "> 
           <div class="card-body text-center">
-            <h2> DEPRECHANCE TIRO CURTO #25</h2>
-            <p class="card-text">VALOR POR TIME: R$ 10,00 </p>
-            <p class="card-text">Participantes: 1500</p>
-            <p class="card-text">Premiação: R$ 15.000,00 </p>
-            <p class="card-text">Inscrições até: 12/12 às 16:00hs </p>
-            <p class="card-text">Situação: Aberta</p>
+            <h2> {{liga.nomeLiga}} #{{ liga.idRodada}}</h2> 
+            <p class="card-text">VALOR POR TIME: R$ {{liga.valorLiga}} </p>
+            <p class="card-text">Participantes:  {{liga.totalParticipantes}}</p>
+            <p class="card-text">Premiação: R$ {{liga.premiacaoFinalFormat}} </p>
+            <p class="card-text">Inscrições até: {{liga.dataFim}} às {{liga.horaFim}} </p>
+            <p class="card-text">Situação: {{liga.status}}</p>
             <button class="btn btn-success btn-fill" (click)="gerenciarLiga()">
               GERENCIAR
             </button>
           </div>
           <div class="text-right">
             <a href="javascript:void(0)" class="btn btn-round btn-danger btn-icon btn-sm edit" data-toggle="tooltip"
-              data-placement="top" title="Excluir" ><i
+              data-placement="top" title="Excluir" (click)="excluirLiga(liga)"><i
                 class="now-ui-icons ui-1_simple-remove"></i></a>
           </div>
         </div>

@@ -10,6 +10,7 @@ import { AdmLigasComponent } from './adm-ligas.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GerenciarLigaComponent } from './gerenciar-liga/gerenciar-liga.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { GerenciarLigaComponent } from './gerenciar-liga/gerenciar-liga.componen
     AngularMultiSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModalModule
+    NgbModalModule,
+    Ng2SearchPipeModule
     
     
   ],
