@@ -18,10 +18,14 @@ export class GerenciarLigaComponent implements OnInit {
   nomeTimeBusca: string ;
   codigo = '';
   parciais = [];
+  times: TimeLigaCartola;
+
+  time_id: number;
   
 
   constructor(private toastr: ToastrService,
     private modalService: NgbModal,
+    private consultarTimeInfoCartolaById: CartolaAPIService,
     private listarTimesCartola: CartolaAPIService,
     private listarTimeLigaPorRodada: CartolaAPIService,
     private cadastrarTimesLigaService: CartolaAPIService) { }
@@ -127,4 +131,39 @@ export class GerenciarLigaComponent implements OnInit {
       }
     }
   }
+
+
+  listarTimesPorId(id: string) {
+    let arraySlugs = id.split(";").map(Number);;
+    // console.log(arraySlugs.length);
+    for (let i = 0; i < arraySlugs.length; i++) {
+      this.time_id = arraySlugs[i];
+      this.consultarTimeInfoCartolaById.consultarTimeCartola(this.time_id).subscribe((data) => {
+        this.times = data.time;
+        this.times.idLiga = 1
+        this.cadastrarTimesLigaService.cadastrarTimesLiga(this.times)
+        .subscribe(() => {
+
+          });
+            
+      });
+    }
+
+    this.toastr.success(
+      '<span class="now-ui-icons ui-1_bell-53"></span>' +
+      ' Time(s) cadastrado(s) com sucesso!',
+      '',
+      {
+        timeOut: 8000,
+        closeButton: true,
+        enableHtml: true,
+        toastClass: 'alert alert-success alert-with-icon',
+        positionClass: 'toast-' + 'top' + '-' + 'right'
+      }
+    );
+
+  }
+
+
+
 }

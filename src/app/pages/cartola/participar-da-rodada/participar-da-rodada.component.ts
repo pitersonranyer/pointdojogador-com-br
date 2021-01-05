@@ -45,6 +45,10 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   public status_mercado = 0;
   nomeTimeBusca: string ;
 
+  slug = [];
+
+  grupo = '';
+
 
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
@@ -331,7 +335,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     } else {
       this.toastr.info(
         '<span class="now-ui-icons ui-1_bell-53"></span>' +
-        'Bem vindo <b> ao Point do Jogador</b>' +
+        '<b>Point do Jogador</b>' +
         ' - Faça seu Login para participar da Rodada!',
         '',
         {
@@ -359,6 +363,31 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
     modalRef.componentInstance.fromParent = data;
 
+  }
+
+  exportarTimes() {
+    for (let i = 0; i < this.parciais.length; i++) {
+      this.slug[i] = this.parciais[i].time_id
+    }
+
+     this.grupo = 'pointdojogador ' + 'Rdd ' + this.idRodada + ' =>' + this.slug.join(';');
+
+     navigator.clipboard.writeText(this.grupo);
+
+
+     this.toastr.success(
+      '<span class="now-ui-icons ui-1_bell-53"></span>' +
+      ' Códigos copiados com sucesso!',
+      '',
+      {
+        timeOut: 8000,
+        closeButton: true,
+        enableHtml: true,
+        toastClass: 'alert alert-success alert-with-icon',
+        positionClass: 'toast-' + 'top' + '-' + 'right'
+      }
+    );
+    
   }
 
 }

@@ -93,7 +93,7 @@
 
     <!-- IMPORTAR TIMES POR CODIGOS -->
 
-    <form #f="ngForm" (ngSubmit)="onSubmit()">
+    <form #f="ngForm" >
       <div class="form-group">
         <label class="form-control-label" for="input-address">
           Códigos no formato: time_id1;time_id2;time_id3</label>
@@ -103,13 +103,13 @@
 
       <div class="form-group" style="text-align:right">
         <button type="button" class="btn btn-fill btn-primary" [disabled]="!f.valid" (click)="listarTimesPorId(codigo)">
-          Buscar</button>
+          Add Times</button>
       </div>
     </form>
 
     <!-- BUSCAR TIMES POR NOME -->
 
-    <form #f2="ngForm" (ngSubmit)="onSubmit()">
+    <form #f2="ngForm" >
       <div class="form-group">
         <label class="form-control-label" for="input-address">Nome do Time</label>
         <input type="text" class="form-control" id="nomeTimePsq" aria-describedby="inputGroupPrepend"
@@ -141,7 +141,7 @@
               <div> <span class="datatable-colocacao">{{i + 1}}</span>
                 <div>
                   <img class="datatable-escudo" src="{{timeLiga.url_escudo_png}}">
-                  <span class="datatable-nome-time">{{timeLiga.nome}}</span>
+                  <span class="datatable-nome-time">{{timeLiga.nomeTime}}</span>
                   <span class="datatable-nome-coach">{{timeLiga.nome_cartola}}</span>
                 </div>
               </div>
