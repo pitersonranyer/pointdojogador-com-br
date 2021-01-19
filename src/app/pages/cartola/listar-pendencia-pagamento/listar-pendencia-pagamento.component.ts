@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
@@ -21,7 +22,7 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
   constructor(private listarRodadaAtual: CartolaAPIService,
     private listaTimeRodadaPendentePgto: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
-
+    private toastr: ToastrService,
     private router: Router) { }
 
   ngOnInit() {
@@ -50,13 +51,19 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
 
    this.atualizarStatusPagamento.atualizarStatusPagamento(this.timeRodadaCartola).subscribe(
     () => {
-        swal({
-          title: 'Liberado!',
-          text: 'Time liberado com sucesso.',
-          type: 'success',
-          confirmButtonClass: 'btn btn-success',
-          buttonsStyling: false
-        }).catch(swal.noop)
+      this.toastr.success(
+        '<span class="now-ui-icons ui-1_bell-53"></span>' +
+        ' Time liberado com sucesso!',
+        '',
+        {
+          timeOut: 8000,
+          closeButton: true,
+          enableHtml: true,
+          toastClass: 'alert alert-success alert-with-icon',
+          positionClass: 'toast-' + 'top' + '-' + 'right'
+        }
+      );
+
         this.listaTimeRodadaPendentePgto.listaTimeRodadaPendentePgto(this.timeRodadaCartola.anoTemporada, this.timeRodadaCartola.idRodada)
         .subscribe((listaPendencia: any[]) => {
           this.pendencias = listaPendencia;

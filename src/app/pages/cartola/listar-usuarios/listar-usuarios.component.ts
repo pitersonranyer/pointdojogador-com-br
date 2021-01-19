@@ -19,6 +19,7 @@ export class ListarUsuariosComponent implements OnInit {
   urlWapp = [];
   closeResult: string;
   usuario: Usuario;
+  usuarioBusca: string;
 
   constructor(private usuarioService: UsuarioService,
     private modalService: NgbModal) { }

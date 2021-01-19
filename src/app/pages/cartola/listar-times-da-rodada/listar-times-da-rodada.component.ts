@@ -6,6 +6,8 @@ import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -157,6 +159,20 @@ export class ListarTimesDaRodadaComponent implements OnInit {
       this.atualizarlistaResultadoParcialRodada();
     }, 6000);
     this.ngOnInit();
+  }
+
+
+  gerarPDF() {
+
+    html2canvas(document.querySelector(".rodadaPDF"), {useCORS: true}).then(canvas => {
+      var pdf = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
+      var imgData = canvas.toDataURL("image/png", 1.0);
+      pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
+      var arquivo = 'PointdoJogadorRDD' + this.idRodada + '.pdf';
+      pdf.save(arquivo);
+
+    });
+    
   }
 
 }

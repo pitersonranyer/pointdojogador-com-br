@@ -7,6 +7,14 @@
           <h4 class="card-title">Usuários</h4>
         </div>
         <div class="card-body">
+          <div class="input-group no-border">
+            <input type="text" class="form-control" placeholder="Buscar usuario..." [(ngModel)]="usuarioBusca" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <i class="now-ui-icons ui-1_zoom-bold"></i>
+              </div>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
               <thead class="text-primary">
@@ -20,7 +28,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let usuario of usuarios; let i = index">
+                <tr *ngFor="let usuario of usuarios | filter:usuarioBusca;; let i = index">
                   <th  >
                     {{usuario.id}} &nbsp; 
                   

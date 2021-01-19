@@ -35,55 +35,63 @@
       <div class="text-right">
 
         <a href="javascript:void(0)" class="btn btn-round btn-primary btn-icon btn-sm edit" data-toggle="tooltip"
-          data-placement="top" title="Copiar Códigos" (click)="exportarTimes()" ><i
+          data-placement="top" title="Copiar Códigos" (click)="exportarTimes()"><i
             class="now-ui-icons files_single-copy-04"></i></a>
-      </div>      
 
-      <div class="table-responsive">
-        <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
-          <thead class=" text-primary">
-            <tr>
-              <th>Time</th>
-              <th>R$</th>
-              <th class="text-right">Pts. Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let parcial of parciais | filter:nomeTimeBusca; let i = index ">
-              <td>
-                <div> <span class="datatable-colocacao">{{i + 1}}º</span>
-                  <div>
-                    <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
-                    <span class="datatable-nome-time" *ngIf="status === 'Fechada'">
-                      <a href="javascript:void(0)" (click)="showTime(parcial)">
-                        {{parcial.nome}}
-                      </a>
-                    </span>
-                    <span class="datatable-nome-time" *ngIf="status != 'Fechada'">
-                      <a href="javascript:void(0)" (click)="showTime(parcial)">
-                        {{parcial.nome}}
-                      </a>
-                    </span>
-                    <span class="datatable-nome-coach"> <img *ngIf="parcial.assinante" class="datatable-pro"
-                        src="/assets/img/cartolaPRO.png"> {{parcial.nome_cartola}} </span>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' ">
-                  {{parcial.premiacaoFinalFormatLista}} </span>
-              </td>
-              <td class=" text-right">
-                <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
-                <span style="color:red" *ngIf="status === 'Fechada'"
-                  class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
-              </td>
+        <a href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit" data-toggle="tooltip"
+          data-placement="top" title="Gerar PDF" (click)="gerarPDF()"><i
+            class="now-ui-icons arrows-1_cloud-download-93"></i></a>
 
 
-            </tr>
-          </tbody>
-        </table>
       </div>
+
+      
+        <div class="table-responsive rodadaPDF">
+          <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+            <thead class=" text-primary">
+              <tr>
+                <th>Time</th>
+                <th>R$</th>
+                <th class="text-right">Pts. Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let parcial of parciais | filter:nomeTimeBusca; let i = index ">
+                <td>
+                  <div> <span class="datatable-colocacao">{{i + 1}}º</span>
+                    <div>
+                      <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
+                      <span class="datatable-nome-time" *ngIf="status === 'Fechada'">
+                        <a href="javascript:void(0)" (click)="showTime(parcial)">
+                          {{parcial.nome}}
+                        </a>
+                      </span>
+                      <span class="datatable-nome-time" *ngIf="status != 'Fechada'">
+                        <a href="javascript:void(0)" (click)="showTime(parcial)">
+                          {{parcial.nome}}
+                        </a>
+                      </span>
+                      <span class="datatable-nome-coach"> <img *ngIf="parcial.assinante" class="datatable-pro"
+                          src="/assets/img/cartolaPRO.png"> {{parcial.nome_cartola}} </span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' ">
+                    {{parcial.premiacaoFinalFormatLista}} </span>
+                </td>
+                <td class=" text-right">
+                  <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
+                  <span style="color:red" *ngIf="status === 'Fechada'"
+                    class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
+                </td>
+
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
 
     </div>
   </div>

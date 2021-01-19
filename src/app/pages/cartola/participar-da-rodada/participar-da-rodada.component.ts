@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,8 @@ import { ModalAddTimeRodadaComponent } from './modal-add-time-rodada/modal-add-t
 import { ModalDetalheTimeUsuarioComponent } from './modal-detalhe-time-usuario/modal-detalhe-time-usuario.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-participar-da-rodada',
@@ -16,6 +18,8 @@ import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
   styleUrls: ['./participar-da-rodada.component.css']
 })
 export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
+
+  @ViewChild('content') content: ElementRef;
 
   public premiacaoTotal = 0;
   public premiacaoPercentualLista = 0;
@@ -43,7 +47,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   atletas: Array<any> = [];
   public rodada_atual = 0;
   public status_mercado = 0;
-  nomeTimeBusca: string ;
+  nomeTimeBusca: string;
 
   slug = [];
 
@@ -114,7 +118,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
   atualizarlistaResultadoParcialRodada() {
     this.showSpinner();
-     this.parciais = [];
+    this.parciais = [];
     if (this.status === 'Fechada') {
       this.atletasPontuados.listarAtletasPontuados()
         .subscribe((pontuados) => {
@@ -187,7 +191,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   }
                   this.parciais[j].atletasJogados = this.count;
                 });
-  
+
               }
 
             });
@@ -272,7 +276,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
             for (let i = 0; i < this.parciais.length; i++) {
               // Recuperar atletas por time
               this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
-                .subscribe((data) => { 
+                .subscribe((data) => {
 
                   // tratar pontuação do JSON pontuados
                   this.capitao_id = data.capitao_id;
@@ -370,12 +374,12 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.slug[i] = this.parciais[i].time_id
     }
 
-     this.grupo = 'pointdojogador ' + 'Rdd ' + this.idRodada + ' =>' + this.slug.join(';');
+    this.grupo = '🎩 POINTDOJOGADOR 🎩' + ' - RDD ' + this.idRodada + ' =>' + this.slug.join(';');
 
-     navigator.clipboard.writeText(this.grupo);
+    navigator.clipboard.writeText(this.grupo);
 
 
-     this.toastr.success(
+    this.toastr.success(
       '<span class="now-ui-icons ui-1_bell-53"></span>' +
       ' Códigos copiados com sucesso!',
       '',
@@ -387,6 +391,20 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
         positionClass: 'toast-' + 'top' + '-' + 'right'
       }
     );
+
+  }
+
+
+  gerarPDF() {
+
+    html2canvas(document.querySelector(".rodadaPDF"), {useCORS: true}).then(canvas => {
+      var pdf = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
+      var imgData = canvas.toDataURL("image/png", 1.0);
+      pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
+      var arquivo = 'PointdoJogadorRDD' + this.idRodada + '.pdf';
+      pdf.save(arquivo);
+
+    });
     
   }
 

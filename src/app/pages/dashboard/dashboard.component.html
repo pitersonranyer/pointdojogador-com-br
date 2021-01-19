@@ -4,10 +4,6 @@
     <p class="category">
       Logo abaixo estão nossas ligas TIRO CURTO.
     </p>
-    <br>
-    <p class="category">
-      WhastApp <a href="https://chat.whatsapp.com/I9Lgep9V4Pz9PbkwHxW7s7" ><i class="fab fa-whatsapp"></i>  </a>
-    </p>
   </div>
 </div>
 <div class="main-content">
@@ -15,6 +11,11 @@
     <div class="row" >
       <div class="col-md-4 " *ngFor="let rodada of rodadas ">
         <div class="card ">
+          <div class="text-right">
+            <a href="https://chat.whatsapp.com/I9Lgep9V4Pz9PbkwHxW7s7" class="btn btn-round btn-success btn-icon btn-sm edit" data-toggle="tooltip"
+              data-placement="top" title="Grupo Whatsapp" ><i 
+                class="now-ui-icons travel_info"></i></a>
+          </div>
           <div class="card-body text-center">
             <h2> RODADA #{{ rodada.idRodada}}</h2> 
             <p class="card-text">VALOR POR TIME: R$ {{rodada.valorRodada}} </p>
