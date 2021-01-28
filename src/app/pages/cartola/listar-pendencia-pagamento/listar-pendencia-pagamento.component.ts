@@ -22,6 +22,7 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
   constructor(private listarRodadaAtual: CartolaAPIService,
     private listaTimeRodadaPendentePgto: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
+    private cancelarInscricaoTime: CartolaAPIService,
     private toastr: ToastrService,
     private router: Router) { }
 
@@ -43,33 +44,33 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
 
   liberar(pendencia: any): void {
 
-   this.timeRodadaCartola.anoTemporada = pendencia.anoTemporada;
-   this.timeRodadaCartola.idRodada = pendencia.idRodada;
-   this.timeRodadaCartola.idUsuario = pendencia.idUsuario;
-   this.timeRodadaCartola.time_id = pendencia.time_id;
+    this.timeRodadaCartola.anoTemporada = pendencia.anoTemporada;
+    this.timeRodadaCartola.idRodada = pendencia.idRodada;
+    this.timeRodadaCartola.idUsuario = pendencia.idUsuario;
+    this.timeRodadaCartola.time_id = pendencia.time_id;
 
 
-   this.atualizarStatusPagamento.atualizarStatusPagamento(this.timeRodadaCartola).subscribe(
-    () => {
-      this.toastr.success(
-        '<span class="now-ui-icons ui-1_bell-53"></span>' +
-        ' Time liberado com sucesso!',
-        '',
-        {
-          timeOut: 8000,
-          closeButton: true,
-          enableHtml: true,
-          toastClass: 'alert alert-success alert-with-icon',
-          positionClass: 'toast-' + 'top' + '-' + 'right'
-        }
-      );
+    this.atualizarStatusPagamento.atualizarStatusPagamento(this.timeRodadaCartola).subscribe(
+      () => {
+        this.toastr.success(
+          '<span class="now-ui-icons ui-1_bell-53"></span>' +
+          ' Time liberado com sucesso!',
+          '',
+          {
+            timeOut: 8000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: 'alert alert-success alert-with-icon',
+            positionClass: 'toast-' + 'top' + '-' + 'right'
+          }
+        );
 
         this.listaTimeRodadaPendentePgto.listaTimeRodadaPendentePgto(this.timeRodadaCartola.anoTemporada, this.timeRodadaCartola.idRodada)
-        .subscribe((listaPendencia: any[]) => {
-          this.pendencias = listaPendencia;
-        });
-    },
-    (erro) => {
+          .subscribe((listaPendencia: any[]) => {
+            this.pendencias = listaPendencia;
+          });
+      },
+      (erro) => {
         swal({
           title: 'Cancelado',
           text: 'Erro ao liberar Time! :)',
@@ -77,7 +78,44 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
           confirmButtonClass: 'btn btn-info',
           buttonsStyling: false
         }).catch(swal.noop);
-    });
+      });
+  }
+
+  cancelar(pendencia: any): void {
+
+    this.cancelarInscricaoTime.cancelarInscricaoTime(pendencia.anoTemporada,
+      pendencia.idRodada,
+      pendencia.idUsuario,
+      pendencia.time_id
+    ).subscribe(
+      () => {
+        this.toastr.success(
+          '<span class="now-ui-icons ui-1_bell-53"></span>' +
+          ' Liberação do Time cancelada com sucesso!',
+          '',
+          {
+            timeOut: 8000,
+            closeButton: true,
+            enableHtml: true,
+            toastClass: 'alert alert-danger alert-with-icon',
+            positionClass: 'toast-' + 'top' + '-' + 'right'
+          }
+        );
+
+        this.listaTimeRodadaPendentePgto.listaTimeRodadaPendentePgto(pendencia.anoTemporada, pendencia.idRodada)
+          .subscribe((listaPendencia: any[]) => {
+            this.pendencias = listaPendencia;
+          });
+      },
+      (erro) => {
+        swal({
+          title: 'Cancelado',
+          text: 'Erro ao cancelar liberação do Time! :)',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      });
   }
 
 }

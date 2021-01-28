@@ -49,9 +49,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let time of times ">
+          <tr *ngFor="let time of times; let i = index">
             <td tabindex="0">
-              <div>
+              <div> <span class="datatable-colocacao">{{i + 1}}</span>
                 <div>
                   <img class="datatable-escudo" src="{{time.url_escudo_png}}">
                   <span class="datatable-nome-time">{{time.nome}}</span>

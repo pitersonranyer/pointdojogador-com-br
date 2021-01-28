@@ -167,6 +167,13 @@ export class CartolaAPIService {
     return this.http.get<any[]>(url);
   }
 
+  // cancelar inscrição time
+  cancelarInscricaoTime(anoTemporada: number, idRodada: number, idUsuario: number, time_id: number) {
+    const url = this.utilService.getUrlBackend() +
+     `/timeRodadaCartola/cancelarInscricaoTime/${anoTemporada}/${idRodada}/${idUsuario}/${time_id}`;
+     return this.http.delete(url);
+  }
+
   atualizarStatusRodada(rodadaCartola: RodadaCartola) {
     const url = this.utilService.getUrlBackend() + `/rodadaCartola/alterarStatusRodada`;
     return this.http.put(url, rodadaCartola);
