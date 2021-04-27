@@ -7,6 +7,7 @@ import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
+import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 
 
 @Component({
@@ -16,9 +17,9 @@ import swal from 'sweetalert2';
 })
 export class RodadaCartolaComponent implements OnInit {
 
-  public rodadas: RodadaCartola[];
+  public rodadas: CompeticaoCartola[];
 
-  public rodadaCartola: RodadaCartola;
+  public rodadaCartola: CompeticaoCartola;
 
   public timePesquisa: string;
 
@@ -33,7 +34,6 @@ export class RodadaCartolaComponent implements OnInit {
 
   constructor(private listarTodasRodadaCartola: CartolaAPIService,
     private excluirRodadaCartolaPorId: CartolaAPIService,
-    private atualizarStatusRodada: CartolaAPIService,
     private usuarioService: UsuarioService,
     private router: Router) { }
 
@@ -55,7 +55,7 @@ export class RodadaCartolaComponent implements OnInit {
   }
 
   atualizarListaRodadaCartola() {
-    this.listarTodasRodadaCartola.listarTodasRodadaCartola().subscribe((rodadasCartola: RodadaCartola[]) => {
+    this.listarTodasRodadaCartola.listarCompeticaoCartolaAtivas().subscribe((rodadasCartola: CompeticaoCartola[]) => {
       this.rodadas = rodadasCartola;
     });
   }
@@ -71,64 +71,7 @@ export class RodadaCartolaComponent implements OnInit {
   }
 
 
-  alterarStautsRodada(rodada: RodadaCartola): void {
-
-    swal({
-      title: 'Alterar',
-      text: 'Deseja alterar o status dessa Rodada?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sim',
-      cancelButtonText: 'Não',
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      buttonsStyling: false
-    }).then(result => {
-      if (result.value) {
-        this.atualizarStatusRodada.atualizarStatusRodada(rodada).subscribe(
-          () => {
-            swal({
-              title: 'Alterado!',
-              text: 'Rodada Alterada com sucesso.',
-              type: 'success',
-              confirmButtonClass: 'btn btn-success',
-              buttonsStyling: false
-            }).catch(swal.noop);
-            this.atualizarListaRodadaCartola();
-          },
-          (erro) => {
-            if (erro.status && erro.status === 404) {
-              swal({
-                title: 'Alteração não efetuada',
-                text: 'registro inexistente :)',
-                type: 'error',
-                confirmButtonClass: 'btn btn-info',
-                buttonsStyling: false
-              }).catch(swal.noop);
-            } else {
-              swal({
-                title: 'Alteração não efetuada',
-                text: 'Não foi possível realizar a alteração :)',
-                type: 'error',
-                confirmButtonClass: 'btn btn-info',
-                buttonsStyling: false
-              }).catch(swal.noop);
-            }
-          }
-        );
-      } else {
-        swal({
-          title: 'Cancelado',
-          text: 'Alteração cancelada :)',
-          type: 'error',
-          confirmButtonClass: 'btn btn-info',
-          buttonsStyling: false
-        }).catch(swal.noop);
-      }
-    });
-  }
-
-  excluirRodadaCartola(rodada: RodadaCartola): void {
+  excluirRodadaCartola(rodada: CompeticaoCartola): void {
 
     swal({
       title: 'Excluir',
@@ -142,7 +85,7 @@ export class RodadaCartolaComponent implements OnInit {
       buttonsStyling: false
     }).then(result => {
       if (result.value) {
-        this.excluirRodadaCartolaPorId.excluirRodadaCartolaPorId(rodada.anoTemporada, rodada.idRodada)
+        this.excluirRodadaCartolaPorId.excluirCompeticaoCartolaPorId(rodada.nrSequencialRodadaCartola)
         .subscribe(
           () => {
             swal({
@@ -184,6 +127,11 @@ export class RodadaCartolaComponent implements OnInit {
         }).catch(swal.noop);
       }
     });
+  }
+
+
+  alterarRodadaCartola(rodada: CompeticaoCartola): void {
+    this.router.navigate(['/cartola/alterarRodadaCartola'], { queryParams: rodada });
   }
 
   voltar() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
+import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 
 @Component({
@@ -24,37 +24,39 @@ export class DashboardComponent implements OnInit {
   public rodadas = [];
 
   constructor(private router: Router,
-    private listarTodasRodadaCartolaAtivas: CartolaAPIService,
+    private listarTodasCompeticaoCartolaAtivas: CartolaAPIService,
     private countRodadaAtual: CartolaAPIService) {}
 
 
   ngOnInit() {
-    this.listarRodadaCartolaAtivas();
+    this.listarCompeticaoCartolaAtivas();
   }
 
-  listarRodadaCartolaAtivas() {
-    this.listarTodasRodadaCartolaAtivas.listarTodasRodadaCartolaAtivas().subscribe((rodadasCartola: []) => {
-      this.rodadas = rodadasCartola;
+  listarCompeticaoCartolaAtivas() {
+    this.listarTodasCompeticaoCartolaAtivas.listarCompeticaoCartolaAtivas().subscribe((competicaoCartola: []) => {
+      this.rodadas = competicaoCartola;
 
       for (let i = 0; i < this.rodadas.length; i++) {
         this.count = 0;
-        this.countRodadaAtual.consultaTimeRodadaCartolaCount(this.rodadas[i].anoTemporada, this.rodadas[i].idRodada)
-          .subscribe((count: number) => {
-            this.rodadas[i].totalParticipantes = count;
-            this.premiacaoTotal = this.rodadas[i].totalParticipantes * this.rodadas[i].valorRodada;
+   //     this.countRodadaAtual.consultaTimeRodadaCartolaCount(this.rodadas[i].anoTemporada, this.rodadas[i].idRodada)
+   //       .subscribe((count: number) => {
+   
+            this.rodadas[i].totalParticipantes = this.count;
+            this.premiacaoTotal = this.rodadas[i].totalParticipantes * this.rodadas[i].valorCompeticao;
             this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
             this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
 
             this.rodadas[i].premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-            this.rodadas[i].dataFim = this.rodadas[i].dtFimInscricao.substring(0, 5);
-            this.rodadas[i].horaFim = this.rodadas[i].hrFimInscricao.substring(0, 5);
-
-          });
+            this.rodadas[i].dataFim = this.rodadas[i].dataFimInscricao.substring(0, 5);
+            this.rodadas[i].horaFim = this.rodadas[i].horaFimInscricao.substring(0, 5);
+   
+   //       });
       }
+
     });
   }
 
-  participarDaRodada(rodada: RodadaCartola): void {
+  participarDaRodada(rodada: CompeticaoCartola): void {
     this.router.navigate(['/cartola/participarDaRodada'], { queryParams: rodada });
   }
 

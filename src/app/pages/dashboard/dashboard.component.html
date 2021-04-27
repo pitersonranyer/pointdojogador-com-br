@@ -2,7 +2,7 @@
   <div class="header text-center">
     <h2 class="title">LIGA POINT DO JOGADOR</h2>
     <p class="category">
-      Logo abaixo estão nossas ligas TIRO CURTO.
+      Logo abaixo estão nossas ligas.
     </p>
   </div>
 </div>
@@ -13,17 +13,17 @@
         <div class="card ">
 
           <div class="card-body text-center">
-            <h2> RODADA #{{ rodada.idRodada}}</h2> 
-            <p class="card-text">VALOR POR TIME: R$ {{rodada.valorRodada}} </p>
+            <h2> RODADA #{{ rodada.nrRodada}}</h2> <h3>  {{rodada.tipoCompeticao}} </h3>
+            <p class="card-text">VALOR POR TIME: R$ {{rodada.valorCompeticao}} </p>
             <p class="card-text">Participantes:  {{rodada.totalParticipantes}}</p>
             <p class="card-text">Premiação: R$ {{rodada.premiacaoFinalFormat}} </p>
             <p class="card-text">Inscrições até: {{rodada.dataFim}} às {{rodada.horaFim}} </p>
-            <p class="card-text">Situação: {{rodada.status}}</p>
+            <p class="card-text">Situação: {{rodada.statusCompeticao}}</p>
 
-            <button *ngIf="rodada.status === 'Fechada'" class="btn btn-default btn-fill" (click)="participarDaRodada(rodada)">
+            <button *ngIf="rodada.statusCompeticao === 'Fechada'" class="btn btn-default btn-fill" (click)="participarDaRodada(rodada)">
               VER PARCIAIS
             </button>
-            <button *ngIf="rodada.status === 'Aberta' || rodada.status === 'Próxima'" class="btn btn-primary btn-fill" (click)="participarDaRodada(rodada)">
+            <button *ngIf="rodada.statusCompeticao === 'Aberta' || rodada.statusCompeticao === 'Próxima'" class="btn btn-primary btn-fill" (click)="participarDaRodada(rodada)">
               PARTICIPAR
             </button>
 

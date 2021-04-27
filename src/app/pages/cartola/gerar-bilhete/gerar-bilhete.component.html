@@ -1,0 +1,148 @@
+<div class="panel-header panel-header-sm"></div>
+<div class="col-md-12">
+  <div class="card ">
+    <div class="card-header ">
+      <h4 class="card-title">Infome seu contato em seguida adicione seu time</h4>
+    </div>
+    <div class="card-body ">
+      <form #f="ngForm" [formGroup]="formulario" > 
+
+       
+
+        <label>Contato</label>
+        <div class="form-group">
+            
+          <input
+          type="text"
+          class="form-control"
+          formControlName="contato"
+          name="contato"
+          placeholder="Ex: 61 982104100"
+          [dropSpecialCharacters]="false" 
+          mask="(99)99999-9999" 
+          [readonly]=isReadOnly
+          required
+        />
+          <span class="form-text">Informe seu número de contato no WhastApp.</span>
+        </div>
+
+        
+        <label>Nome</label>
+        <div class="form-group" >
+          <input 
+          type="text" 
+          class="form-control" 
+          formControlName="nome"
+          name="nome"
+          placeholder="Ex: João Miguel"
+          [readonly]=isReadOnly
+          required  />
+          <span class="form-text">Informe seu nome ou como gosta de ser chamado.</span>
+        </div> 
+
+
+        <div class="form-group" style="text-align:right" >
+          <button class="btn btn-primary" (click)="showModalAddTimes(classic)"  [disabled]="!f.valid">
+            <span class="btn-label">
+              <i class="now-ui-icons arrows-1_share-66"></i>
+            </span>
+            Add mais Time(s)
+          </button>
+
+          <button class="btn btn-info"  *ngIf="isReadOnly" (click)="limpar()" >
+            <span class="btn-label">
+              <i class="now-ui-icons arrows-1_minimal-left"></i>
+            </span>
+            Voltar
+          </button>
+          
+
+        </div> 
+        
+
+      </form> 
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-12">
+  <div class="card ">
+    <div class="card-header ">
+      <h4 class="card-title">Incluir Times na Liga</h4>
+    </div>
+    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0" >
+      <thead class="text-primary">
+        <tr>
+          <th>Time</th>
+          <th>Contato</th>
+          <th class="text-right">Ações</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let result of results$ | async">
+          <td>{{ result.time_id }}</td>
+          <td>{{ result.nrContatoUsuario }}</td>
+          <td class="text-right">
+            <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirTimeUsuario(result)"><i class="fas fa-trash"></i></a>
+             </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!--MODAL-->
+
+<ng-template #classic let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="d('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">Importar Times</h4>
+  </div>
+  <div class="modal-body">
+
+    <!-- IMPORTAR TIMES POR CODIGOS -->
+
+    <form #f2="ngForm" >
+      <div class="form-group">
+        <label class="form-control-label" for="input-address">
+          Códigos no formato: time_id1;time_id2;time_id3</label>
+        <input type="text" class="form-control" id="codigo" aria-describedby="inputGroupPrepend" name="codigo"
+          [(ngModel)]="codigo" required>
+      </div>
+
+      <div class="form-group" style="text-align:right">
+        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f2.valid" (click)="listarTimesPorId(codigo)">
+          Add Times</button>
+      </div>
+    </form>
+
+    <!-- BUSCAR TIMES POR NOME -->
+
+    <form #f3="ngForm" >
+      <div class="form-group">
+        <label class="form-control-label" for="input-address">Nome do Time</label>
+        <input type="text" class="form-control" id="nomeTimePsq" aria-describedby="inputGroupPrepend"
+          name="nomeTimePsq" [(ngModel)]="nomeTimePsq" required>
+      </div>
+
+      <div class="form-group" style="text-align:right">
+        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f3.valid"
+          (click)="listarTimesPorNome(nomeTimePsq)">
+          Buscar</button>
+      </div>
+    </form>
+
+    
+
+    <!-- LISTA TIMES -->
+
+    
+
+
+
+  </div>
+</ng-template>

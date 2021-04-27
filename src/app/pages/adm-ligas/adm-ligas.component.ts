@@ -77,7 +77,7 @@ export class AdmLigasComponent implements OnInit {
       buttonsStyling: false
     }).then(result => {
       if (result.value) {
-        this.liga.anoTemporada = 2020;
+        this.liga.anoTemporada = 2021;
         this.liga.idUsuarioAdmLiga = this.usuario.id;
         this.liga.tipoLiga =  'Tiro Curto';
         this.cadastrarLiga.cadastrarLiga(this.liga).subscribe(

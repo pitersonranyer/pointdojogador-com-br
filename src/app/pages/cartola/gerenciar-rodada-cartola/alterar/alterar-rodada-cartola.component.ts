@@ -5,17 +5,19 @@ import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
 
 @Component({
-  selector: 'app-cadastrar-rodada-cartola',
-  templateUrl: './cadastrar-rodada-cartola.component.html',
-  styleUrls: ['./cadastrar-rodada-cartola.component.css']
+  selector: 'app-alterar-rodada-cartola',
+  templateUrl: './alterar-rodada-cartola.component.html',
+  styleUrls: ['./alterar-rodada-cartola.component.css']
 })
-export class CadastrarRodadaCartolaComponent implements OnInit {
+export class AlterarRodadaCartolaComponent implements OnInit {
 
   public rodadaCartola: CompeticaoCartola = <CompeticaoCartola>{};
+  public competicao: CompeticaoCartola = <CompeticaoCartola>{};
 
   usuario: Usuario;
 
@@ -24,6 +26,7 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
   constructor(private cadastrarRodadaCartola: CartolaAPIService,
     private usuarioService: UsuarioService,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService) {
 
     
@@ -37,13 +40,30 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
         this.id = usuario.id;
       });
 
+
+      this.route.queryParams.subscribe(params => {
+        
+        this.competicao.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
+        this.competicao.idUsuarioAdmLiga = params.idUsuarioAdmLiga;
+        this.competicao.nomeLiga = params.nomeLiga;
+
+        this.competicao.anoTemporada = params.anoTemporada;
+        this.competicao.nrRodada = params.nrRodada;
+        this.competicao.dataFimInscricao = params.dataFimInscricao;
+        this.competicao.horaFimInscricao = params.horaFimInscricao;
+        this.competicao.valorCompeticao = params.valorCompeticao;
+        this.competicao.statusCompeticao = params.statusCompeticao;
+        this.competicao.tipoCompeticao = params.tipoCompeticao;
+  
+      });
+
   }
 
   onSubmit() {
 
     swal({
-      title: 'Cadastrar',
-      text: 'Deseja cadastrar essa Rodada?',
+      title: 'Alterar',
+      text: 'Deseja alterar essa Rodada?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sim',
@@ -54,11 +74,11 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         this.rodadaCartola.idUsuarioAdmLiga = this.id;
-        this.cadastrarRodadaCartola.cadastrarCompeticaoCartola(this.rodadaCartola).subscribe(
+        this.cadastrarRodadaCartola.alterarCompeticaoCartola(this.competicao).subscribe(
           () => {
             this.toastr.success(
               '<span class="now-ui-icons ui-1_bell-53"></span>' +
-              ' Rodada Cadastrada com sucesso!',
+              ' Rodada alterada com sucesso!',
               '',
               {
                 timeOut: 8000,
@@ -73,7 +93,7 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
           (erro) => {
             if (erro.status && erro.status === 409) {
               swal({
-                title: 'Cadastro não efetuado',
+                title: 'Alteração não efetuada',
                 text: 'registro existente :)',
                 type: 'error',
                 confirmButtonClass: 'btn btn-info',
@@ -81,7 +101,7 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
               }).catch(swal.noop);
             } else {
               swal({
-                title: 'Cadastro não efetuado',
+                title: 'Alteração não efetuada',
                 text: 'Não foi possível realizar a alteração :)',
                 type: 'error',
                 confirmButtonClass: 'btn btn-info',

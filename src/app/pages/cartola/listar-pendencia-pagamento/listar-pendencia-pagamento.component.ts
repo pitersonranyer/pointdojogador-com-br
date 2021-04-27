@@ -15,7 +15,7 @@ import swal from 'sweetalert2';
 export class ListarPendenciaPagamentoComponent implements OnInit {
   public rodada: RodadaCartola;
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
-  anoAtual = 2020;
+  anoAtual = 2021;
   pendencias = [];
 
 

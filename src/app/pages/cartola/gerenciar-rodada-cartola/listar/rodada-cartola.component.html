@@ -18,6 +18,7 @@
               <tr>
                 <th>Temporada</th>
                 <th>Rodada</th>
+                <th>Tipo</th>
                 <th colspan="2">Situação</th>
                 <th>  </th>
               </tr>
@@ -25,13 +26,9 @@
             <tbody>
               <tr *ngFor="let rodada of rodadas ">
                 <td>{{rodada.anoTemporada}}</td>
-                <td>#{{rodada.idRodada}}</td> 
-                <td>
-                  <input type="text" class="form-control1" [(ngModel)]="rodada.status" name="status" maxlength="9" size="9" />
-                </td>
-                <td>
-                  <a href="javascript:void(0)" class="btn btn-round btn-warning btn-icon btn-sm save"  (click)="alterarStautsRodada(rodada)"><i class="fas fa-save"></i></a>
-                </td>
+                <td>#{{rodada.nrRodada}}</td> 
+                <td>{{rodada.tipoCompeticao}}</td> 
+                <td>{{rodada.statusCompeticao}}</td> 
                 <td>
                   <div class="" ngbDropdown>
                     <button
@@ -44,6 +41,7 @@
                     </button>
                     <div class="dropdown-menu-right" ngbDropdownMenu>
                       <a class="dropdown-item" href="javascript:void(0)" (click)="listarTimesDaRodada(rodada)" ><i class="fas fa-list"></i> Listar Times</a>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="alterarRodadaCartola(rodada)"><i class="fas fa-edit"></i>Alterar Rodada</a>
                       <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirRodadaCartola(rodada)"><i class="fas fa-trash"></i>Excluir Rodada</a>
                     </div>
                   </div>

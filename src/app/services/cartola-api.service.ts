@@ -8,6 +8,8 @@ import { TimeRodadaCartola } from '../interfaces/timeRodadaCartola';
 import { UtilService } from './util.service';
 import { Liga } from '../interfaces/liga';
 import { TimeLigaCartola } from '../interfaces/timeLigaCartola';
+import { CompeticaoCartola } from '../interfaces/competicaoCartola';
+import { HistoricoTimeUsuario } from '../interfaces/historicoTimeUsuario';
 
 @Injectable({
   providedIn: 'root'
@@ -210,11 +212,46 @@ export class CartolaAPIService {
     return this.http.post(url, timeLiga);
   }
 
-
   listen(): Observable<any> {
     return this._listners.asObservable();
   }
   filtro(filtrarPor: string) {
     this._listners.next(filtrarPor);
   }
+
+
+  // COMPETICAO CARTOLA
+
+  cadastrarCompeticaoCartola(competicaoCartola: CompeticaoCartola) {
+    const url = this.utilService.getUrlBackend() + `/competicaoCartola`;
+    return this.http.post(url, competicaoCartola);
+  }
+
+  listarCompeticaoCartolaAtivas(): Observable<CompeticaoCartola[]> {
+    const url = this.utilService.getUrlBackend() + `/competicaoCartola/listarCompeticaoCartolaAtivas`;
+    return this.http.get<CompeticaoCartola[]>(url);
+  }
+
+  alterarCompeticaoCartola(competicaoCartola: CompeticaoCartola) {
+    const url = this.utilService.getUrlBackend() + `/competicaoCartola/alterarCompeticaoCartola`;
+    return this.http.put(url, competicaoCartola);
+  }
+
+  excluirCompeticaoCartolaPorId(nrSequencialRodadaCartola: number) {
+    const url = this.utilService.getUrlBackend() + `/competicaoCartola/excluirCompeticaoCartolaPorId/${nrSequencialRodadaCartola}`;
+    return this.http.delete(url);
+  }
+
+  listarHistoricoTimesUsuario(nrContatoUsuario: number): Observable<HistoricoTimeUsuario> {
+    const url = this.utilService.getUrlBackend() + `/historicoTimeUsuario/listarTimesUsuario/${nrContatoUsuario}`;
+    return this.http.get<HistoricoTimeUsuario>(url);
+  }
+
+  excluirTimeUsuario(time_id: number) {
+    const url = this.utilService.getUrlBackend() + `/historicoTimeUsuario/excluirTimeUsuario/${time_id}`;
+    return this.http.delete(url);
+  }
+
+
+
 }

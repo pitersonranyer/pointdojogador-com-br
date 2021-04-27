@@ -35,7 +35,7 @@ export class GerenciarLigaComponent implements OnInit {
     this.nomeTimePsq = '';
     this.codigo = '';
 
-    this.listarTimeLigaPorRodada.listarTimeLigaPorRodada(2020, 21, 1, 1 )
+    this.listarTimeLigaPorRodada.listarTimeLigaPorRodada(2021, 21, 1, 1 )
       .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
       });

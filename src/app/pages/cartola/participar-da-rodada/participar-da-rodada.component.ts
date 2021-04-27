@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 
 @Component({
   selector: 'app-participar-da-rodada',
@@ -28,11 +29,11 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   parciais = [];
 
   public anoTemporada: number;
-  public idRodada: number;
-  public dtFimInscricao: string;
-  public hrFimInscricao: string;
-  public status: string;
-  public valorRodada: number;
+  public nrRodada: number;
+  public dataFimInscricao: string;
+  public horaFimInscricao: string;
+  public statusCompeticao: string;
+  public valorCompeticao: number;
   loading = false;
   tempo = 2000;
   autenticado = false;
@@ -48,11 +49,13 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   public rodada_atual = 0;
   public status_mercado = 0;
   nomeTimeBusca: string;
+  competicaoRodada: CompeticaoCartola = <CompeticaoCartola>{};
 
   slug = [];
 
   grupo = '';
 
+  
 
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
@@ -77,12 +80,18 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.subscribe(params => {
-      this.anoTemporada = params.anoTemporada;
-      this.dtFimInscricao = params.dtFimInscricao;
-      this.hrFimInscricao = params.hrFimInscricao;
-      this.idRodada = params.idRodada;
-      this.status = params.status;
-      this.valorRodada = params.valorRodada;
+      this.competicaoRodada.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
+      this.competicaoRodada.anoTemporada = params.anoTemporada;
+      this.competicaoRodada.dataFimInscricao = params.dataFimInscricao;
+      this.competicaoRodada.horaFimInscricao = params.horaFimInscricao;
+      this.competicaoRodada.nrRodada = params.nrRodada;
+      this.competicaoRodada.statusCompeticao = params.statusCompeticao;
+      this.competicaoRodada.valorCompeticao = params.valorCompeticao;
+      this.competicaoRodada.idUsuarioAdmLiga = params.idUsuarioAdmLiga;
+      this.competicaoRodada.nomeLiga = params.nomeLiga;
+      this.competicaoRodada.tipoCompeticao = params.tipoCompeticao;
+
+
     });
 
     this.consultarMercadoStatus.consultarMercadoStatus().subscribe(status => {
@@ -90,17 +99,17 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.rodada_atual = status.rodada_atual;
       this.status_mercado = status.status_mercado;
 
-      if (this.rodada_atual == this.idRodada) {
+      if (this.rodada_atual == this.nrRodada) {
         if (this.status_mercado === 1) {
-          this.status = 'Aberta';
+          this.statusCompeticao = 'Aberta';
         } else {
           if (this.status_mercado === 2) {
-            this.status = 'Fechada';
+            this.statusCompeticao = 'Fechada';
           }
         }
       }
 
-      if (this.status === 'Fechada') {
+      if (this.statusCompeticao === 'Fechada') {
         this.atualizarParciais();
       } else {
         this.atualizarlistaResultadoParcialRodada();
@@ -119,17 +128,17 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   atualizarlistaResultadoParcialRodada() {
     this.showSpinner();
     this.parciais = [];
-    if (this.status === 'Fechada') {
+    if (this.statusCompeticao === 'Fechada') {
       this.atletasPontuados.listarAtletasPontuados()
         .subscribe((pontuados) => {
           this.trataRespostaAtletasPontuados(pontuados);
 
-          this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
+          this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
             .subscribe((resultParcial: any[]) => {
               this.parciais = resultParcial;
               for (let j = 0; j < this.parciais.length; j++) {
 
-                this.premiacaoTotal = this.parciais.length * this.valorRodada;
+                this.premiacaoTotal = this.parciais.length * this.valorCompeticao;
                 this.premiacaoPercentualLista = 0;
                 this.premiacaoFinalLista = 0;
                 this.parciais[j].premiacaoFinalFormatLista = 0;
@@ -198,12 +207,12 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
         });
     } else {
-      this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
+      this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
         .subscribe((resultParcial: any[]) => {
           this.parciais = resultParcial;
           for (let j = 0; j < this.parciais.length; j++) {
 
-            this.premiacaoTotal = this.parciais.length * this.valorRodada;
+            this.premiacaoTotal = this.parciais.length * this.valorCompeticao;
             this.premiacaoPercentualLista = 0;
             this.premiacaoFinalLista = 0;
             this.parciais[j].premiacaoFinalFormatLista = 0;
@@ -270,7 +279,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
         // Processar atualização de pontuação
         // busca times salvo na base de dados
-        this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
+        this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
           .subscribe((resultParcial: any[]) => {
             this.parciais = resultParcial;
             for (let i = 0; i < this.parciais.length; i++) {
@@ -321,6 +330,10 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
   }
 
+
+  gerarBilhete(competicao: CompeticaoCartola): void {
+    this.router.navigate(['/cartola/gerarBilhete'], { queryParams: competicao });
+  }
 
   addTimeRodada(idRodada: number) {
 
@@ -374,7 +387,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.slug[i] = this.parciais[i].time_id
     }
 
-    this.grupo = '🎩 POINTDOJOGADOR 🎩' + ' - RDD ' + this.idRodada + ' =>' + this.slug.join(';');
+    this.grupo = '🎩 POINTDOJOGADOR 🎩' + ' - RDD ' + this.nrRodada + ' =>' + this.slug.join(';');
 
     navigator.clipboard.writeText(this.grupo);
 
@@ -401,7 +414,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       var pdf = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
       var imgData = canvas.toDataURL("image/png", 1.0);
       pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
-      var arquivo = 'PointdoJogadorRDD' + this.idRodada + '.pdf';
+      var arquivo = 'PointdoJogadorRDD' + this.nrRodada + '.pdf';
       pdf.save(arquivo);
 
     });

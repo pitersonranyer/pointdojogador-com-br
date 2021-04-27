@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { AdminGuard } from 'src/app/components/guards/admin.guard';
 import { AuthGuard } from 'src/app/components/guards/auth.guard';
+import { GerarBilheteComponent } from './gerar-bilhete/gerar-bilhete.component';
+import { AlterarRodadaCartolaComponent } from './gerenciar-rodada-cartola/alterar/alterar-rodada-cartola.component';
 import { CadastrarRodadaCartolaComponent } from './gerenciar-rodada-cartola/cadastrar/cadastrar-rodada-cartola.component';
 import { RodadaCartolaComponent } from './gerenciar-rodada-cartola/listar/rodada-cartola.component';
 import { ListarPendenciaPagamentoComponent } from './listar-pendencia-pagamento/listar-pendencia-pagamento.component';
@@ -39,7 +41,12 @@ export const CartolaRoutes: Routes = [
         path: 'listarUsuarios',
         component: ListarUsuariosComponent,
 
-      }
+      },
+
+      {
+        path: 'alterarRodadaCartola',
+        component: AlterarRodadaCartolaComponent,
+      },
     ],
   },
 
@@ -55,6 +62,13 @@ export const CartolaRoutes: Routes = [
     path: 'listarTimesDaRodada',
     component: ListarTimesDaRodadaComponent
   },
+  {
+    path: 'gerarBilhete',
+    component: GerarBilheteComponent
+  },
+
+ 
+
 
   /**
  * @description Rotas com autenticação

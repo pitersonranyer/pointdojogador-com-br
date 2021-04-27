@@ -1,4 +1,5 @@
-<ngx-spinner name="rodada" [fullScreen]="true" type="ball-spin-clockwise" size="medium"></ngx-spinner>
+ <!-- <ngx-spinner name="rodada" [fullScreen]="true" type="ball-spin-clockwise" size="medium"></ngx-spinner> -->
+
 
 <div class="panel-header panel-header-sm"></div>
 <div class="main-content">
@@ -6,25 +7,31 @@
     <div class="col-md-12">
       <div class="card">
         <div style="text-align:center">
-          <h4 class="card-title">RODADA #{{idRodada}}</h4>
+          <h4 class="card-title">RODADA #{{competicaoRodada.nrRodada}}</h4>
         </div>
-        <div class="style-content" *ngIf="status === 'Aberta' || status === 'Próxima'">
+        <div class="style-content" *ngIf="competicaoRodada.statusCompeticao === 'Aberta' || competicaoRodada.statusCompeticao === 'Próxima'">
+       <!--   <div class="col-md-12 text-center">
+            <button class="btn btn-success btn-lg " (click)="addTimeRodada(nrRodada)">CLIQUE AQUI PARA PARTICIPAR
+            </button>
+          </div>
+          -->
           <div class="col-md-12 text-center">
-            <button class="btn btn-success btn-lg " (click)="addTimeRodada(idRodada)">CLIQUE AQUI PARA PARTICIPAR
+            <button class="btn btn-success btn-lg " (click)="gerarBilhete(competicaoRodada)">CLIQUE AQUI PARA PARTICIPAR
             </button>
           </div>
         </div>
       </div>
 
 
-      <div class="text-right" *ngIf="status === 'Fechada'">
+      <div class="text-right" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'">
         <a href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
           (click)="atualizarParciais()"><i class="now-ui-icons loader_refresh"></i></a>
       </div>
 
 
       <div class="input-group no-border">
-        <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" />
+        <!-- <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" /> -->
+        <input type="text" class="form-control" placeholder="Buscar time..." />
         <div class="input-group-append">
           <div class="input-group-text">
             <i class="now-ui-icons ui-1_zoom-bold"></i>
@@ -61,12 +68,12 @@
                   <div> <span class="datatable-colocacao">{{i + 1}}º</span>
                     <div>
                       <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
-                      <span class="datatable-nome-time" *ngIf="status === 'Fechada'">
+                      <span class="datatable-nome-time" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'">
                         <a href="javascript:void(0)" (click)="showTime(parcial)">
                           {{parcial.nome}}
                         </a>
                       </span>
-                      <span class="datatable-nome-time" *ngIf="status != 'Fechada'">
+                      <span class="datatable-nome-time" *ngIf="competicaoRodada.statusCompeticao != 'Fechada'">
                         <a href="javascript:void(0)" (click)="showTime(parcial)">
                           {{parcial.nome}}
                         </a>
@@ -82,7 +89,7 @@
                 </td>
                 <td class=" text-right">
                   <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
-                  <span style="color:red" *ngIf="status === 'Fechada'"
+                  <span style="color:red" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'"
                     class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
                 </td>
 

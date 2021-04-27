@@ -23,6 +23,11 @@ import { ModalAlterarSenhaComponent } from './user-profile/modal-alterar-senha/m
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AdminGuard } from 'src/app/components/guards/admin.guard';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { AlterarRodadaCartolaComponent } from './gerenciar-rodada-cartola/alterar/alterar-rodada-cartola.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { GerarBilheteComponent } from './gerar-bilhete/gerar-bilhete.component';
+
 
 
 @NgModule({
@@ -34,7 +39,10 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ReactiveFormsModule,
     NgbModule,
     NgxSpinnerModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    JwBootstrapSwitchNg2Module,
+    NgxMaskModule.forRoot()
+
   ],
   declarations: [MeusTimesComponent,
     MinhasLigasComponent,
@@ -51,7 +59,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ModalAddTimeUsuarioComponent,
     ModalDetalheTimeUsuarioComponent,
     UserProfileComponent,
-    ModalAlterarSenhaComponent
+    ModalAlterarSenhaComponent,
+    AlterarRodadaCartolaComponent,
+    GerarBilheteComponent
   ],
   exports: [
 
