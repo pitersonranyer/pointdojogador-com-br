@@ -10,7 +10,8 @@ import { Liga } from '../interfaces/liga';
 import { TimeLigaCartola } from '../interfaces/timeLigaCartola';
 import { CompeticaoCartola } from '../interfaces/competicaoCartola';
 import { HistoricoTimeUsuario } from '../interfaces/historicoTimeUsuario';
-
+import { BilheteCompeticaoCartola } from '../interfaces/bilheteCompeticaoCartola';
+import { TimeBilheteCompeticaoCartola } from '../interfaces/timeBilheteCompeticaoCartola';
 @Injectable({
   providedIn: 'root'
 })
@@ -252,6 +253,52 @@ export class CartolaAPIService {
     return this.http.delete(url);
   }
 
+  cadastrarHistoricoTimeUsuario(historicoTimeUsuario: HistoricoTimeUsuario) {
+    const url = this.utilService.getUrlBackend() + `/historicoTimeUsuario`;
+    return this.http.post(url, historicoTimeUsuario);
+  }
 
+
+  gerarBilheteCompeticaoCartola(bilhete: BilheteCompeticaoCartola) {
+    const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola`;
+    return this.http.post(url, bilhete);
+  }
+
+  listarTimeBilheteGerado(nrContatoUsuario: number, nrSequencialRodadaCartola: number): Observable<any> {
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/listarTimeBilheteGerado/${nrContatoUsuario}/${nrSequencialRodadaCartola}`;
+    return this.http.get<any>(url);
+  }
+
+  cadastrarTimeBilheteCompeticaoCartola(timebilhete: TimeBilheteCompeticaoCartola) {
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola`;
+    return this.http.post(url, timebilhete);
+  }
+
+  excluirTimeBilhete(idBilhete: number, time_id: number) {
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/excluirTimeBilhete/${idBilhete}/${time_id}`;
+    return this.http.delete(url);
+  }
+
+
+  listarBilheteGerado(): Observable<any[]> {
+    const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/listarBilheteGerado`;
+    return this.http.get<any[]>(url);
+  }
+
+  listarTimesDaCompeticao(nrSequencialRodadaCartola: number): Observable<any> {
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/listarTimesDaCompeticao/${nrSequencialRodadaCartola}`;
+    return this.http.get<any>(url);
+  }
+
+  consultaTimeCompeticaoCount(nrSequencialRodadaCartola: number) {
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/consultaTimeCompeticaoCount/${nrSequencialRodadaCartola}`;
+    return this.http.get(url);
+  }
+
+  alterarStatusBilhete(bilhete: BilheteCompeticaoCartola) {
+    const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/alterarStatusBilhete`;
+    return this.http.put(url, bilhete);
+  }
+  
 
 }

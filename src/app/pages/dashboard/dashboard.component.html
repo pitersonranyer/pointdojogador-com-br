@@ -13,7 +13,20 @@
         <div class="card ">
 
           <div class="card-body text-center">
-            <h2> RODADA #{{ rodada.nrRodada}}</h2> <h3>  {{rodada.tipoCompeticao}} </h3>
+            <h2> {{ rodada.nomeLiga}}</h2>
+            <h4 *ngIf="rodada.tipoCompeticao === 'TIRO CURTO'">
+              <span class="badge badge-success">TIRO CURTO #{{ rodada.nrRodada}}</span>
+            </h4>
+            <h4 *ngIf="rodada.tipoCompeticao === 'ANUAL'">
+              <span class="badge badge-info">{{ rodada.tipoCompeticao }}</span>
+            </h4>
+            <h4 *ngIf="rodada.tipoCompeticao === 'MENSAL'">
+              <span class="badge badge-warning">{{ rodada.tipoCompeticao }}</span>
+            </h4>
+            <h4 *ngIf="rodada.tipoCompeticao === 'ELIMINATORIA'">
+              <span class="badge badge-danger">{{ rodada.tipoCompeticao }}</span>
+            </h4>
+             
             <p class="card-text">VALOR POR TIME: R$ {{rodada.valorCompeticao}} </p>
             <p class="card-text">Participantes:  {{rodada.totalParticipantes}}</p>
             <p class="card-text">Premiação: R$ {{rodada.premiacaoFinalFormat}} </p>

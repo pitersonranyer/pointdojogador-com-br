@@ -7,7 +7,19 @@
     <div class="col-md-12">
       <div class="card">
         <div style="text-align:center">
-          <h4 class="card-title">RODADA #{{competicaoRodada.nrRodada}}</h4>
+          <h1> {{ competicaoRodada.nomeLiga}}</h1>
+          <h2 *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
+            <span class="badge badge-success">TIRO CURTO #{{ competicaoRodada.nrRodada}}</span>
+          </h2>
+          <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
+            <span class="badge badge-info">{{ competicaoRodada.tipoCompeticao }}</span>
+          </h2>
+          <h2 *ngIf="competicaoRodada.tipoCompeticao === 'MENSAL'">
+            <span class="badge badge-warning">{{ competicaoRodada.tipoCompeticao }}</span>
+          </h2>
+          <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ELIMINATORIA'">
+            <span class="badge badge-danger">{{ competicaoRodada.tipoCompeticao }}</span>
+          </h2>
         </div>
         <div class="style-content" *ngIf="competicaoRodada.statusCompeticao === 'Aberta' || competicaoRodada.statusCompeticao === 'Próxima'">
        <!--   <div class="col-md-12 text-center">

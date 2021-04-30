@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCartola';
 import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
@@ -14,43 +15,42 @@ import swal from 'sweetalert2';
 })
 export class ListarPendenciaPagamentoComponent implements OnInit {
   public rodada: RodadaCartola;
-  public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
-  anoAtual = 2021;
-  pendencias = [];
+  public bilhete: BilheteCompeticaoCartola = <BilheteCompeticaoCartola>{};
+  bilhetes = [];
 
 
-  constructor(private listarRodadaAtual: CartolaAPIService,
-    private listaTimeRodadaPendentePgto: CartolaAPIService,
+  constructor(
+    private listarBilheteGeradoService: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
     private cancelarInscricaoTime: CartolaAPIService,
     private toastr: ToastrService,
     private router: Router) { }
 
   ngOnInit() {
-    this.listarRodadaAtual.listarRodadaCartolaPorTemporada(this.anoAtual).subscribe((rodadaCartola: RodadaCartola) => {
-      this.rodada = rodadaCartola;
 
-      this.listaTimeRodadaPendentePgto.listaTimeRodadaPendentePgto(this.rodada.anoTemporada, this.rodada.idRodada)
-        .subscribe((listaPendencia: any[]) => {
-          this.pendencias = listaPendencia;
-        });
+    this.listarBilheteGeradoService.listarBilheteGerado()
+      .subscribe((bilhetes: any[]) => {
+        this.bilhetes = bilhetes;
+        console.log(this.bilhetes);
+      });
 
-    });
+
   }
 
   voltar() {
     this.router.navigate(['/dashboard']);
   }
 
-  liberar(pendencia: any): void {
+  liberar(bilhete: any): void {
 
-    this.timeRodadaCartola.anoTemporada = pendencia.anoTemporada;
-    this.timeRodadaCartola.idRodada = pendencia.idRodada;
-    this.timeRodadaCartola.idUsuario = pendencia.idUsuario;
-    this.timeRodadaCartola.time_id = pendencia.time_id;
+    this.bilhete.idBilhete = bilhete.idBilhete;
+    this.bilhete.nrSequencialRodadaCartola = bilhete.nrSequencialRodadaCartola;
+
+    this.bilhete.nomeUsuario = bilhete.nomeUsuario;
+    this.bilhete.statusAtualBilhete = 'Pago';
 
 
-    this.atualizarStatusPagamento.atualizarStatusPagamento(this.timeRodadaCartola).subscribe(
+    this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete).subscribe(
       () => {
         this.toastr.success(
           '<span class="now-ui-icons ui-1_bell-53"></span>' +
@@ -65,9 +65,9 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
           }
         );
 
-        this.listaTimeRodadaPendentePgto.listaTimeRodadaPendentePgto(this.timeRodadaCartola.anoTemporada, this.timeRodadaCartola.idRodada)
-          .subscribe((listaPendencia: any[]) => {
-            this.pendencias = listaPendencia;
+        this.listarBilheteGeradoService.listarBilheteGerado()
+          .subscribe((bilhetes: any[]) => {
+            this.bilhetes = bilhetes;
           });
       },
       (erro) => {
@@ -81,13 +81,15 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
       });
   }
 
-  cancelar(pendencia: any): void {
+  cancelar(bilhete: any): void {
+    this.bilhete.idBilhete = bilhete.idBilhete;
+    this.bilhete.nrSequencialRodadaCartola = bilhete.nrSequencialRodadaCartola;
 
-    this.cancelarInscricaoTime.cancelarInscricaoTime(pendencia.anoTemporada,
-      pendencia.idRodada,
-      pendencia.idUsuario,
-      pendencia.time_id
-    ).subscribe(
+    this.bilhete.nomeUsuario = bilhete.nomeUsuario;
+    this.bilhete.statusAtualBilhete = 'Cancelado';
+
+
+    this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete).subscribe(
       () => {
         this.toastr.success(
           '<span class="now-ui-icons ui-1_bell-53"></span>' +
@@ -102,9 +104,9 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
           }
         );
 
-        this.listaTimeRodadaPendentePgto.listaTimeRodadaPendentePgto(pendencia.anoTemporada, pendencia.idRodada)
-          .subscribe((listaPendencia: any[]) => {
-            this.pendencias = listaPendencia;
+        this.listarBilheteGeradoService.listarBilheteGerado()
+          .subscribe((bilhetes: any[]) => {
+            this.bilhetes = bilhetes;
           });
       },
       (erro) => {

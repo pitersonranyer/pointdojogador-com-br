@@ -38,9 +38,10 @@ export class DashboardComponent implements OnInit {
 
       for (let i = 0; i < this.rodadas.length; i++) {
         this.count = 0;
-   //     this.countRodadaAtual.consultaTimeRodadaCartolaCount(this.rodadas[i].anoTemporada, this.rodadas[i].idRodada)
-   //       .subscribe((count: number) => {
-   
+        this.countRodadaAtual.consultaTimeCompeticaoCount(this.rodadas[i].nrSequencialRodadaCartola)
+          .subscribe((data: number) => {
+            this.count = data;
+            
             this.rodadas[i].totalParticipantes = this.count;
             this.premiacaoTotal = this.rodadas[i].totalParticipantes * this.rodadas[i].valorCompeticao;
             this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
@@ -50,7 +51,7 @@ export class DashboardComponent implements OnInit {
             this.rodadas[i].dataFim = this.rodadas[i].dataFimInscricao.substring(0, 5);
             this.rodadas[i].horaFim = this.rodadas[i].horaFimInscricao.substring(0, 5);
    
-   //       });
+          });
       }
 
     });

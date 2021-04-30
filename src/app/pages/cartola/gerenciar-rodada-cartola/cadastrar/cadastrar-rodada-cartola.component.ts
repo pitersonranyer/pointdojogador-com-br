@@ -21,6 +21,20 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
 
   id: number;
 
+  public listaTipoCompeticao = [
+    { nomeCompeticao: "TIRO CURTO" },
+    { nomeCompeticao: "MENSAL" },
+    { nomeCompeticao: "ANUAL" },
+    { nomeCompeticao: "ELIMINATORIA" }
+    
+  ];
+
+  public listaStatus = [
+    { nomeStatus: "Aberta" },
+    { nomeStatus: "Fechada" },
+    { nomeStatus: "Encerrada" }
+  ];
+
   constructor(private cadastrarRodadaCartola: CartolaAPIService,
     private usuarioService: UsuarioService,
     private router: Router,
@@ -40,7 +54,7 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.rodadaCartola.idUsuarioAdmLiga = this.id;
     swal({
       title: 'Cadastrar',
       text: 'Deseja cadastrar essa Rodada?',
@@ -53,7 +67,6 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
       buttonsStyling: false
     }).then(result => {
       if (result.value) {
-        this.rodadaCartola.idUsuarioAdmLiga = this.id;
         this.cadastrarRodadaCartola.cadastrarCompeticaoCartola(this.rodadaCartola).subscribe(
           () => {
             this.toastr.success(

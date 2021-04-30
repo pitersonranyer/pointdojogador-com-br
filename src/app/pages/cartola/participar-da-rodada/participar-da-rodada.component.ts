@@ -55,7 +55,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
   grupo = '';
 
-  
+
 
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
@@ -67,7 +67,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     private atletasPontuados: CartolaAPIService,
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
-    private consultarMercadoStatus: CartolaAPIService
+    private consultarMercadoStatus: CartolaAPIService,
+    private listarTimesDaCompeticaoService: CartolaAPIService
   ) { }
 
   ngOnInit() {
@@ -138,43 +139,46 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
               this.parciais = resultParcial;
               for (let j = 0; j < this.parciais.length; j++) {
 
-                this.premiacaoTotal = this.parciais.length * this.valorCompeticao;
-                this.premiacaoPercentualLista = 0;
-                this.premiacaoFinalLista = 0;
-                this.parciais[j].premiacaoFinalFormatLista = 0;
-                if (j === 0) {
-                  this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
-                  this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                  this.parciais[j].premiacaoFinalFormatLista =
-                    this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                }
-                if (j === 1) {
+                if (this.competicaoRodada.tipoCompeticao === 'TIRO CURTO') {
 
-                  this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
-                  this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                  this.parciais[j].premiacaoFinalFormatLista =
-                    this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                }
-                if (j === 2) {
-                  this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
-                  this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                  this.parciais[j].premiacaoFinalFormatLista =
-                    this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                }
-                if (j === 3) {
-                  this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
-                  this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                  this.parciais[j].premiacaoFinalFormatLista =
-                    this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                }
-                if (j === 4) {
-                  this.parciais[j].premiacaoFinalFormatLista = '10,00';
-                }
-                if (j === 5) {
-                  this.parciais[j].premiacaoFinalFormatLista = '10,00';
-                }
-                if (j === 6) {
-                  this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  this.premiacaoTotal = this.parciais.length * this.competicaoRodada.valorCompeticao;
+                  this.premiacaoPercentualLista = 0;
+                  this.premiacaoFinalLista = 0;
+                  this.parciais[j].premiacaoFinalFormatLista = 0;
+                  if (j === 0) {
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 1) {
+
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 2) {
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 3) {
+                    this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
+                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                    this.parciais[j].premiacaoFinalFormatLista =
+                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+                  }
+                  if (j === 4) {
+                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  }
+                  if (j === 5) {
+                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  }
+                  if (j === 6) {
+                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
+                  }
                 }
 
                 this.consultarTimeCartola.consultarTimeCartola(this.parciais[j].time_id).subscribe((data) => {
@@ -207,43 +211,44 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
         });
     } else {
-      this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
+      this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
         .subscribe((resultParcial: any[]) => {
           this.parciais = resultParcial;
           for (let j = 0; j < this.parciais.length; j++) {
-
-            this.premiacaoTotal = this.parciais.length * this.valorCompeticao;
-            this.premiacaoPercentualLista = 0;
-            this.premiacaoFinalLista = 0;
-            this.parciais[j].premiacaoFinalFormatLista = 0;
-            if (j === 0) {
-              this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
-              this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-            }
-            if (j === 1) {
-              this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
-              this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-            }
-            if (j === 2) {
-              this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
-              this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-            }
-            if (j === 3) {
-              this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
-              this.premiacaoFinalLista = this.premiacaoPercentualLista;
-              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-            }
-            if (j === 4) {
-              this.parciais[j].premiacaoFinalFormatLista = '10,00';
-            }
-            if (j === 5) {
-              this.parciais[j].premiacaoFinalFormatLista = '10,00';
-            }
-            if (j === 6) {
-              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            if (this.competicaoRodada.tipoCompeticao === 'TIRO CURTO') {
+              this.premiacaoTotal = this.parciais.length * this.competicaoRodada.valorCompeticao;
+              this.premiacaoPercentualLista = 0;
+              this.premiacaoFinalLista = 0;
+              this.parciais[j].premiacaoFinalFormatLista = 0;
+              if (j === 0) {
+                this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+                this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              }
+              if (j === 1) {
+                this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+                this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              }
+              if (j === 2) {
+                this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
+                this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              }
+              if (j === 3) {
+                this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
+                this.premiacaoFinalLista = this.premiacaoPercentualLista;
+                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+              }
+              if (j === 4) {
+                this.parciais[j].premiacaoFinalFormatLista = '10,00';
+              }
+              if (j === 5) {
+                this.parciais[j].premiacaoFinalFormatLista = '10,00';
+              }
+              if (j === 6) {
+                this.parciais[j].premiacaoFinalFormatLista = '10,00';
+              }
             }
           }
         });
@@ -410,7 +415,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
   gerarPDF() {
 
-    html2canvas(document.querySelector(".rodadaPDF"), {useCORS: true}).then(canvas => {
+    html2canvas(document.querySelector(".rodadaPDF"), { useCORS: true }).then(canvas => {
       var pdf = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
       var imgData = canvas.toDataURL("image/png", 1.0);
       pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
@@ -418,7 +423,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       pdf.save(arquivo);
 
     });
-    
+
   }
 
 }

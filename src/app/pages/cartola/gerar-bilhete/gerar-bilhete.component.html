@@ -69,24 +69,56 @@
 <div class="col-md-12">
   <div class="card ">
     <div class="card-header ">
-      <h4 class="card-title">Incluir Times na Liga</h4>
+      <h4 class="card-title text-center">Incluir Times na Liga</h4>
+      <div class="text-center">
+        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
+          <span class="badge badge-success">TIRO CURTO #{{ competicaoRodada.nrRodada}}</span>
+        </h2>
+        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
+          <span class="badge badge-info">{{ competicaoRodada.tipoCompeticao }}</span>
+        </h2>
+        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'MENSAL'">
+          <span class="badge badge-warning">{{ competicaoRodada.tipoCompeticao }}</span>
+        </h2>
+        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ELIMINATORIA'">
+          <span class="badge badge-danger">{{ competicaoRodada.tipoCompeticao }}</span>
+        </h2>
+        
+      </div>
+      <div class="text-center" *ngIf="idBilheteUsuario">
+        <h2>
+          <span class="badge badge-success">Bilhete: {{idBilheteUsuario}} </span>
+        </h2>
+      </div>
+
+
     </div>
-    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0" >
-      <thead class="text-primary">
+
+
+    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+      <thead>
         <tr>
-          <th>Time</th>
-          <th>Contato</th>
-          <th class="text-right">Ações</th>
+          <th scope="col">Times</th>
+          <th class="text-right">Excluir</th>
         </tr>
       </thead>
-      <tbody >
-        <tr *ngFor="let result of results$ | async">
-          <td>{{ result.time_id }}</td>
-          <td>{{ result.nrContatoUsuario }}</td>
-          <td class="text-right">
-            <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirTimeUsuario(result)"><i class="fas fa-trash"></i></a>
-             </td>
+      <tbody>
+        <tr *ngFor="let result of results$ | async; let i = index ">
+          <td *ngIf="result.time_id">
+            <div ><span class="datatable-colocacao">{{i + 1}}</span>
+              <div>
+                <img class="datatable-escudo" src="{{result.url_escudo_png}}">
+                <span class="datatable-nome-time">{{result.nome}} </span>
+                <span class="datatable-nome-coach"> <img *ngIf="result.assinante" class="datatable-pro"
+                    src="/assets/img/cartolaPRO.png"> {{result.nome_cartola}} </span>
+              </div>
+            </div>
+          </td>
+          <td class="text-right" *ngIf="result.time_id">
+                <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirTimeUsuario(result)"><i class="fas fa-trash"></i></a>
+          </td>
         </tr>
+        
       </tbody>
     </table>
   </div>
@@ -103,7 +135,11 @@
     <h4 class="title title-up">Importar Times</h4>
   </div>
   <div class="modal-body">
-
+    <div class="text-center" *ngIf="idBilheteUsuario">
+      <h2>
+        <span class="badge badge-success">Bilhete: {{idBilheteUsuario}} </span>
+      </h2>
+    </div>
     <!-- IMPORTAR TIMES POR CODIGOS -->
 
     <form #f2="ngForm" >
@@ -140,7 +176,42 @@
 
     <!-- LISTA TIMES -->
 
-    
+    <div *ngIf="timesLigaCartola.length">
+      <h1>Adicionar Time</h1>
+
+      <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Times</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timeLiga of timesLigaCartola; let i = index ">
+            <td>
+              <div> <span class="datatable-colocacao">{{i + 1}}</span>
+                <div>
+                  <img class="datatable-escudo" src="{{timeLiga.url_escudo_png}}">
+                  <span class="datatable-nome-time">{{timeLiga.nome}}</span>
+                  <span class="datatable-nome-coach">{{timeLiga.nome_cartola}}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div>
+
+                <a *ngIf="!timeLiga.inPoint" href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit"
+                  (click)="gerarBilheteUsuario(timeLiga)"><i class="fa fa-cart-plus"></i></a>
+
+                  <a *ngIf="timeLiga.inPoint" href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
+                  ><i class="fa fa-check"></i></a>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
 
 
