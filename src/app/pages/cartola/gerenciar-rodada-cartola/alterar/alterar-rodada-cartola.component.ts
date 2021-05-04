@@ -52,8 +52,10 @@ export class AlterarRodadaCartolaComponent implements OnInit {
         this.competicao.dataFimInscricao = params.dataFimInscricao;
         this.competicao.horaFimInscricao = params.horaFimInscricao;
         this.competicao.valorCompeticao = params.valorCompeticao;
+        this.competicao.txAdm = params.txAdm;
         this.competicao.statusCompeticao = params.statusCompeticao;
         this.competicao.tipoCompeticao = params.tipoCompeticao;
+        this.competicao.linkGrupoWapp = params.linkGrupoWapp;
   
       });
 

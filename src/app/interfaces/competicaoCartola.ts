@@ -9,4 +9,7 @@ export interface CompeticaoCartola {
     valorCompeticao: number;
     statusCompeticao: string;  // Aberta, Fechada, Encerrada
     tipoCompeticao: string; //Mensal, Tiro Curto...
+    txAdm: number;
+    linkGrupoWapp: string;
+    prioridadeConsulta: number;
 }

@@ -1,5 +1,6 @@
 export interface BilheteCompeticaoCartola {
   idBilhete: number;
+  codigoBilhete: string;
   nomeUsuario: string;
   nrContatoUsuario: string;
   statusAtualBilhete: string;

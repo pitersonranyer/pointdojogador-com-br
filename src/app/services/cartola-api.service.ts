@@ -220,6 +220,11 @@ export class CartolaAPIService {
     this._listners.next(filtrarPor);
   }
 
+  consultarUsuario(id: number) {
+    const url = this.utilService.getUrlBackend() + `/usuarioComum/${id}`;
+    return this.http.get(url);
+  }
+
 
   // COMPETICAO CARTOLA
 
@@ -259,7 +264,7 @@ export class CartolaAPIService {
   }
 
 
-  gerarBilheteCompeticaoCartola(bilhete: BilheteCompeticaoCartola) {
+  gerarBilheteCompeticaoCartola(bilhete: BilheteCompeticaoCartola)  {
     const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola`;
     return this.http.post(url, bilhete);
   }

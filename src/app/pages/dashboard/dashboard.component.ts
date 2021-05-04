@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
+import { Usuario } from 'src/app/interfaces/usuario';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,12 +26,20 @@ export class DashboardComponent implements OnInit {
 
   public rodadas = [];
 
+  usuario$: Observable<Usuario>;
+  usuario: Usuario;
+
   constructor(private router: Router,
     private listarTodasCompeticaoCartolaAtivas: CartolaAPIService,
-    private countRodadaAtual: CartolaAPIService) {}
+    public usuarioService: UsuarioService,
+    private countRodadaAtual: CartolaAPIService) {
+      this.usuario$ = usuarioService.getUsuario();
+    this.usuario$.subscribe(usuario => this.usuario = usuario);
+    }
 
 
   ngOnInit() {
+    
     this.listarCompeticaoCartolaAtivas();
   }
 
@@ -44,7 +55,7 @@ export class DashboardComponent implements OnInit {
             
             this.rodadas[i].totalParticipantes = this.count;
             this.premiacaoTotal = this.rodadas[i].totalParticipantes * this.rodadas[i].valorCompeticao;
-            this.premiacaoPercentual = (this.premiacaoTotal * 10) / 100;
+            this.premiacaoPercentual = (this.premiacaoTotal * this.rodadas[i].txAdm) / 100;
             this.premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
 
             this.rodadas[i].premiacaoFinalFormat = this.premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });

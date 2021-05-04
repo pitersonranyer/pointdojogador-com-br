@@ -6,7 +6,7 @@
       </div>
     </a>
     <a routerLink="/" class="simple-text logo-normal">
-      LIGA POINT
+     POINT JOGADOR
     </a>
     <div class="navbar-minimize">
       <button
@@ -51,17 +51,18 @@
               </a>
             </li>
             <li>
-              <a routerLink="/cartola/listarUsuarios" *ngIf="usuario.admin">
+              <a routerLink="/cartola/listarUsuarios" *ngIf="usuario.email === 'pitersonranyer@gmail.com'">
                 <span class="sidebar-mini-icon">US</span>
                 <span class="sidebar-normal">Usuários</span>
               </a>
             </li>
-            <li>
+          <!--  <li>
               <a routerLink="/adm-ligas/admLigas" *ngIf="usuario.admin">
                 <span class="sidebar-mini-icon">AL</span>
                 <span class="sidebar-normal">Admin Ligas</span>
               </a>
             </li>
+          -->  
             <li>
               <a href="javascript:void(0)" (click)="deslogar()">
                 <span class="sidebar-mini-icon">SR</span>

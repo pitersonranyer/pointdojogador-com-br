@@ -22,7 +22,6 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
   constructor(
     private listarBilheteGeradoService: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
-    private cancelarInscricaoTime: CartolaAPIService,
     private toastr: ToastrService,
     private router: Router) { }
 
@@ -31,7 +30,6 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
     this.listarBilheteGeradoService.listarBilheteGerado()
       .subscribe((bilhetes: any[]) => {
         this.bilhetes = bilhetes;
-        console.log(this.bilhetes);
       });
 
 

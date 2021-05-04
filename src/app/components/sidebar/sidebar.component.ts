@@ -37,18 +37,18 @@ export const ROUTES: RouteInfo[] = [
     type: 'link',
     icontype: 'design_app'
   },
-  {
-    path: '/cartola',
-    title: 'Cartola',
-    type: 'sub',
-    icontype: 'design_image',
-    collapse: 'cartola',
-    isCollapsed: true,
-    children: [
-      { path: 'meusTimes', title: 'Meus Times', ab: 'MT' },
-      { path: 'minhasLigas', title: 'Minhas Ligas', ab: 'ML' },
-    ]
-  },
+//  {
+//    path: '/cartola',
+//    title: 'Cartola',
+//    type: 'sub',
+//    icontype: 'design_image',
+//    collapse: 'cartola',
+//    isCollapsed: true,
+//    children: [
+//      { path: 'meusTimes', title: 'Meus Times', ab: 'MT' },
+//      { path: 'minhasLigas', title: 'Minhas Ligas', ab: 'ML' },
+ //   ]
+//  },
   {
     path: '/pages/login',
     title: 'Login',
