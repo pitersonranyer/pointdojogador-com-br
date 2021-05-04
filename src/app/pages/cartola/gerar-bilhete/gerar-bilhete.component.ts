@@ -41,7 +41,6 @@ export class GerarBilheteComponent implements OnInit {
 
 
   results$: Observable<any>;
-  dados$: Observable<any>;
 
   arrayTimesUsuario = [];
 
@@ -51,8 +50,9 @@ export class GerarBilheteComponent implements OnInit {
   idBilheteUsuario = 0;
 
   timesLigaCartola = [];
+  count = 0;
 
-  
+
 
   constructor(private listarTimeBilheteService: CartolaAPIService,
     private excluirTimeBilheteService: CartolaAPIService,
@@ -60,6 +60,7 @@ export class GerarBilheteComponent implements OnInit {
     private consultarTimeInfoCartolaById: CartolaAPIService,
     private gerarBilhete: CartolaAPIService,
     private cadastrarTimeBilheteService: CartolaAPIService,
+    private atualizarStatusPagamento: CartolaAPIService,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private route: ActivatedRoute) { }
@@ -109,6 +110,8 @@ export class GerarBilheteComponent implements OnInit {
           })),
 
       );
+
+    this.results$.subscribe(result => { this.count = result.length });
 
   }
 
@@ -183,7 +186,7 @@ export class GerarBilheteComponent implements OnInit {
         this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
         if (i === 0) {
           console.log("GERAR BILHETE");
-           this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
+          this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
             .subscribe((value: any) => {
               this.idBilheteUsuario = value.idBilhete;
               this.codigoBilhete = value.codigoBilhete;
@@ -402,6 +405,33 @@ export class GerarBilheteComponent implements OnInit {
       }
     }
   }
+
+  finalizarInscricao(codigoBilhete: string): void {
+
+    let valorBilhete = this.count * this.competicaoRodada.valorCompeticao;
+    this.bilhete.idBilhete = this.idBilheteUsuario;
+    this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola;
+    this.bilhete.nomeUsuario = this.formulario.get('nome').value;
+    this.bilhete.statusAtualBilhete = 'Finalizado';
+
+    this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete).subscribe(
+      () => {
+        swal({
+          title: "Bilhete: " + codigoBilhete,
+          text: "Para validar, envie esse código para o ADM da liga!",
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-success",
+          type: "success",
+          footer: "Valor: " + valorBilhete + "R$"
+        }).catch(swal.noop);
+
+      });
+
+    this.limpar();
+
+  }
+
+
 
 
 
