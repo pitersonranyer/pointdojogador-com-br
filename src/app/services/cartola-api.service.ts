@@ -238,6 +238,11 @@ export class CartolaAPIService {
     return this.http.get<CompeticaoCartola[]>(url);
   }
 
+  listarCompeticaoCartolaAtivasId(idUsuarioAdmLiga: number) {
+    const url = this.utilService.getUrlBackend() + `/competicaoCartola/listarCompeticaoCartolaAtivasId/${idUsuarioAdmLiga}`;
+    return this.http.get(url);
+  }
+
   alterarCompeticaoCartola(competicaoCartola: CompeticaoCartola) {
     const url = this.utilService.getUrlBackend() + `/competicaoCartola/alterarCompeticaoCartola`;
     return this.http.put(url, competicaoCartola);
@@ -287,6 +292,12 @@ export class CartolaAPIService {
 
   listarBilheteGerado(): Observable<any[]> {
     const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/listarBilheteGerado`;
+    return this.http.get<any[]>(url);
+  }
+
+
+  listarBilheteGeradoId(idUsuarioAdmLiga: number): Observable<any[]> {
+    const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/listarBilheteGeradoId/${idUsuarioAdmLiga}`;
     return this.http.get<any[]>(url);
   }
 

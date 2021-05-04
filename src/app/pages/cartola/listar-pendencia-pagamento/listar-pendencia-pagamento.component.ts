@@ -5,6 +5,7 @@ import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCa
 import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
 
 
@@ -17,17 +18,25 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
   public rodada: RodadaCartola;
   public bilhete: BilheteCompeticaoCartola = <BilheteCompeticaoCartola>{};
   bilhetes = [];
+  id: number;
 
 
   constructor(
-    private listarBilheteGeradoService: CartolaAPIService,
+    private listarBilheteGeradoIdService: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
+    private usuarioService: UsuarioService,
     private toastr: ToastrService,
     private router: Router) { }
 
   ngOnInit() {
 
-    this.listarBilheteGeradoService.listarBilheteGerado()
+    this.usuarioService
+      .getUsuario()
+      .subscribe(usuario => {
+        this.id = usuario.id;
+      });
+
+    this.listarBilheteGeradoIdService.listarBilheteGeradoId(this.id)
       .subscribe((bilhetes: any[]) => {
         this.bilhetes = bilhetes;
       });
@@ -63,7 +72,7 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
           }
         );
 
-        this.listarBilheteGeradoService.listarBilheteGerado()
+        this.listarBilheteGeradoIdService.listarBilheteGeradoId(this.id)
           .subscribe((bilhetes: any[]) => {
             this.bilhetes = bilhetes;
           });
@@ -102,7 +111,7 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
           }
         );
 
-        this.listarBilheteGeradoService.listarBilheteGerado()
+        this.listarBilheteGeradoIdService.listarBilheteGeradoId(this.id)
           .subscribe((bilhetes: any[]) => {
             this.bilhetes = bilhetes;
           });

@@ -55,7 +55,7 @@ export class RodadaCartolaComponent implements OnInit {
   }
 
   atualizarListaRodadaCartola() {
-    this.listarTodasRodadaCartola.listarCompeticaoCartolaAtivas().subscribe((rodadasCartola: CompeticaoCartola[]) => {
+    this.listarTodasRodadaCartola.listarCompeticaoCartolaAtivasId(this.id).subscribe((rodadasCartola: CompeticaoCartola[]) => {
       this.rodadas = rodadasCartola;
     });
   }
