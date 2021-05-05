@@ -320,6 +320,12 @@ export class CartolaAPIService {
     const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/alterarStatusBilhete`;
     return this.http.put(url, bilhete);
   }
+
+  
+  consultarTimeBilhetePorCodigo(codigoBilhete: string){
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/consultarTimeBilhetePorCodigo/${codigoBilhete}`;
+    return this.http.get(url);
+  }
   
 
 }
