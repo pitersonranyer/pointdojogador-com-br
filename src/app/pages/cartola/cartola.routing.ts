@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminGuard } from 'src/app/components/guards/admin.guard';
 import { AuthGuard } from 'src/app/components/guards/auth.guard';
+import { ConsultarBilheteComponent } from './consultarBilhete/consultar-bilhete.component';
 import { GerarBilheteComponent } from './gerar-bilhete/gerar-bilhete.component';
 import { AlterarRodadaCartolaComponent } from './gerenciar-rodada-cartola/alterar/alterar-rodada-cartola.component';
 import { CadastrarRodadaCartolaComponent } from './gerenciar-rodada-cartola/cadastrar/cadastrar-rodada-cartola.component';
@@ -65,6 +66,10 @@ export const CartolaRoutes: Routes = [
   {
     path: 'gerarBilhete',
     component: GerarBilheteComponent
+  },
+  {
+    path: 'consultarBilhete',
+    component: ConsultarBilheteComponent
   },
 
  

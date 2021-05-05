@@ -27,6 +27,7 @@ import { AlterarRodadaCartolaComponent } from './gerenciar-rodada-cartola/altera
 import { NgxMaskModule } from 'ngx-mask';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { GerarBilheteComponent } from './gerar-bilhete/gerar-bilhete.component';
+import { ConsultarBilheteComponent } from './consultarBilhete/consultar-bilhete.component';
 
 
 
@@ -61,7 +62,8 @@ import { GerarBilheteComponent } from './gerar-bilhete/gerar-bilhete.component';
     UserProfileComponent,
     ModalAlterarSenhaComponent,
     AlterarRodadaCartolaComponent,
-    GerarBilheteComponent
+    GerarBilheteComponent,
+    ConsultarBilheteComponent
   ],
   exports: [
 

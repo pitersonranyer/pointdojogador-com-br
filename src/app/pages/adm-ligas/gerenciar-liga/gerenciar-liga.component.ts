@@ -58,7 +58,7 @@ export class GerenciarLigaComponent implements OnInit {
 
   }
 
-  private getDismissReason(reason: any): string {
+   getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       this.ngOnInit();
       return 'by pressing ESC';
@@ -135,7 +135,6 @@ export class GerenciarLigaComponent implements OnInit {
 
   listarTimesPorId(id: string) {
     let arraySlugs = id.split(";").map(Number);;
-    // console.log(arraySlugs.length);
     for (let i = 0; i < arraySlugs.length; i++) {
       this.time_id = arraySlugs[i];
       this.consultarTimeInfoCartolaById.consultarTimeCartola(this.time_id).subscribe((data) => {

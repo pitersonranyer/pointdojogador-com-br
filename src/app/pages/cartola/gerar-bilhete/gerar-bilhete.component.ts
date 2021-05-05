@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, tap } from 'rxjs/operators';
 import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCartola';
 import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
-import { DadosBilhete } from 'src/app/interfaces/dadosBilhete';
 import { HistoricoTimeUsuario } from 'src/app/interfaces/historicoTimeUsuario';
 import { TimeBilheteCompeticaoCartola } from 'src/app/interfaces/timeBilheteCompeticaoCartola';
 import { TimeLigaCartola } from 'src/app/interfaces/timeLigaCartola';
@@ -51,11 +50,13 @@ export class GerarBilheteComponent implements OnInit {
 
   timesLigaCartola = [];
   count = 0;
+  flag = 0;
 
 
 
   constructor(private listarTimeBilheteService: CartolaAPIService,
     private excluirTimeBilheteService: CartolaAPIService,
+    private excluirBilheteService: CartolaAPIService,
     private listarTimesCartola: CartolaAPIService,
     private consultarTimeInfoCartolaById: CartolaAPIService,
     private gerarBilhete: CartolaAPIService,
@@ -111,14 +112,21 @@ export class GerarBilheteComponent implements OnInit {
 
       );
 
-    this.results$.subscribe(result => { this.count = result.length });
-
+    this.results$.subscribe(result => {
+      this.count = result.length
+      this.flag = result[0].time_id;
+    });
   }
 
 
   recuperarHistoricoTimesUsuario() {
     this.results$ = this.listarTimeBilheteService
       .listarTimeBilheteGerado(this.formulario.get('contato').value, this.competicaoRodada.nrSequencialRodadaCartola)
+
+      this.results$.subscribe(result => {
+        this.count = result.length
+        this.flag = result[0].time_id;
+      });
   }
 
 
@@ -160,51 +168,49 @@ export class GerarBilheteComponent implements OnInit {
 
   }
 
-
-  getUserData(): Promise<any> {
-    return new Promise<void>((resolve, reject) => {
-      this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete).subscribe({
-        next: data => {
-          console.log(data);
-          resolve();
-        },
-        error: err => {
-          reject(err);
-        }
-      });
-    });
-  }
+    
 
   cadastrarTimesPorId(id: string) {
-    let arraySlugs = id.split(";").map(Number);;
-    for (let i = 0; i < arraySlugs.length; i++) {
-      this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
-        this.bilhete = data.time;
-        this.bilhete.idBilhete = 0;
-        this.bilhete.nomeUsuario = this.formulario.get('nome').value;
-        this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
-        this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
-        if (i === 0) {
-          console.log("GERAR BILHETE");
-          this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
-            .subscribe((value: any) => {
-              this.idBilheteUsuario = value.idBilhete;
-              this.codigoBilhete = value.codigoBilhete;
-              console.log(value);
-            });
-        } else {
-          console.log("ADD BILHETE");
-          this.timeBilhete = data.time;
-          this.timeBilhete.idBilhete = this.idBilheteUsuario;
-          console.log(this.timeBilhete.idBilhete);
-          this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
-          this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
-          this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-            .subscribe(() => {
-            });
+    let arraySlugs = id.split(";").map(Number);
+
+    this.bilhete.idBilhete = 0;
+    this.bilhete.nomeUsuario = this.formulario.get('nome').value;
+    this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
+    this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+
+
+    this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
+      .subscribe((value: any) => {
+        this.idBilheteUsuario = value.idBilhete;
+        this.codigoBilhete = value.codigoBilhete;
+
+        for (let i = 0; i < arraySlugs.length; i++) {
+          this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
+            this.timeBilhete = data.time;
+            this.timeBilhete.idBilhete = this.idBilheteUsuario;
+            this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
+            this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
+            this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+            this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
+              .subscribe(() => {
+              });
+          });
         }
+
       });
-    }
+
+      this.toastr.success(
+        '<span class="now-ui-icons ui-1_bell-53"></span>' +
+        ' Time(s) cadastrado(s) com sucesso!',
+        '',
+        {
+          timeOut: 8000,
+          closeButton: true,
+          enableHtml: true,
+          toastClass: 'alert alert-success alert-with-icon',
+          positionClass: 'toast-' + 'top' + '-' + 'right'
+        }
+      );
 
   }
 
@@ -271,6 +277,63 @@ export class GerarBilheteComponent implements OnInit {
     });
   }
 
+  excluirBilhete(idBilhte: number): void {
+    swal({
+      title: 'Excluir',
+      text: 'Deseja excluir esse bilhete?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: false
+    }).then(result => {
+      if (result.value) {
+        this.excluirBilheteService.excluirBilhete(idBilhte)
+          .subscribe(
+            () => {
+              swal({
+                title: 'Excluído!',
+                text: 'Bilhete Excluído com sucesso.',
+                type: 'success',
+                confirmButtonClass: 'btn btn-success',
+                buttonsStyling: false
+              }).catch(swal.noop);
+              this.limpar();
+            },
+            (erro) => {
+              if (erro.status && erro.status === 404) {
+                swal({
+                  title: 'Exclusão não efetuada',
+                  text: 'registro inexistente :)',
+                  type: 'error',
+                  confirmButtonClass: 'btn btn-info',
+                  buttonsStyling: false
+                }).catch(swal.noop);
+              } else {
+                swal({
+                  title: 'Exclusão não efetuada',
+                  text: 'Não foi possível realizar a Exclusão :)',
+                  type: 'error',
+                  confirmButtonClass: 'btn btn-info',
+                  buttonsStyling: false
+                }).catch(swal.noop);
+              }
+            }
+          );
+      } else {
+        swal({
+          title: 'Cancelado',
+          text: 'Exclusão cancelada :)',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      }
+    });
+  }
+
   gerarBilheteUsuario(time: TimeLigaCartola): void {
     for (let i = 0; i < this.timesLigaCartola.length; i++) {
       if (time.time_id === this.timesLigaCartola[i].time_id) {
@@ -287,8 +350,6 @@ export class GerarBilheteComponent implements OnInit {
         this.bilhete.url_escudo_png = this.timesLigaCartola[i].url_escudo_png;
         this.bilhete.url_escudo_svg = this.timesLigaCartola[i].url_escudo_svg;
         this.bilhete.facebook_id = this.timesLigaCartola[i].facebook_id;
-
-        console.log("idBilhete", this.idBilheteUsuario);
 
         if (this.idBilheteUsuario > 0) {
           this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;

@@ -289,6 +289,11 @@ export class CartolaAPIService {
     return this.http.delete(url);
   }
 
+  excluirBilhete(idBilhete: number) {
+    const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/excluirBilhete/${idBilhete}`;
+    return this.http.delete(url);
+  }
+
 
   listarBilheteGerado(): Observable<any[]> {
     const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/listarBilheteGerado`;

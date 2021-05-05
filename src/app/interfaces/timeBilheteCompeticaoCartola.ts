@@ -15,4 +15,5 @@ export interface TimeBilheteCompeticaoCartola {
 
   nrContatoUsuario: string;
   nomeUsuario: string;
+  nrSequencialRodadaCartola: number;
 }

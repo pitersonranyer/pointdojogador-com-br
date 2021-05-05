@@ -1,0 +1,58 @@
+.panelCupom {
+  margin: 0 auto;
+      margin-top: 0px;
+      margin-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid black;
+}
+.divBilheteImpressao {
+  width: calc(100%);
+  padding: 10px;
+  background-color: rgb(248, 236, 194);
+  color: black;
+  box-sizing: border-box;
+}
+.text-center {
+  text-align: center;
+}
+.h4, h4 {
+  font-size: 18px;
+}
+.h4, .h5, .h6, h4, h5, h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+.HR {
+  width: 100%;
+  border: 0;
+      border-bottom-color: currentcolor;
+      border-bottom-style: none;
+      border-bottom-width: 0px;
+  border-bottom: 1px dashed black;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.col-xs-12 {
+  width: 100%;
+}
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  float: left;
+}
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
