@@ -39,18 +39,27 @@ export const ROUTES: RouteInfo[] = [
   },
 
   {
-    path: '/cartola',
-    title: 'Cartola',
-    type: 'sub',
+    path: '/cartola/consultarBilhete',
+    title: 'Bilhete',
+    type: 'link',
     icontype: 'design_image',
-    collapse: 'cartola',
-    isCollapsed: true,
-    children: [
-            { path: 'consultarBilhete', title: 'Consultar Bilhete', ab: 'CB' }
+    
+  },
+
+//  {
+//    path: '/cartola',
+//    title: 'Cartola',
+//    type: 'sub',
+//    icontype: 'design_image',
+//    collapse: 'cartola',
+//    isCollapsed: true,
+//    children: [
+//            { path: 'consultarBilhete', title: 'Consultar Bilhete', ab: 'CB' }
 //      { path: 'meusTimes', title: 'Meus Times', ab: 'MT' },
 //      { path: 'minhasLigas', title: 'Minhas Ligas', ab: 'ML' },
-   ]
-  },
+//   ]
+//  },
+
   {
     path: '/pages/login',
     title: 'Login',
