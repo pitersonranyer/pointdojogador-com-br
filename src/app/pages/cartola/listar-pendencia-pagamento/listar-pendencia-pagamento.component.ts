@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCartola';
 import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
@@ -19,13 +20,32 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
   public bilhete: BilheteCompeticaoCartola = <BilheteCompeticaoCartola>{};
   bilhetes = [];
   id: number;
+  closeResult: string;
 
+  count = 0
+  nomeLigaOne = '';
+  tipoCompeticaoOne = '';
+  nrRodadaOne = 0;
+  listas = [];
+  valorBilheteFormat = '';
+  codigoBilheteOne = ''
+  totalParticipantes = 0;
+  premiacaoTotal = 0;
+  premiacaoPercentual = 0;
+  premiacaoFinalFormat = '';
+  countParticipantes = 0;
+  nomeUsuarioOne = '';
+  nomeAdmOne = '';
 
   constructor(
     private listarBilheteGeradoIdService: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
+    private consultarTimeBilhetePorCodigoService: CartolaAPIService,
+    private countRodadaAtual: CartolaAPIService,
+    private dadosUsuarioService: CartolaAPIService,
     private usuarioService: UsuarioService,
     private toastr: ToastrService,
+    private modalService: NgbModal,
     private router: Router) { }
 
   ngOnInit() {
@@ -126,5 +146,68 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
         }).catch(swal.noop);
       });
   }
+
+
+  showModalBilhete(content, codigoBilhete: string) {
+
+
+    this.consultarTimeBilhetePorCodigoService
+      .consultarTimeBilhetePorCodigo(codigoBilhete)
+      .subscribe((result: any) => {
+        this.count = result.length
+        this.listas = result;
+        this.nomeLigaOne = result[0].nomeLiga;
+        this.tipoCompeticaoOne = result[0].tipoCompeticao;
+        this.nrRodadaOne = result[0].nrRodada;
+        let valorBilhete = result[0].valorCompeticao * this.count
+        this.valorBilheteFormat = valorBilhete.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+        this.codigoBilheteOne = result[0].codigoBilhete;
+        this.nomeUsuarioOne = result[0].nomeUsuario;
+
+        this.dadosUsuarioService.consultarUsuario(result[0].idUsuarioAdmLiga)
+          .subscribe((usu: any) => {
+            this.nomeAdmOne = usu.nome;
+          });
+
+        this.countRodadaAtual.consultaTimeCompeticaoCount(result[0].nrSequencialRodadaCartola)
+          .subscribe((data: number) => {
+            this.countParticipantes = data;
+
+            this.totalParticipantes = this.countParticipantes;
+            this.premiacaoTotal = this.totalParticipantes * result[0].valorCompeticao;
+            this.premiacaoPercentual = (this.premiacaoTotal * result[0].txAdm) / 100;
+            let premiacaoFinal = this.premiacaoTotal - this.premiacaoPercentual;
+            this.premiacaoFinalFormat = premiacaoFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+
+          });
+
+      });
+
+
+
+
+    this.modalService.open(content).result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+
+  }
+
+
 
 }

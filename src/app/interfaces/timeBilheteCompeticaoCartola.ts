@@ -12,6 +12,8 @@ export interface TimeBilheteCompeticaoCartola {
   pontuacaoParcial: number;
   pontuacaoTotalCompeticao: number;
   qtJogadoresPontuados: number;
+  colocacao: number;
+
 
   nrContatoUsuario: string;
   nomeUsuario: string;

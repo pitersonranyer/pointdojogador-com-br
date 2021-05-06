@@ -31,7 +31,10 @@
                     #{{bilhete.nrRodada}}
                   </td>
                   <td>
-                    {{bilhete.codigoBilhete}}
+                    <a href="javascript:void(0)" (click)="showModalBilhete(classic, bilhete.codigoBilhete)">
+                      {{bilhete.codigoBilhete}}
+                    </a>
+                    
                   </td>
                   <td>
                     {{bilhete.tipoCompeticao}}
@@ -59,3 +62,132 @@
     </div>
   </div>
 </div>
+
+<!--MODAL-->
+
+<ng-template #classic let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="d('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">Bilhete</h4>
+  </div>
+  <div class="modal-body">
+    
+    <div id="CPH2_panelCupom" class="panelCupom" style="text-align:left;" >
+      <div id="CPH2_divBilheteImpressao" class="divBilheteImpressao">
+  
+        <!-- CABECALHO -->
+  
+        <h4 id="CPH2_txtNomeBanca" class="text-center">{{nomeLigaOne}}</h4>
+        <h4 id="CPH2_txtTelefoneBanca" class="text-center">{{tipoCompeticaoOne}} #{{nrRodadaOne}}</h4>
+        <hr class="HR">
+  
+        <span style="display: inline-block">ADMINSTRADOR:&nbsp;</span><span id="CPH2_txtVendedor">{{nomeAdmOne}}</span><br>
+        <span style="display: inline-block">CLIENTE:&nbsp;</span><span id="CPH2_txtCliente">{{nomeUsuarioOne}}</span><br>
+  
+        <hr class="HR">
+  
+  
+        <!-- DETALHE -->
+
+
+
+        <!--<div *ngFor="let lista of results$ | async">  -->
+         <div *ngFor="let lista of listas ">
+  
+          <strong>
+            <span>{{lista.nome}}</span>
+          </strong>
+          <br>
+          <span>{{lista.nome_cartola}}</span>
+          <br>
+          <strong>
+            <span>Resultado</span>
+          </strong>
+          <br>
+  
+          <div class="form-row">
+            <div class="col">
+              <span style="display: inline-block">Pontuação:</span>
+            </div>
+            <div class="col text-right">
+              <span style="display: inline-block">{{lista.pontuacaoParcial}}</span>
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="col">
+              <span style="display: inline-block">Colocação:</span>
+            </div>
+            <div class="col text-right">
+              <span style="display: inline-block">{{lista.colocacao}}</span> <span *ngIf="lista.colocacao">º</span>
+            </div>
+          </div>
+  
+          <hr class="HR">
+  
+        </div>
+  
+  
+  
+        <!-- RESUMO -->
+  
+        <div class="form-row">
+          <div class="col">
+            <span style="display: inline-block">Quantidade de Times:</span>
+          </div>
+          <div class="col text-right">
+            <span style="display: inline-block">{{count}}</span>
+          </div>
+        </div>
+  
+        <div class="form-row">
+          <div class="col">
+            <span style="display: inline-block">Valor apostado:</span>
+          </div>
+          <div class="col text-right">
+            <span style="display: inline-block">R${{valorBilheteFormat}}</span>
+          </div>
+        </div>
+
+        <hr class="HR">
+
+        <div class="form-row">
+          <div class="col">
+            <span style="display: inline-block">Total Times Competindo:</span>
+          </div>
+          <div class="col text-right">
+            <span style="display: inline-block">{{totalParticipantes}}</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col">
+            <span style="display: inline-block">Possível Premiação:</span>
+          </div>
+          <div class="col text-right">
+            <span style="display: inline-block">R${{premiacaoFinalFormat}} </span>
+          </div>
+        </div>
+  
+  
+        <!-- RODA PÉ -->
+  
+        <div>
+          <hr class="HR">
+          <div class="row">
+            <div class="col-xs-12 text-center"><span>Bilhete</span></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 text-center"><strong><span id="CPH2_txtBilhete">{{codigoBilheteOne}}</span></strong></div>
+          </div>
+          <hr class="HR">
+        </div>
+      </div>
+  
+    </div>
+
+
+  </div>
+</ng-template>
