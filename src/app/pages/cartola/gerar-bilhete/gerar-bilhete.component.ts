@@ -21,7 +21,6 @@ import swal from "sweetalert2";
 export class GerarBilheteComponent implements OnInit {
 
   timesUsuario = [];
-  isReadOnly = false;
   closeResult: string;
   codigoBilhete = '';
 
@@ -50,7 +49,8 @@ export class GerarBilheteComponent implements OnInit {
 
   timesLigaCartola = [];
   count = 0;
-  flag = 0;
+  temTime = 0;
+  proximo = false;
 
 
 
@@ -69,6 +69,7 @@ export class GerarBilheteComponent implements OnInit {
   ngOnInit() {
 
     this.timesLigaCartola = [];
+    this.arrayTimesUsuario = [];
 
     this.route.queryParams.subscribe(params => {
       this.competicaoRodada.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
@@ -84,55 +85,71 @@ export class GerarBilheteComponent implements OnInit {
     });
 
 
-    this.results$ = this.formulario.get('contato').valueChanges
-      .pipe(
-        map(value => value.trim()),
-        filter(value => value.length > 3),
-        debounceTime(200),
-        switchMap(value => this.listarTimeBilheteService
-          .listarTimeBilheteGerado(value, this.competicaoRodada.nrSequencialRodadaCartola),
-        ),
-        tap((res: any) => Object.keys(res)
-          .forEach(value => {
-            this.arrayTimesUsuario = [];
-            const timeUsuario = {
-              idBilhete: res[value].idBilhete,
-              codigoBilhete: res[value].codigoBilhete,
-              nomeUsuario: res[value].nomeUsuario,
-              nrContatoUsuario: res[value].nrContatoUsuario,
-              nrSequencialRodadaCartola: res[value].nrSequencialRodadaCartola,
-              time_id: res[value].time_id
-            };
-            this.arrayTimesUsuario.push(timeUsuario);
-            this.formulario.get('nome').setValue(this.arrayTimesUsuario[0].nomeUsuario);
-            this.idBilheteUsuario = this.arrayTimesUsuario[0].idBilhete;
-            this.codigoBilhete = this.arrayTimesUsuario[0].codigoBilhete;
-            this.isReadOnly = true;
-          })),
+    //   this.results$ = this.formulario.get('contato').valueChanges
+    //     .pipe(
+    //       map(value => value.trim()),
+    //       filter(value => value.length > 3),
+    //       debounceTime(200),
+    //       switchMap(value => this.listarTimeBilheteService
+    //         .listarTimeBilheteGerado(value, this.competicaoRodada.nrSequencialRodadaCartola),
+    //       ),
+    //       tap((res: any) => Object.keys(res)
+    //         .forEach(value => {
+    //           this.arrayTimesUsuario = [];
+    //           const timeUsuario = {
+    //             idBilhete: res[value].idBilhete,
+    //             codigoBilhete: res[value].codigoBilhete,
+    //             nomeUsuario: res[value].nomeUsuario,
+    //             nrContatoUsuario: res[value].nrContatoUsuario,
+    //             nrSequencialRodadaCartola: res[value].nrSequencialRodadaCartola,
+    //             time_id: res[value].time_id
+    //           };
+    //           this.arrayTimesUsuario.push(timeUsuario);
+    //           this.formulario.get('nome').setValue(this.arrayTimesUsuario[0].nomeUsuario);
+    //           this.idBilheteUsuario = this.arrayTimesUsuario[0].idBilhete;
+    //           this.codigoBilhete = this.arrayTimesUsuario[0].codigoBilhete;
+    //           this.isReadOnly = true;
+    //         })),
 
-      );
+    //      );
 
-    this.results$.subscribe(result => {
-      this.count = result.length
-      this.flag = result[0].time_id;
-    });
+    //   this.results$.subscribe(result => {
+    //     this.count = result.length
+    //     this.flag = result[0].time_id;
+    //   });
   }
 
 
-  recuperarHistoricoTimesUsuario() {
-    this.results$ = this.listarTimeBilheteService
-      .listarTimeBilheteGerado(this.formulario.get('contato').value, this.competicaoRodada.nrSequencialRodadaCartola)
+  Proximo() {
 
-    this.results$.subscribe(result => {
-      this.count = result.length
-      this.flag = result[0].time_id;
-    });
+    this.proximo = true
+
+    this.recuperarListaTimeBilhete();
+    
+  }
+
+
+  recuperarListaTimeBilhete() {
+
+    this.listarTimeBilheteService
+      .listarTimeBilheteGerado(this.formulario.get('contato').value, this.competicaoRodada.nrSequencialRodadaCartola)
+      .subscribe((value: any) => {
+        this.arrayTimesUsuario = value;
+        this.count = this.arrayTimesUsuario.length;
+        if (this.arrayTimesUsuario.length) {
+          this.formulario.get('nome').setValue(this.arrayTimesUsuario[0].nomeUsuario);
+          this.idBilheteUsuario = this.arrayTimesUsuario[0].idBilhete;
+          this.codigoBilhete = this.arrayTimesUsuario[0].codigoBilhete;
+          this.temTime = this.arrayTimesUsuario[0].time_id;
+        }
+      });
+
   }
 
 
 
   limpar() {
-    this.isReadOnly = false;
+    this.proximo = false;
     this.idBilheteUsuario = 0;
     this.codigoBilhete = '';
     this.formulario.reset();
@@ -141,8 +158,6 @@ export class GerarBilheteComponent implements OnInit {
 
 
   showModalAddTimes(content) {
-    console.log(content);
-    this.isReadOnly = true;
     this.modalService.open(content).result.then(
       result => {
 
@@ -157,13 +172,13 @@ export class GerarBilheteComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      this.recuperarHistoricoTimesUsuario();
+      this.recuperarListaTimeBilhete();
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      this.recuperarHistoricoTimesUsuario();
+      this.recuperarListaTimeBilhete();
       return 'by clicking on a backdrop';
     } else {
-      this.recuperarHistoricoTimesUsuario();
+      this.recuperarListaTimeBilhete();
       return `with: ${reason}`;
     }
 
@@ -244,7 +259,7 @@ export class GerarBilheteComponent implements OnInit {
                 confirmButtonClass: 'btn btn-success',
                 buttonsStyling: false
               }).catch(swal.noop);
-              this.recuperarHistoricoTimesUsuario();
+              this.recuperarListaTimeBilhete();
             },
             (erro) => {
               if (erro.status && erro.status === 404) {
@@ -422,8 +437,8 @@ export class GerarBilheteComponent implements OnInit {
           this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
           this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
-          this.timeBilhete.time_id = this.timesLigaCartola[i].time_id;            
-          this.timeBilhete.assinante = this.timesLigaCartola[i].assinante;  
+          this.timeBilhete.time_id = this.timesLigaCartola[i].time_id;
+          this.timeBilhete.assinante = this.timesLigaCartola[i].assinante;
           this.timeBilhete.foto_perfil = this.timesLigaCartola[i].foto_perfil;
           this.timeBilhete.nome = this.timesLigaCartola[i].nome;
           this.timeBilhete.nome_cartola = this.timesLigaCartola[i].nome_cartola;
