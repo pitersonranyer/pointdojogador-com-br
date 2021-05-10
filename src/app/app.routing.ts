@@ -27,6 +27,11 @@ export const AppRoutes: Routes = [
         loadChildren: './pages/adm-ligas/adm-ligas.module#AdmLigasModule'
       },
 
+      {
+        path: 'consultar-bilhete-codigo',
+        loadChildren: './pages/consultarBilheteCodigo/consultar-bilhete-codigo.module#ConsultarBilheteCodigoModule'
+      },
+
     ]
   },
   {

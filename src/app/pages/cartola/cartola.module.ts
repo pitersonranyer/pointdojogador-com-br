@@ -64,6 +64,7 @@ import { ConsultarBilheteComponent } from './consultarBilhete/consultar-bilhete.
     AlterarRodadaCartolaComponent,
     GerarBilheteComponent,
     ConsultarBilheteComponent
+    
   ],
   exports: [
 

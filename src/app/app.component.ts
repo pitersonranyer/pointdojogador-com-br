@@ -29,12 +29,23 @@ export class AppComponent implements OnInit {
     if (this.tokenService.token) {
       this.authService.criarSessao(this.tokenService.token);
     }
-    this.authService.autenticado$.subscribe(autenticado => {
-      if (autenticado) {
-        this.router.navigate(['']);
-      } else {
-        this.router.navigate(['']);
-      }
-    });
+
+    const url = location.pathname;
+    const params = new URL(location.href).searchParams;
+    const codigoBilhete = params.get('codigoBilhete');
+    
+
+    if (url != '/consultar-bilhete-codigo/consultarBilheteCodigo') {
+      this.router.navigate(['']);
+    }else{  
+      this.router.navigate([`/consultar-bilhete-codigo/consultarBilheteCodigo/${codigoBilhete}`]);
+    }
+
+    // this.authService.autenticado$.subscribe(autenticado => {
+    //   if (autenticado) {
+    //     this.router.navigate(['']);
+    //   } 
+    //   
+    // });
   }
 }

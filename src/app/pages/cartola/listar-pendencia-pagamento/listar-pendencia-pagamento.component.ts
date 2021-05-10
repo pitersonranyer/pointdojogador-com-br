@@ -68,6 +68,7 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
+
   liberar(bilhete: any): void {
 
     this.bilhete.idBilhete = bilhete.idBilhete;
@@ -91,6 +92,14 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
             positionClass: 'toast-' + 'top' + '-' + 'right'
           }
         );
+
+        swal({
+          title: "Bilhete: ",
+          text: `https://www.pointdojogador.com.br/consultar-bilhete-codigo/consultarBilheteCodigo?codigoBilhete=${bilhete.codigoBilhete}`,
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-success",
+          type: "success"
+        }).catch(swal.noop);
 
         this.listarBilheteGeradoIdService.listarBilheteGeradoId(this.id)
           .subscribe((bilhetes: any[]) => {
