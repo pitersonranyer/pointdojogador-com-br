@@ -28,6 +28,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { GerarBilheteComponent } from './gerar-bilhete/gerar-bilhete.component';
 import { ConsultarBilheteComponent } from './consultarBilhete/consultar-bilhete.component';
+import { ModalTimesFavoritosComponent } from './gerar-bilhete/modal-times-favoritos/modal-times-favoritos.component';
 
 
 
@@ -49,6 +50,7 @@ import { ConsultarBilheteComponent } from './consultarBilhete/consultar-bilhete.
     MinhasLigasComponent,
     ParticiparDaRodadaComponent,
     ModalAddTimeRodadaComponent,
+    ModalTimesFavoritosComponent,
     LoginGloboComponent,
     ListarTimesCartolaComponent,
     ListarPendenciaPagamentoComponent,
@@ -72,6 +74,7 @@ import { ConsultarBilheteComponent } from './consultarBilhete/consultar-bilhete.
   providers: [AdminGuard ],
   
   entryComponents: [ModalAddTimeRodadaComponent,
+    ModalTimesFavoritosComponent,
     LoginGloboComponent,
     ListarTimesCartolaComponent,
     AtribuirNovaSenhaComponent,

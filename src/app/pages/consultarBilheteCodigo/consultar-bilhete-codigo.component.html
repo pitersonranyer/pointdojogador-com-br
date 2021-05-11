@@ -1,72 +1,68 @@
 <div class="panel-header panel-header-sm"></div>
-<div class="col-md-12">
-  <div class="card ">
-    <div class="card-header ">
-      <h4 class="card-title">Consultar Bilhete</h4>
-    </div>
-    <div class="card-body ">
-      <form #f="ngForm" [formGroup]="formulario" > 
-
-        <label>Código do Bilhete</label>
-        <div class="form-group">
-          <input
-          type="text"
-          class="form-control"
-          formControlName="codigoBilhete"
-          name="codigoBilhete"
-          placeholder="Ex: pJ2021Me2bO3"
-          [readonly]=count
-        />
-          <span class="form-text">Informe o código do bilhete.</span>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header ">
+          <h4 class="card-title">Consultar Bilhete</h4>
         </div>
+        <div class="card-body ">
+          <form #f="ngForm" [formGroup]="formulario">
 
-      </form> 
+            <label>Código do Bilhete</label>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="codigoBilhete" name="codigoBilhete"
+                placeholder="Ex: pJ2021Me2bO3" [readonly]=count />
+            </div>
+
+          </form>
+        </div>
+        <div class="form-group" style="text-align:right">
+
+          <button class="btn btn-success" *ngIf="!count" (click)="pesquisar()">
+            <span class="btn-label">
+              <i class="now-ui-icons arrows-1_refresh-69"></i>
+            </span>
+            Pesquisar
+          </button>
+
+          <button class="btn btn-info" *ngIf="count" (click)="limpar()">
+            <span class="btn-label">
+              <i class="now-ui-icons arrows-1_minimal-left"></i>
+            </span>
+            Voltar
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="form-group" style="text-align:right" >
-
-      <button class="btn btn-success"  *ngIf="!count" (click)="pesquisar()" >
-        <span class="btn-label">
-          <i class="now-ui-icons arrows-1_refresh-69"></i>
-        </span>
-        Pesquisar
-      </button>
-
-      <button class="btn btn-info"  *ngIf="count" (click)="limpar()" >
-        <span class="btn-label">
-          <i class="now-ui-icons arrows-1_minimal-left"></i>
-        </span>
-        Voltar
-      </button>
   </div>
-  </div>
-</div>
 
 
-<div class="col-md-12" *ngIf="count">
-  <div class="card ">
-    
-    <div id="CPH2_panelCupom" class="panelCupom" style="text-align:left;" >
+  <div class="col-md-12" *ngIf="count">
+    <div id="CPH2_panelCupom" class="panelCupom" style="text-align:left;">
       <div id="CPH2_divBilheteImpressao" class="divBilheteImpressao">
-  
+
         <!-- CABECALHO -->
-  
+
         <h4 id="CPH2_txtNomeBanca" class="text-center">{{nomeLigaOne}}</h4>
         <h4 id="CPH2_txtTelefoneBanca" class="text-center">{{tipoCompeticaoOne}} #{{nrRodadaOne}}</h4>
         <hr class="HR">
-  
-        <span style="display: inline-block">ADMINSTRADOR:&nbsp;</span><span id="CPH2_txtVendedor">{{nomeAdmOne}}</span><br>
-        <span style="display: inline-block">CLIENTE:&nbsp;</span><span id="CPH2_txtCliente">{{nomeUsuarioOne}}</span><br>
-  
+
+        <span style="display: inline-block">ADMINSTRADOR:&nbsp;</span><span
+          id="CPH2_txtVendedor">{{nomeAdmOne}}</span><br>
+        <span style="display: inline-block">CLIENTE:&nbsp;</span><span
+          id="CPH2_txtCliente">{{nomeUsuarioOne}}</span><br>
+
         <hr class="HR">
-  
-  
+
+
         <!-- DETALHE -->
 
 
 
         <!--<div *ngFor="let lista of results$ | async">  -->
-         <div *ngFor="let lista of listas ">
-  
+        <div *ngFor="let lista of listas ">
+
           <strong>
             <span>{{lista.nome}}</span>
           </strong>
@@ -77,7 +73,7 @@
             <span>Resultado</span>
           </strong>
           <br>
-  
+
           <div class="form-row">
             <div class="col">
               <span style="display: inline-block">Pontuação:</span>
@@ -86,7 +82,7 @@
               <span style="display: inline-block">{{lista.pontuacaoParcial}}</span>
             </div>
           </div>
-  
+
           <div class="form-row">
             <div class="col">
               <span style="display: inline-block">Colocação:</span>
@@ -95,15 +91,15 @@
               <span style="display: inline-block">{{lista.colocacao}}</span> <span *ngIf="lista.colocacao">º</span>
             </div>
           </div>
-  
+
           <hr class="HR">
-  
+
         </div>
-  
-  
-  
+
+
+
         <!-- RESUMO -->
-  
+
         <div class="form-row">
           <div class="col">
             <span style="display: inline-block">Quantidade de Times:</span>
@@ -112,7 +108,7 @@
             <span style="display: inline-block">{{count}}</span>
           </div>
         </div>
-  
+
         <div class="form-row">
           <div class="col">
             <span style="display: inline-block">Valor apostado:</span>
@@ -141,23 +137,22 @@
             <span style="display: inline-block">R${{premiacaoFinalFormat}} </span>
           </div>
         </div>
-  
-  
+
+
         <!-- RODA PÉ -->
-  
+
         <div>
           <hr class="HR">
           <div class="row">
             <div class="col-xs-12 text-center"><span>Bilhete</span></div>
           </div>
           <div class="row">
-            <div class="col-xs-12 text-center"><strong><span id="CPH2_txtBilhete">{{codigoBilheteOne}}</span></strong></div>
+            <div class="col-xs-12 text-center"><strong><span id="CPH2_txtBilhete">{{codigoBilheteOne}}</span></strong>
+            </div>
           </div>
           <hr class="HR">
         </div>
       </div>
-  
     </div>
-
   </div>
 </div>

@@ -1,146 +1,155 @@
 <div class="panel-header panel-header-sm"></div>
-<div class="col-md-12">
-  <div class="card ">
-    <div class="card-header ">
-      <h4 class="card-title">Infome seu contato e nome em seguida clique em prosseguir.</h4>
-    </div>
-    <div class="card-body ">
-      <form #f="ngForm" [formGroup]="formulario" > 
-
-        <label>Contato</label>
-        <div class="form-group">
-            
-          <input
-          type="text"
-          class="form-control"
-          formControlName="contato"
-          name="contato"
-          placeholder="Ex: 61 982104100"
-          [dropSpecialCharacters]="false" 
-          mask="(99)99999-9999" 
-          [readonly]=proximo
-          required
-        />
-          <span class="form-text">Informe seu número de contato no WhastApp.</span>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header ">
+          <h4 class="card-title">Infome seu contato e nome em seguida clique em prosseguir.</h4>
         </div>
+        <div class="card-body ">
+          <form #f="ngForm" [formGroup]="formulario">
 
-        <label  >Nome</label>
-        <div class="form-group" >
-            <input 
-             type="text" 
-             class="form-control" 
-             formControlName="nome"
-             name="nome"
-             placeholder="Ex: João Miguel"
-             [readonly]=proximo
-             required
-               />
-             <span class="form-text">Informe seu nome ou como gosta de ser chamado.</span>
-        </div>
-        
-    
-        <div class="form-group" style="text-align:right" >
+            <label>Contato</label>
+            <div class="form-group">
 
-          <button class="btn btn-success" *ngIf="!proximo" [disabled]="!f.valid" (click)="Proximo()" >
-            <span class="btn-label">
-              <i class="now-ui-icons arrows-1_minimal-right"></i>
-            </span>
-            Prosseguir
-          </button>
-          
-          <button class="btn btn-primary" (click)="showModalAddTimes(classic)"   *ngIf="proximo"  [disabled]="!f.valid">
-            <span class="btn-label">
-              <i class="now-ui-icons arrows-1_share-66"></i>
-            </span>
-            Add mais Time(s)
-          </button>
-
-          <button class="btn btn-info"  *ngIf="proximo" (click)="limpar()"  [disabled]="!f.valid">
-            <span class="btn-label">
-              <i class="now-ui-icons arrows-1_minimal-left"></i>
-            </span>
-            Voltar
-          </button>
-
-        </div> 
-        
-
-      </form> 
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-12">
-  <div class="card ">
-    <div class="card-header ">
-      <h4 class="card-title text-center">Incluir Times na Liga</h4>
-      <div class="text-center">
-        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
-          <span class="badge badge-success">TIRO CURTO #{{ competicaoRodada.nrRodada}}</span>
-        </h2>
-        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
-          <span class="badge badge-info">{{ competicaoRodada.tipoCompeticao }}</span>
-        </h2>
-        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'MENSAL'">
-          <span class="badge badge-warning">{{ competicaoRodada.tipoCompeticao }}</span>
-        </h2>
-        <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ELIMINATORIA'">
-          <span class="badge badge-danger">{{ competicaoRodada.tipoCompeticao }}</span>
-        </h2>
-        
-      </div>
-      <div class="text-center" *ngIf="codigoBilhete">
-        <h2>
-          <span class="badge badge-success">Bilhete: {{codigoBilhete}} </span>
-        </h2>
-        
-        <button class="btn btn-primary" (click)="finalizarInscricao(codigoBilhete)"  *ngIf="temTime != null" >
-          <span class="btn-label">
-            <i class="now-ui-icons shopping_cart-simple"></i>
-          </span>
-          Finalizar Inscrição
-        </button>
-
-        <button class="btn btn-danger" (click)="excluirBilhete(idBilheteUsuario)" *ngIf="temTime === null" >
-          <span class="btn-label">
-            <i class="now-ui-icons ui-1_simple-remove"></i>
-          </span>
-          Excluir Bilhete
-        </button>
-
-      </div>
-    </div>
-
-
-    <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0"  >
-      <thead > 
-        <tr>
-          <th scope="col">Times</th>
-          <th class="text-right">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let result of arrayTimesUsuario; let i = index ">
-          <td *ngIf="result.time_id">
-            <div ><span class="datatable-colocacao">{{i + 1}}</span>
-              <div>
-                <img class="datatable-escudo" src="{{result.url_escudo_png}}">
-                <span class="datatable-nome-time">{{result.nome}} </span>
-                <span class="datatable-nome-coach"> <img *ngIf="result.assinante" class="datatable-pro"
-                    src="/assets/img/cartolaPRO.png"> {{result.nome_cartola}} </span>
-              </div>
+              <input type="text" class="form-control" formControlName="contato" name="contato"
+                placeholder="Ex: 61 982104100" [dropSpecialCharacters]="false" mask="(99)99999-9999" [readonly]=proximo
+                required />
+              <span class="form-text">Informe seu número de contato no WhastApp.</span>
             </div>
-          </td>
-          <td class="text-right" *ngIf="result.time_id">
-                <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirTimeUsuario(result)"><i class="fas fa-trash"></i></a>
-          </td>
-        </tr>
-        
-      </tbody>
-    </table>
+
+            <label>Nome</label>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="nome" name="nome" placeholder="Ex: João Miguel"
+                [readonly]=proximo required />
+              <span class="form-text">Informe seu nome ou como gosta de ser chamado.</span>
+            </div>
+
+
+            <div class="form-group" style="text-align:right">
+
+              <button class="btn btn-success" *ngIf="!proximo" [disabled]="!f.valid" (click)="Proximo()">
+                <span class="btn-label">
+                  <i class="now-ui-icons arrows-1_minimal-right"></i>
+                </span>
+                Prosseguir
+              </button>
+
+              <button class="btn btn-success" (click)="favorito()" *ngIf="proximo" [disabled]="!f.valid">
+                <span class="btn-label">
+                  <i class="now-ui-icons ui-2_favourite-28"></i>
+                </span>
+                Meus Favoritos
+              </button>
+
+              <button class="btn btn-primary" (click)="showModalAddTimes(classic)" *ngIf="proximo"
+                [disabled]="!f.valid">
+                <span class="btn-label">
+                  <i class="now-ui-icons arrows-1_share-66"></i>
+                </span>
+                Add mais Time(s)
+              </button>
+
+              <button class="btn btn-info" *ngIf="proximo" (click)="limpar()" [disabled]="!f.valid">
+                <span class="btn-label">
+                  <i class="now-ui-icons arrows-1_minimal-left"></i>
+                </span>
+                Voltar
+              </button>
+
+            </div>
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="col-md-12">
+      <div class="card ">
+        <div class="card-header ">
+          <h4 class="card-title text-center">Incluir Times na Liga</h4>
+          <div class="text-center">
+            <h2 *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
+              <span class="badge badge-success">TIRO CURTO #{{ competicaoRodada.nrRodada}}</span>
+            </h2>
+            <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
+              <span class="badge badge-info">{{ competicaoRodada.tipoCompeticao }}</span>
+            </h2>
+            <h2 *ngIf="competicaoRodada.tipoCompeticao === 'MENSAL'">
+              <span class="badge badge-warning">{{ competicaoRodada.tipoCompeticao }}</span>
+            </h2>
+            <h2 *ngIf="competicaoRodada.tipoCompeticao === 'ELIMINATORIA'">
+              <span class="badge badge-danger">{{ competicaoRodada.tipoCompeticao }}</span>
+            </h2>
+
+          </div>
+          <div class="text-center" *ngIf="codigoBilhete">
+            <h2>
+              <span class="badge badge-success">Solicitação: {{idBilheteUsuario}} </span>
+            </h2>
+
+            <button class="btn btn-primary" (click)="finalizarInscricao()" *ngIf="temTime != null">
+              <span class="btn-label">
+                <i class="now-ui-icons shopping_cart-simple"></i>
+              </span>
+              Finalizar Inscrição
+            </button>
+
+            <button class="btn btn-danger" (click)="excluirBilhete(idBilheteUsuario)" *ngIf="temTime === null">
+              <span class="btn-label">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+              </span>
+              Excluir Bilhete
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12">
+      <div class="card ">
+
+        <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th scope="col">Times</th>
+              <th class="text-right">Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let result of arrayTimesUsuario; let i = index ">
+              <td *ngIf="result.time_id">
+                <div><span class="datatable-colocacao">{{i + 1}}</span>
+                  <div>
+                    <img class="datatable-escudo" src="{{result.url_escudo_png}}">
+                    <span class="datatable-nome-time">{{result.nome}} </span>
+                    <span class="datatable-nome-coach"> <img *ngIf="result.assinante" class="datatable-pro"
+                        src="/assets/img/cartolaPRO.png"> {{result.nome_cartola}} </span>
+                  </div>
+                </div>
+              </td>
+              <td class="text-right" *ngIf="result.time_id">
+                <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirTimeUsuario(result)"><i
+                    class="fas fa-trash"></i></a>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
   </div>
 </div>
+
 
 
 <!--MODAL-->
@@ -155,15 +164,15 @@
   <div class="modal-body">
     <div class="text-center" *ngIf="codigoBilhete">
       <h2>
-        <span class="badge badge-success">Bilhete: {{codigoBilhete}} </span>
+        <span class="badge badge-success">Solicitação: {{idBilheteUsuario}} </span>
       </h2>
-      
+
     </div>
 
-    
-    <!-- IMPORTAR TIMES POR CODIGOS --> 
 
-    <form #f2="ngForm" >
+    <!-- IMPORTAR TIMES POR CODIGOS -->
+
+    <form #f2="ngForm">
       <div class="form-group">
         <label class="form-control-label" for="input-address">
           Códigos no formato: time_id1;time_id2;time_id3</label>
@@ -172,20 +181,21 @@
       </div>
 
       <div class="form-group" style="text-align:right">
-        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f2.valid" (click)="cadastrarTimesPorId(codigo)">
+        <button type="button" class="btn btn-fill btn-primary" [disabled]="!f2.valid"
+          (click)="cadastrarTimesPorId(codigo)">
           Add Times</button>
       </div>
     </form>
 
-  
+
 
     <!-- BUSCAR TIMES POR NOME -->
 
-    <form #f3="ngForm" >
+    <form #f3="ngForm">
       <div class="form-group">
         <label class="form-control-label" for="input-address">Nome do Time</label>
-        <input type="text" class="form-control" id="nomeTimePsq" aria-describedby="inputGroupPrepend"
-          name="nomeTimePsq" [(ngModel)]="nomeTimePsq" required>
+        <input type="text" class="form-control" id="nomeTimePsq" aria-describedby="inputGroupPrepend" name="nomeTimePsq"
+          [(ngModel)]="nomeTimePsq" required>
       </div>
 
       <div class="form-group" style="text-align:right">
@@ -195,7 +205,7 @@
       </div>
     </form>
 
-    
+
 
     <!-- LISTA TIMES -->
 
@@ -223,11 +233,12 @@
             <td>
               <div>
 
-                <a *ngIf="!timeLiga.inPoint" href="javascript:void(0)" class="btn btn-round btn-info btn-icon btn-sm edit"
-                  (click)="gerarBilheteUsuario(timeLiga)"><i class="fa fa-cart-plus"></i></a>
+                <a *ngIf="!timeLiga.inPoint" href="javascript:void(0)"
+                  class="btn btn-round btn-info btn-icon btn-sm edit" (click)="gerarBilheteUsuario(timeLiga)"><i
+                    class="fa fa-cart-plus"></i></a>
 
-                  <a *ngIf="timeLiga.inPoint" href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
-                  ><i class="fa fa-check"></i></a>
+                <a *ngIf="timeLiga.inPoint" href="javascript:void(0)"
+                  class="btn btn-round btn-success btn-icon btn-sm edit"><i class="fa fa-check"></i></a>
 
               </div>
             </td>

@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">Meus Times Favoritos</h4>
+  </div>
+</div>
+
+<div class="modal-body">
+
+
+
+  <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+    <thead class="text-primary">
+      <tr>
+        <th>Times</th>
+        <th  class="text-right">Add</th>
+        <th  class="text-right">Excluir</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let timeUsuario of timesUsuarioCartola; let i = index ">
+        <td tabindex="0">
+          <div><span class="datatable-colocacao">{{i + 1}}</span>
+            <div>
+              <img class="datatable-escudo" src="{{timeUsuario.url_escudo_png}}">
+              <span class="datatable-nome-time">{{timeUsuario.nome}} </span>
+              <span class="datatable-nome-coach"> <img *ngIf="timeUsuario.assinante" class="datatable-pro"
+                  src="/assets/img/cartolaPRO.png"> {{timeUsuario.nome_cartola}} </span>
+            </div>
+          </div>
+        </td>
+        <td class="text-right">
+            <a class="dropdown-item text-success" href="javascript:void(0)"
+              (click)="excluirTimeFavorito(timeUsuario.time_id)"><i class="fas fa-check"></i></a>
+        </td>
+        <td class="text-right">
+            <a class="dropdown-item text-danger" href="javascript:void(0)"
+              (click)="excluirTimeFavorito(timeUsuario.time_id)"><i class="fas fa-trash"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+</div>

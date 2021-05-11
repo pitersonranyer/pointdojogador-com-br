@@ -12,6 +12,7 @@ import { TimeBilheteCompeticaoCartola } from 'src/app/interfaces/timeBilheteComp
 import { TimeLigaCartola } from 'src/app/interfaces/timeLigaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import swal from "sweetalert2";
+import { ModalTimesFavoritosComponent } from './modal-times-favoritos/modal-times-favoritos.component';
 
 @Component({
   selector: 'app-gerar-bilhete',
@@ -365,9 +366,6 @@ export class GerarBilheteComponent implements OnInit {
               this.idBilheteUsuario = value.idBilhete;
               this.codigoBilhete = value.codigoBilhete;
 
-              this.idBilheteUsuario = value.idBilhete;
-              this.codigoBilhete = value.codigoBilhete;
-
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
               this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
               this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
@@ -499,7 +497,7 @@ export class GerarBilheteComponent implements OnInit {
     }
   }
 
-  finalizarInscricao(codigoBilhete: string): void {
+  finalizarInscricao(): void {
 
     let valorBilhete = this.count * this.competicaoRodada.valorCompeticao;
     this.bilhete.idBilhete = this.idBilheteUsuario;
@@ -510,8 +508,8 @@ export class GerarBilheteComponent implements OnInit {
     this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete).subscribe(
       () => {
         swal({
-          title: "Bilhete: " + codigoBilhete,
-          text: "Para validar, envie esse código para o ADM da liga!",
+          title: "Solicitação: " + this.bilhete.idBilhete,
+          text: "Para validar, envie esse número para o ADM da liga!",
           buttonsStyling: false,
           confirmButtonClass: "btn btn-success",
           type: "success",
@@ -521,6 +519,22 @@ export class GerarBilheteComponent implements OnInit {
       });
 
     this.limpar();
+
+  }
+
+
+  favorito(): void {
+
+    const modalRef = this.modalService.open(ModalTimesFavoritosComponent,
+      {
+        scrollable: true,
+        windowClass: 'modal-job-scrollable'
+      });
+
+    const data = {
+      contato: this.formulario.get('contato').value
+    }
+    modalRef.componentInstance.fromParent = data;
 
   }
 

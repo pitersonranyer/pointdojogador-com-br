@@ -253,12 +253,12 @@ export class CartolaAPIService {
     return this.http.delete(url);
   }
 
-  listarHistoricoTimesUsuario(nrContatoUsuario: number): Observable<HistoricoTimeUsuario> {
+  listarHistoricoTimesUsuario(nrContatoUsuario: string) {
     const url = this.utilService.getUrlBackend() + `/historicoTimeUsuario/listarTimesUsuario/${nrContatoUsuario}`;
-    return this.http.get<HistoricoTimeUsuario>(url);
+    return this.http.get(url);
   }
 
-  excluirTimeUsuario(time_id: number) {
+  excluirHistoricoTimeUsuario(time_id: number) {
     const url = this.utilService.getUrlBackend() + `/historicoTimeUsuario/excluirTimeUsuario/${time_id}`;
     return this.http.delete(url);
   }
