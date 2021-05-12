@@ -25,6 +25,8 @@ export class CadastrarRodadaCartolaComponent implements OnInit {
     { nomeCompeticao: "TIRO CURTO" },
     { nomeCompeticao: "MENSAL" },
     { nomeCompeticao: "ANUAL" },
+    { nomeCompeticao: "1º TURNO" },
+    { nomeCompeticao: "2º TURNO" },
     { nomeCompeticao: "ELIMINATORIA" }
     
   ];
