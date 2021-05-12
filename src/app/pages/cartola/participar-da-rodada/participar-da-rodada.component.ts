@@ -392,7 +392,14 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.slug[i] = this.parciais[i].time_id
     }
 
-    this.grupo = '🎩 POINTDOJOGADOR 🎩' + ' - RDD ' + this.nrRodada + ' =>' + this.slug.join(';');
+
+    if (this.competicaoRodada.nrRodada != 0){
+      this.grupo = '🎩' + this.competicaoRodada.nomeLiga + '🎩' + ' - RDD ' + this.competicaoRodada.nrRodada + ' =>' + this.slug.join(';');
+    }else{
+      this.grupo = '🎩' + this.competicaoRodada.nomeLiga + '🎩' + '-' +
+      this.competicaoRodada.tipoCompeticao + ' =>' + this.slug.join(';');
+    }
+    
 
     navigator.clipboard.writeText(this.grupo);
 

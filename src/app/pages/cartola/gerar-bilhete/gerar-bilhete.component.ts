@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { debounceTime, delay, filter, map, switchMap, tap } from 'rxjs/operators';
 import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCartola';
 import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 import { HistoricoTimeUsuario } from 'src/app/interfaces/historicoTimeUsuario';
@@ -52,6 +51,7 @@ export class GerarBilheteComponent implements OnInit {
   count = 0;
   temTime = 0;
   proximo = false;
+  hstTime = false;
 
 
 
@@ -63,6 +63,7 @@ export class GerarBilheteComponent implements OnInit {
     private gerarBilhete: CartolaAPIService,
     private cadastrarTimeBilheteService: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
+    private listarHistoricoTimesService: CartolaAPIService,
     private modalService: NgbModal,
     private toastr: ToastrService,
     private route: ActivatedRoute) { }
@@ -126,7 +127,9 @@ export class GerarBilheteComponent implements OnInit {
     this.proximo = true
 
     this.recuperarListaTimeBilhete();
-    
+
+    this.recuperarListaHistorico();
+
   }
 
 
@@ -148,9 +151,24 @@ export class GerarBilheteComponent implements OnInit {
   }
 
 
+  recuperarListaHistorico() {
+
+    this.listarHistoricoTimesService
+      .listarHistoricoTimesUsuario(this.formulario.get('contato').value)
+      .subscribe((hstTimes: any) => {
+        if (hstTimes.length){
+          this.hstTime = true;
+        }else{
+          this.hstTime = false
+        }
+      });
+  }
+
+
 
   limpar() {
     this.proximo = false;
+    this.hstTime = false;
     this.idBilheteUsuario = 0;
     this.codigoBilhete = '';
     this.formulario.reset();
@@ -532,11 +550,24 @@ export class GerarBilheteComponent implements OnInit {
       });
 
     const data = {
-      contato: this.formulario.get('contato').value
+      contato: this.formulario.get('contato').value,
+      idBilheteUsuario: this.idBilheteUsuario,
+      nrSequencialRodadaCartola: this.competicaoRodada.nrSequencialRodadaCartola
     }
     modalRef.componentInstance.fromParent = data;
+    modalRef.result.then(
+      result => {
+
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+
+
 
   }
+
 
 
 

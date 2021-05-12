@@ -9,7 +9,11 @@
 
 <div class="modal-body">
 
-
+  <div class="text-center" *ngIf="idBilheteUsuario">
+    <h2>
+      <span class="badge badge-success">Solicitação: {{idBilheteUsuario}} </span>
+    </h2>
+  </div>
 
   <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
     <thead class="text-primary">
@@ -31,10 +35,14 @@
             </div>
           </div>
         </td>
-        <td class="text-right">
+        <td class="text-right" *ngIf="!timeUsuario.inPoint">
             <a class="dropdown-item text-success" href="javascript:void(0)"
-              (click)="excluirTimeFavorito(timeUsuario.time_id)"><i class="fas fa-check"></i></a>
+              (click)="gerarBilheteUsuario(timeUsuario.time_id)"><i class="fas fa-check"></i></a>
         </td>
+        <td class="text-right" *ngIf="timeUsuario.inPoint">
+          <a class="dropdown-item text-info" href="javascript:void(0)"
+            ><i class="fa fa-lock"></i></a>
+      </td>
         <td class="text-right">
             <a class="dropdown-item text-danger" href="javascript:void(0)"
               (click)="excluirTimeFavorito(timeUsuario.time_id)"><i class="fas fa-trash"></i></a>
@@ -42,7 +50,5 @@
       </tr>
     </tbody>
   </table>
-
-
 
 </div>

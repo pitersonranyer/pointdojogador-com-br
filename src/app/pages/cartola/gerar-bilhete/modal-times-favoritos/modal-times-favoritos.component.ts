@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCartola';
 import { TimeBilheteCompeticaoCartola } from 'src/app/interfaces/timeBilheteCompeticaoCartola';
-import { TimeCartola } from 'src/app/interfaces/timeCartola';
-import { TimeLigaCartola } from 'src/app/interfaces/timeLigaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 
 
@@ -25,11 +24,21 @@ export class ModalTimesFavoritosComponent implements OnInit {
   bilhete: BilheteCompeticaoCartola = <BilheteCompeticaoCartola>{};
   timeBilhete: TimeBilheteCompeticaoCartola = <TimeBilheteCompeticaoCartola>{};
 
+  nomeUsuario = '';
+  contatoUsuario = '';
+  idBilheteUsuario = 0;
+  nrSequencialRodadaCartola = 0
+  codigoBilhete = 0;
+
   constructor(
     private _NgbActiveModal: NgbActiveModal,
     private listarHistoricoTimesService: CartolaAPIService,
     private consultarTimeInfoCartolaById: CartolaAPIService,
-    private excluirHistoricoTimeUsuarioService: CartolaAPIService
+    private excluirHistoricoTimeUsuarioService: CartolaAPIService,
+    private gerarBilheteService: CartolaAPIService,
+    private cadastrarTimeBilheteService: CartolaAPIService,
+    private toastr: ToastrService
+    
   ) { }
 
   get activeModal() {
@@ -39,8 +48,9 @@ export class ModalTimesFavoritosComponent implements OnInit {
   ngOnInit() {
 
     this.contato = this.fromParent.contato;
+    this.idBilheteUsuario = this.fromParent.idBilheteUsuario;
+    this.nrSequencialRodadaCartola = this.fromParent.nrSequencialRodadaCartola
     this.recuperarLista();
-
 
   }
 
@@ -50,6 +60,8 @@ export class ModalTimesFavoritosComponent implements OnInit {
       .listarHistoricoTimesUsuario(this.contato)
       .subscribe((hstTimes: any) => {
         this.hstTimeUsuario = hstTimes;
+        this.nomeUsuario    = hstTimes[0].nomeUsuario;
+        this.contatoUsuario = hstTimes[0].nrContatoUsuario;
         for (let i = 0; i < this.hstTimeUsuario.length; i++) {
           this.consultarTimeInfoCartolaById.consultarTimeCartola(this.hstTimeUsuario[i].time_id)
             .subscribe((data) => {
@@ -70,25 +82,25 @@ export class ModalTimesFavoritosComponent implements OnInit {
   }
 
 
-  /* gerarBilheteUsuario(time: TimeLigaCartola): void {
+   gerarBilheteUsuario(time_id: number): void {
     for (let i = 0; i < this.timesUsuarioCartola.length; i++) {
-      if (time.time_id === this.timesUsuarioCartola[i].time_id) {
+      if (time_id === this.timesUsuarioCartola[i].time_id) {
 
         if (this.idBilheteUsuario === 0) {
           this.bilhete.idBilhete = 0;
-          this.bilhete.nomeUsuario = this.formulario.get('nome').value;
-          this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
-          this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
-          this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
+          this.bilhete.nomeUsuario = this.nomeUsuario;
+          this.bilhete.nrContatoUsuario = this.contatoUsuario
+          this.bilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
+          this.gerarBilheteService.gerarBilheteCompeticaoCartola(this.bilhete)
 
             .subscribe((value: any) => {
               this.idBilheteUsuario = value.idBilhete;
               this.codigoBilhete = value.codigoBilhete;
 
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
-              this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
-              this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+              this.timeBilhete.nomeUsuario = this.nomeUsuario;
+              this.timeBilhete.nrContatoUsuario = this.contatoUsuario;
+              this.timeBilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
 
               this.timeBilhete.time_id = this.timesUsuarioCartola[i].time_id;
               this.timeBilhete.assinante = this.timesUsuarioCartola[i].assinante;
@@ -150,9 +162,9 @@ export class ModalTimesFavoritosComponent implements OnInit {
             });
         } else {
           this.timeBilhete.idBilhete = this.idBilheteUsuario;
-          this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
-          this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
-          this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+          this.timeBilhete.nomeUsuario = this.nomeUsuario;
+          this.timeBilhete.nrContatoUsuario = this.contatoUsuario;
+          this.timeBilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
 
           this.timeBilhete.time_id = this.timesUsuarioCartola[i].time_id;
           this.timeBilhete.assinante = this.timesUsuarioCartola[i].assinante;
@@ -214,7 +226,7 @@ export class ModalTimesFavoritosComponent implements OnInit {
         }
       }
     }
-  } */
+  } 
 
 
 }
