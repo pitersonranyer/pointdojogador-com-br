@@ -32,9 +32,7 @@ export class GerarBilheteComponent implements OnInit {
   timeBilhete: TimeBilheteCompeticaoCartola = <TimeBilheteCompeticaoCartola>{};
 
   formulario = new FormGroup({
-    contato: new FormControl(),
-    nome: new FormControl('', [Validators.required]),
-
+    contato: new FormControl()
   })
 
 
@@ -52,6 +50,8 @@ export class GerarBilheteComponent implements OnInit {
   temTime = 0;
   proximo = false;
   hstTime = false;
+  porId   = false;
+  porNome = false;
 
 
 
@@ -141,7 +141,7 @@ export class GerarBilheteComponent implements OnInit {
         this.arrayTimesUsuario = value;
         this.count = this.arrayTimesUsuario.length;
         if (this.arrayTimesUsuario.length) {
-          this.formulario.get('nome').setValue(this.arrayTimesUsuario[0].nomeUsuario);
+          this.nome = this.arrayTimesUsuario[0].nomeUsuario;
           this.idBilheteUsuario = this.arrayTimesUsuario[0].idBilhete;
           this.codigoBilhete = this.arrayTimesUsuario[0].codigoBilhete;
           this.temTime = this.arrayTimesUsuario[0].time_id;
@@ -156,9 +156,9 @@ export class GerarBilheteComponent implements OnInit {
     this.listarHistoricoTimesService
       .listarHistoricoTimesUsuario(this.formulario.get('contato').value)
       .subscribe((hstTimes: any) => {
-        if (hstTimes.length){
+        if (hstTimes.length) {
           this.hstTime = true;
-        }else{
+        } else {
           this.hstTime = false
         }
       });
@@ -169,6 +169,8 @@ export class GerarBilheteComponent implements OnInit {
   limpar() {
     this.proximo = false;
     this.hstTime = false;
+    this.porNome = false;
+    this.porId = false;
     this.idBilheteUsuario = 0;
     this.codigoBilhete = '';
     this.formulario.reset();
@@ -176,7 +178,25 @@ export class GerarBilheteComponent implements OnInit {
   }
 
 
-  showModalAddTimes(content) {
+  addTimesPorId(content) {
+    this.timesLigaCartola = [];
+    this.porId = true;
+    this.porNome = false;
+    this.modalService.open(content).result.then(
+      result => {
+
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+
+  }
+
+  addTimesPorNome(content) {
+    this.porNome = true;
+    this.porId = false;
     this.modalService.open(content).result.then(
       result => {
 
@@ -208,44 +228,60 @@ export class GerarBilheteComponent implements OnInit {
   cadastrarTimesPorId(id: string) {
     let arraySlugs = id.split(";").map(Number);
 
-    this.bilhete.idBilhete = 0;
-    this.bilhete.nomeUsuario = this.formulario.get('nome').value;
-    this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
-    this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
-
-
-    this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
-      .subscribe((value: any) => {
-        this.idBilheteUsuario = value.idBilhete;
-        this.codigoBilhete = value.codigoBilhete;
-
-        for (let i = 0; i < arraySlugs.length; i++) {
-          this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
-            this.timeBilhete = data.time;
-            this.timeBilhete.idBilhete = this.idBilheteUsuario;
-            this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
-            this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
-            this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
-            this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-              .subscribe(() => {
-              });
-          });
+    if (isNaN(arraySlugs[0])) {
+      this.toastr.error(
+        '<span class="now-ui-icons ui-1_bell-53"></span>' +
+        'CÓDIGO INVÁLIDO</b>' +
+        ' - Informe os códigos conforme Ex: id1;id2;id3',
+        '',
+        {
+          timeOut: 8000,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: 'alert alert-danger alert-with-icon',
+          positionClass: 'toast-' + 'top' + '-' + 'right'
         }
+      );
+    } else {
 
-      });
+      this.bilhete.idBilhete = 0;
+      this.bilhete.nomeUsuario = this.nome;
+      this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
+      this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
-    this.toastr.success(
-      '<span class="now-ui-icons ui-1_bell-53"></span>' +
-      ' Time(s) cadastrado(s) com sucesso!',
-      '',
-      {
-        timeOut: 8000,
-        closeButton: true,
-        enableHtml: true,
-        toastClass: 'alert alert-success alert-with-icon',
-        positionClass: 'toast-' + 'top' + '-' + 'right'
-      }
-    );
+      this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
+        .subscribe((value: any) => {
+          this.idBilheteUsuario = value.idBilhete;
+          this.codigoBilhete = value.codigoBilhete;
+
+          for (let i = 0; i < arraySlugs.length; i++) {
+            this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
+              this.timeBilhete = data.time;
+              this.timeBilhete.idBilhete = this.idBilheteUsuario;
+              this.timeBilhete.nomeUsuario = this.nome;
+              this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
+              this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+              this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
+                .subscribe(() => {
+                });
+            });
+          }
+        });
+
+      this.toastr.success(
+        '<span class="now-ui-icons ui-1_bell-53"></span>' +
+        ' Time(s) cadastrado(s) com sucesso!',
+        '',
+        {
+          timeOut: 8000,
+          closeButton: true,
+          enableHtml: true,
+          toastClass: 'alert alert-success alert-with-icon',
+          positionClass: 'toast-' + 'top' + '-' + 'right'
+        }
+      );
+
+    }
 
   }
 
@@ -375,7 +411,7 @@ export class GerarBilheteComponent implements OnInit {
 
         if (this.idBilheteUsuario === 0) {
           this.bilhete.idBilhete = 0;
-          this.bilhete.nomeUsuario = this.formulario.get('nome').value;
+          this.bilhete.nomeUsuario = this.nome;
           this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
           this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
           this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
@@ -385,7 +421,7 @@ export class GerarBilheteComponent implements OnInit {
               this.codigoBilhete = value.codigoBilhete;
 
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
+              this.timeBilhete.nomeUsuario = this.nome;
               this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
               this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
@@ -449,7 +485,7 @@ export class GerarBilheteComponent implements OnInit {
             });
         } else {
           this.timeBilhete.idBilhete = this.idBilheteUsuario;
-          this.timeBilhete.nomeUsuario = this.formulario.get('nome').value;
+          this.timeBilhete.nomeUsuario = this.nome;
           this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
           this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
@@ -520,7 +556,7 @@ export class GerarBilheteComponent implements OnInit {
     let valorBilhete = this.count * this.competicaoRodada.valorCompeticao;
     this.bilhete.idBilhete = this.idBilheteUsuario;
     this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola;
-    this.bilhete.nomeUsuario = this.formulario.get('nome').value;
+    this.bilhete.nomeUsuario = this.nome;
     this.bilhete.statusAtualBilhete = 'Finalizado';
 
     this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete).subscribe(

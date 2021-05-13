@@ -18,13 +18,9 @@
               <span class="form-text">Informe seu número de contato no WhastApp.</span>
             </div>
 
-            <label>Nome</label>
-            <div class="form-group">
-              <input type="text" class="form-control" formControlName="nome" name="nome" placeholder="Ex: João Miguel"
-                [readonly]=proximo required />
-              <span class="form-text">Informe seu nome ou como gosta de ser chamado.</span>
+            <div class="form-group" *ngIf="hstTime">
+              <p class="form-control-static">{{nome}}</p>
             </div>
-
 
             <div class="form-group" style="text-align:right">
 
@@ -35,7 +31,8 @@
                 Prosseguir
               </button>
 
-              <button class="btn btn-success" (click)="favorito()" *ngIf="hstTime" [disabled]="!f.valid">
+
+              <!-- <button class="btn btn-success" (click)="favorito()" *ngIf="hstTime" [disabled]="!f.valid">
                 <span class="btn-label">
                   <i class="now-ui-icons ui-2_favourite-28"></i>
                 </span>
@@ -48,16 +45,36 @@
                   <i class="now-ui-icons arrows-1_share-66"></i>
                 </span>
                 Add mais Time(s)
-              </button>
+              </button> -->
 
-              <button class="btn btn-info" *ngIf="proximo" (click)="limpar()" [disabled]="!f.valid">
-                <span class="btn-label">
-                  <i class="now-ui-icons arrows-1_minimal-left"></i>
-                </span>
-                Voltar
-              </button>
+              <div class="container">
+                <div class="row d-flex justify-content-between">
+                  <!-- dropdown -->
+                  <div ngbDropdown *ngIf="proximo">
+                    <button type="button" class="btn btn-round btn-success" data-toggle="dropdown" ngbDropdownToggle>
+                      Adicionar Times
+                    </button>
+                    <div class="dropdown-menu-right" ngbDropdownMenu>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="favorito()"><i
+                          class="fas fa-star"></i>
+                        Meus Favoritos </a>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="addTimesPorNome(classic)"><i
+                          class="far fa-user"></i>Nome Time</a>
+                      <a class="dropdown-item text-danger" href="javascript:void(0)"
+                        (click)="addTimesPorId(classic)"><i class="fas fa-sort-numeric-up"></i>Códigos</a>
+                    </div>
+                  </div>
 
+                  <button class="btn btn-default" *ngIf="proximo" (click)="limpar()" [disabled]="!f.valid">
+                    <span class="btn-label">
+                      <i class="now-ui-icons arrows-1_minimal-left"></i>
+                    </span>
+                    Voltar
+                  </button>
+                </div>
+              </div>
             </div>
+
 
 
           </form>
@@ -172,7 +189,7 @@
 
     <!-- IMPORTAR TIMES POR CODIGOS -->
 
-    <form #f2="ngForm">
+    <form #f2="ngForm" *ngIf="porId">
       <div class="form-group">
         <label class="form-control-label" for="input-address">
           Códigos no formato: time_id1;time_id2;time_id3</label>
@@ -191,7 +208,7 @@
 
     <!-- BUSCAR TIMES POR NOME -->
 
-    <form #f3="ngForm">
+    <form #f3="ngForm" *ngIf="porNome">
       <div class="form-group">
         <label class="form-control-label" for="input-address">Nome do Time</label>
         <input type="text" class="form-control" id="nomeTimePsq" aria-describedby="inputGroupPrepend" name="nomeTimePsq"
