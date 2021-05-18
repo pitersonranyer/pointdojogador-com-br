@@ -286,7 +286,10 @@ export class GerarBilheteComponent implements OnInit {
   }
 
   listarTimesPorNome(nomeTime: string) {
-    this.listarTimesCartola.listarTimesCartola(nomeTime).subscribe((listaTimes: []) => {
+
+    var nomeTimeSemAcento = nomeTime.normalize("NFD");
+
+    this.listarTimesCartola.listarTimesCartola(nomeTimeSemAcento).subscribe((listaTimes: []) => {
       this.timesLigaCartola = listaTimes;
     });
   }
