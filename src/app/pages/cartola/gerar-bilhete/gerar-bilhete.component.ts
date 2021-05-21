@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -141,7 +141,7 @@ export class GerarBilheteComponent implements OnInit {
         this.arrayTimesUsuario = value;
         this.count = this.arrayTimesUsuario.length;
         if (this.arrayTimesUsuario.length) {
-          this.nome = this.arrayTimesUsuario[0].nomeUsuario;
+          this.nome = this.arrayTimesUsuario[0].nome_cartola;
           this.idBilheteUsuario = this.arrayTimesUsuario[0].idBilhete;
           this.codigoBilhete = this.arrayTimesUsuario[0].codigoBilhete;
           this.temTime = this.arrayTimesUsuario[0].time_id;
