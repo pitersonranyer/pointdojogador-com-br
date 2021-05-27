@@ -245,7 +245,6 @@ export class GerarBilheteComponent implements OnInit {
     } else {
 
       this.bilhete.idBilhete = 0;
-      this.bilhete.nomeUsuario = this.nome;
       this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
       this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
@@ -258,7 +257,7 @@ export class GerarBilheteComponent implements OnInit {
             this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
               this.timeBilhete = data.time;
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = this.nome;
+              this.timeBilhete.nomeUsuario = data.time[0].nome_cartola;
               this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
               this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
               this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
@@ -414,7 +413,7 @@ export class GerarBilheteComponent implements OnInit {
 
         if (this.idBilheteUsuario === 0) {
           this.bilhete.idBilhete = 0;
-          this.bilhete.nomeUsuario = this.nome;
+          this.bilhete.nomeUsuario = this.timesLigaCartola[0].nome_cartola;
           this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
           this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
           this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
@@ -424,7 +423,7 @@ export class GerarBilheteComponent implements OnInit {
               this.codigoBilhete = value.codigoBilhete;
 
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = this.nome;
+              this.timeBilhete.nomeUsuario = this.timesLigaCartola[0].nome_cartola;
               this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
               this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 

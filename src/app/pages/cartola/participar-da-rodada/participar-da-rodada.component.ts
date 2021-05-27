@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 import { TimeCartola } from 'src/app/interfaces/timeCartola';
+import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import { ModalAddTimeRodadaComponent } from './modal-add-time-rodada/modal-add-time-rodada.component';
 import { ModalDetalheTimeUsuarioComponent } from './modal-detalhe-time-usuario/modal-detalhe-time-usuario.component';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
-import * as jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 
 @Component({
   selector: 'app-participar-da-rodada',
@@ -63,7 +63,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private listaResultadoParcialRodada: CartolaAPIService,
+    //private listaResultadoParcialRodada: CartolaAPIService,
     private atletasPontuados: CartolaAPIService,
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
@@ -133,8 +133,9 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.atletasPontuados.listarAtletasPontuados()
         .subscribe((pontuados) => {
           this.trataRespostaAtletasPontuados(pontuados);
-
-          this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
+          
+          this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
+      //    this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
             .subscribe((resultParcial: any[]) => {
               this.parciais = resultParcial;
               for (let j = 0; j < this.parciais.length; j++) {
@@ -284,7 +285,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
         // Processar atualização de pontuação
         // busca times salvo na base de dados
-        this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
+        this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
+      //  this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
           .subscribe((resultParcial: any[]) => {
             this.parciais = resultParcial;
             for (let i = 0; i < this.parciais.length; i++) {
