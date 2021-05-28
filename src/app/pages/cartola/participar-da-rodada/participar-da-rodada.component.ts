@@ -6,6 +6,7 @@ import * as jsPDF from 'jspdf';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
+import { TimeBilheteCompeticaoCartola } from 'src/app/interfaces/timeBilheteCompeticaoCartola';
 import { TimeCartola } from 'src/app/interfaces/timeCartola';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { AuthService } from 'src/app/services/auth.service';
@@ -50,6 +51,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   public status_mercado = 0;
   nomeTimeBusca: string;
   competicaoRodada: CompeticaoCartola = <CompeticaoCartola>{};
+
+  timeBilhete: TimeBilheteCompeticaoCartola = <TimeBilheteCompeticaoCartola>{};
 
   slug = [];
 
@@ -110,12 +113,9 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
         }
       }
 
-      if (this.statusCompeticao === 'Fechada') {
-        this.atualizarParciais();
-      } else {
-        this.atualizarlistaResultadoParcialRodada();
-      }
+      this.atualizarlistaResultadoParcialRodada();
 
+      
     });
 
   }
@@ -129,133 +129,51 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   atualizarlistaResultadoParcialRodada() {
     this.showSpinner();
     this.parciais = [];
-    if (this.statusCompeticao === 'Fechada') {
-      this.atletasPontuados.listarAtletasPontuados()
-        .subscribe((pontuados) => {
-          this.trataRespostaAtletasPontuados(pontuados);
-          
-          this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
-      //    this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
-            .subscribe((resultParcial: any[]) => {
-              this.parciais = resultParcial;
-              for (let j = 0; j < this.parciais.length; j++) {
 
-                if (this.competicaoRodada.tipoCompeticao === 'TIRO CURTO') {
-
-                  this.premiacaoTotal = this.parciais.length * this.competicaoRodada.valorCompeticao;
-                  this.premiacaoPercentualLista = 0;
-                  this.premiacaoFinalLista = 0;
-                  this.parciais[j].premiacaoFinalFormatLista = 0;
-                  if (j === 0) {
-                    this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
-                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                    this.parciais[j].premiacaoFinalFormatLista =
-                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                  }
-                  if (j === 1) {
-
-                    this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
-                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                    this.parciais[j].premiacaoFinalFormatLista =
-                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                  }
-                  if (j === 2) {
-                    this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
-                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                    this.parciais[j].premiacaoFinalFormatLista =
-                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                  }
-                  if (j === 3) {
-                    this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
-                    this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                    this.parciais[j].premiacaoFinalFormatLista =
-                      this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-                  }
-                  if (j === 4) {
-                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
-                  }
-                  if (j === 5) {
-                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
-                  }
-                  if (j === 6) {
-                    this.parciais[j].premiacaoFinalFormatLista = '10,00';
-                  }
-                }
-
-                this.consultarTimeCartola.consultarTimeCartola(this.parciais[j].time_id).subscribe((data) => {
-                  this.atletas = data.atletas;
-                  this.count = 0;
-                  for (let x = 0; x < this.atletas.length; x++) {
-                    for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
-                      if (this.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
-                        if (this.arrayAtletasPontuados[i].posicao_id === 6) {
-                          if (this.arrayAtletasPontuados[i].pontuacao === 0) {
-                            continue;
-                          } else {
-                            this.count = this.count + 1;
-                          }
-                        } else {
-                          this.count = this.count + 1;
-                        }
-
-                        // finalizar leitura array interno.
-                        i = this.arrayAtletasPontuados.length;
-                      }
-                    }
-                  }
-                  this.parciais[j].atletasJogados = this.count;
-                });
-
-              }
-
-            });
-
-        });
-    } else {
-      this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
-        .subscribe((resultParcial: any[]) => {
-          this.parciais = resultParcial;
-          for (let j = 0; j < this.parciais.length; j++) {
-            if (this.competicaoRodada.tipoCompeticao === 'TIRO CURTO') {
-              this.premiacaoTotal = this.parciais.length * this.competicaoRodada.valorCompeticao;
-              this.premiacaoPercentualLista = 0;
-              this.premiacaoFinalLista = 0;
-              this.parciais[j].premiacaoFinalFormatLista = 0;
-              if (j === 0) {
-                this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
-                this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-              }
-              if (j === 1) {
-                this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
-                this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-              }
-              if (j === 2) {
-                this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
-                this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-              }
-              if (j === 3) {
-                this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
-                this.premiacaoFinalLista = this.premiacaoPercentualLista;
-                this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
-              }
-              if (j === 4) {
-                this.parciais[j].premiacaoFinalFormatLista = '10,00';
-              }
-              if (j === 5) {
-                this.parciais[j].premiacaoFinalFormatLista = '10,00';
-              }
-              if (j === 6) {
-                this.parciais[j].premiacaoFinalFormatLista = '10,00';
-              }
+    this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
+      .subscribe((resultParcial: any[]) => {
+        this.parciais = resultParcial;
+        for (let j = 0; j < this.parciais.length; j++) {
+          if (this.competicaoRodada.tipoCompeticao === 'TIRO CURTO') {
+            this.premiacaoTotal = this.parciais.length * this.competicaoRodada.valorCompeticao;
+            this.premiacaoPercentualLista = 0;
+            this.premiacaoFinalLista = 0;
+            this.parciais[j].premiacaoFinalFormatLista = 0;
+            if (j === 0) {
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 50) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 1) {
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 25) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 2) {
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 10) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 3) {
+              this.premiacaoPercentualLista = (this.premiacaoTotal * 5) / 100;
+              this.premiacaoFinalLista = this.premiacaoPercentualLista;
+              this.parciais[j].premiacaoFinalFormatLista = this.premiacaoFinalLista.toLocaleString('pt-br', { minimumFractionDigits: 2 });
+            }
+            if (j === 4) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            }
+            if (j === 5) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
+            }
+            if (j === 6) {
+              this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
           }
-        });
-    }
-
+        }
+      });
   }
+
+
 
   ngOnDestroy() {
   }
@@ -286,7 +204,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
         // Processar atualização de pontuação
         // busca times salvo na base de dados
         this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
-      //  this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
+          //  this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
           .subscribe((resultParcial: any[]) => {
             this.parciais = resultParcial;
             for (let i = 0; i < this.parciais.length; i++) {
@@ -314,15 +232,38 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                       }
                     }
                   }
-                  // Atualizar pontuação.
-                  this.timeRodadaCartola.anoTemporada = this.parciais[i].anoTemporada;
-                  this.timeRodadaCartola.idRodada = this.parciais[i].idRodada;
-                  this.timeRodadaCartola.idUsuario = this.parciais[i].idUsuario;
-                  this.timeRodadaCartola.time_id = this.parciais[i].time_id;
-                  this.timeRodadaCartola.pontosTotais = this.totPontos;
-                  this.timeRodadaCartola.pontosTotais.toFixed(2);
 
-                  this.atualizarResultadoParcial.atualizarPontosRodadaCartola(this.timeRodadaCartola)
+
+                  // atualizar quantidade de jogadores que já entram em campo.
+                  this.count = 0;
+                  for (let y = 0; y < this.atletas.length; y++) {
+                    for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
+                      if (this.atletas[y].atleta_id == this.arrayAtletasPontuados[z].atleta_id) {
+                        if (this.arrayAtletasPontuados[z].posicao_id === 6) {
+                          if (this.arrayAtletasPontuados[z].pontuacao === 0) {
+                            continue;
+                          } else {
+                            this.count = this.count + 1;
+                          }
+                        } else {
+                          this.count = this.count + 1;
+                        }
+
+                        // finalizar leitura array interno.
+                        z = this.arrayAtletasPontuados.length;
+                      }
+                    }
+                  }
+                  
+
+                  // Atualizar pontuação. (piterson)
+                  this.timeBilhete.idBilhete = this.parciais[i].idBilhete
+                  this.timeBilhete.time_id = this.parciais[i].time_id;
+                  this.timeBilhete.pontuacaoParcial = this.totPontos;
+                  this.timeBilhete.pontuacaoParcial.toFixed(2);
+                  this.timeBilhete.qtJogadoresPontuados = this.count;
+
+                  this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
                     .subscribe(() => {
                     });
 
@@ -395,13 +336,13 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     }
 
 
-    if (this.competicaoRodada.nrRodada != 0){
+    if (this.competicaoRodada.nrRodada != 0) {
       this.grupo = '🎩' + this.competicaoRodada.nomeLiga + '🎩' + ' - RDD ' + this.competicaoRodada.nrRodada + ' =>' + this.slug.join(';');
-    }else{
+    } else {
       this.grupo = '🎩' + this.competicaoRodada.nomeLiga + '🎩' + '-' +
-      this.competicaoRodada.tipoCompeticao + ' =>' + this.slug.join(';');
+        this.competicaoRodada.tipoCompeticao + ' =>' + this.slug.join(';');
     }
-    
+
 
     navigator.clipboard.writeText(this.grupo);
 

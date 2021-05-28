@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-
-import { TimeCartola } from '../interfaces/timeCartola';
-import { RodadaCartola } from '../interfaces/rodadaCartola';
-import { TimeRodadaCartola } from '../interfaces/timeRodadaCartola';
-import { UtilService } from './util.service';
-import { Liga } from '../interfaces/liga';
-import { TimeLigaCartola } from '../interfaces/timeLigaCartola';
+import { BilheteCompeticaoCartola } from '../interfaces/bilheteCompeticaoCartola';
 import { CompeticaoCartola } from '../interfaces/competicaoCartola';
 import { HistoricoTimeUsuario } from '../interfaces/historicoTimeUsuario';
-import { BilheteCompeticaoCartola } from '../interfaces/bilheteCompeticaoCartola';
+import { Liga } from '../interfaces/liga';
+import { RodadaCartola } from '../interfaces/rodadaCartola';
 import { TimeBilheteCompeticaoCartola } from '../interfaces/timeBilheteCompeticaoCartola';
+import { TimeCartola } from '../interfaces/timeCartola';
+import { TimeLigaCartola } from '../interfaces/timeLigaCartola';
+import { TimeRodadaCartola } from '../interfaces/timeRodadaCartola';
+import { UtilService } from './util.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -325,6 +325,12 @@ export class CartolaAPIService {
   consultarTimeBilhetePorCodigo(codigoBilhete: string){
     const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/consultarTimeBilhetePorCodigo/${codigoBilhete}`;
     return this.http.get(url);
+  }
+
+  // -- Atualizar Resultado parcial TIME BILHETE
+  atualizarPontosTimeBilhete(timeBilhete: TimeBilheteCompeticaoCartola) {
+    const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/atualizarPontosTimeBilhete`;
+    return this.http.put(url, timeBilhete);
   }
   
 

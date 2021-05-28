@@ -1,4 +1,4 @@
- <!-- <ngx-spinner name="rodada" [fullScreen]="true" type="ball-spin-clockwise" size="medium"></ngx-spinner> -->
+<ngx-spinner name="rodada" [fullScreen]="true" type="ball-spin-clockwise" size="medium"></ngx-spinner>
 
 
 <div class="panel-header panel-header-sm"></div>
@@ -42,8 +42,7 @@
 
 
       <div class="input-group no-border">
-        <!-- <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" /> -->
-        <input type="text" class="form-control" placeholder="Buscar time..." />
+        <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" /> 
         <div class="input-group-append">
           <div class="input-group-text">
             <i class="now-ui-icons ui-1_zoom-bold"></i>
@@ -100,9 +99,9 @@
                     {{parcial.premiacaoFinalFormatLista}} </span>
                 </td>
                 <td class=" text-right">
-                  <span class="datatable-pontuacao"> {{parcial.pontosTotais}}</span>
+                  <span class="datatable-pontuacao"> {{parcial.pontuacaoParcial}}</span>
                   <span style="color:red" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'"
-                    class="datatable-nome-coach">{{parcial.atletasJogados}}/12 </span>
+                    class="datatable-nome-coach">{{parcial.qtJogadoresPontuados}}/12 </span>
                 </td>
 
 

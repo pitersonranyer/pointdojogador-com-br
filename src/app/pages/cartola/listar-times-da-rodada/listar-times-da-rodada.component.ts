@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { TimeBilheteCompeticaoCartola } from 'src/app/interfaces/timeBilheteCompeticaoCartola';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import * as jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -22,12 +23,13 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   usuario$: Observable<Usuario>;
   usuario: Usuario;
 
-  public anoTemporada: number;
-  public idRodada: number;
+  public nrSequencialRodadaCartola: number;
+  public nrRodada: number;
 
   capitao_id: number;
   totPontos: number;
   pontuacaoParcial: number;
+  timeBilhete: TimeBilheteCompeticaoCartola = <TimeBilheteCompeticaoCartola>{};
 
   public premiacaoPercentualLista = 0;
   public premiacaoFinalLista = 0;
@@ -40,6 +42,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
 
   constructor(
     private listaResultadoParcialRodada: CartolaAPIService,
+    private listarTimesDaCompeticaoService: CartolaAPIService,
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
     public usuarioService: UsuarioService,
@@ -56,12 +59,13 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   ngOnInit() {
 
     this.route.queryParams.subscribe(params => {
-      this.anoTemporada = params.anoTemporada;
-      this.idRodada = params.idRodada;
-      this.valorRodada = params.valorRodada;
+      console.log(params);
+      this.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
+      this.nrRodada = params.nrRodada;
+      this.valorRodada = params.valorCompeticao;
 
       this.consultarMercadoStatus.consultarMercadoStatus().subscribe(status => {
-         if ( ( status.rodada_atual - 1)  == this.idRodada) {
+         if ( ( status.rodada_atual - 1)  == this.nrRodada) {
           this.podeAtualizar = true;
         }
       });
@@ -73,7 +77,8 @@ export class ListarTimesDaRodadaComponent implements OnInit {
 
   atualizarlistaResultadoParcialRodada() {
     this.parciais = [];
-    this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
+    this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.nrSequencialRodadaCartola)
+   // this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
       .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
 
@@ -140,18 +145,18 @@ export class ListarTimesDaRodadaComponent implements OnInit {
             this.totPontos += this.pontuacaoParcial;
           }
 
-          // Atualizar pontuação.
-          this.timeRodadaCartola.anoTemporada = this.parciais[i].anoTemporada;
-          this.timeRodadaCartola.idRodada = this.parciais[i].idRodada;
-          this.timeRodadaCartola.idUsuario = this.parciais[i].idUsuario;
-          this.timeRodadaCartola.time_id = this.parciais[i].time_id;
-          this.timeRodadaCartola.pontosTotais = this.totPontos;
-          this.timeRodadaCartola.pontosTotais.toFixed(2);
 
+          // Atualizar pontuação. (piterson)
+          this.timeBilhete.idBilhete = this.parciais[i].idBilhete
+          this.timeBilhete.time_id = this.parciais[i].time_id;
+          this.timeBilhete.pontuacaoParcial = this.totPontos;
+          this.timeBilhete.pontuacaoParcial.toFixed(2);
+          
 
-          this.atualizarResultadoParcial.atualizarPontosRodadaCartola(this.timeRodadaCartola)
+          this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
             .subscribe(() => {
             });
+
         });
     }
     setTimeout(() => {
@@ -168,7 +173,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
       var pdf = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
       var imgData = canvas.toDataURL("image/png", 1.0);
       pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
-      var arquivo = 'PointdoJogadorRDD' + this.idRodada + '.pdf';
+      var arquivo = 'PointdoJogadorRDD' + this.nrRodada + '.pdf';
       pdf.save(arquivo);
 
     });

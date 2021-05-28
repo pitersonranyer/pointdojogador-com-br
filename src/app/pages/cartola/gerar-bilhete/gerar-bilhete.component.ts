@@ -245,6 +245,7 @@ export class GerarBilheteComponent implements OnInit {
     } else {
 
       this.bilhete.idBilhete = 0;
+      this.bilhete.nomeUsuario = 'Sistema';
       this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
       this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
@@ -257,9 +258,10 @@ export class GerarBilheteComponent implements OnInit {
             this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
               this.timeBilhete = data.time;
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = data.time[0].nome_cartola;
+              this.timeBilhete.nomeUsuario = 'Sistema';
               this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
               this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+
               this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
                 .subscribe(() => {
                 });
