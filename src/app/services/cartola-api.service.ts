@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { PontuacaoTimeRodada } from 'src/app/interfaces/pontuacaoTimeRodada';
 import { BilheteCompeticaoCartola } from '../interfaces/bilheteCompeticaoCartola';
 import { CompeticaoCartola } from '../interfaces/competicaoCartola';
 import { HistoricoTimeUsuario } from '../interfaces/historicoTimeUsuario';
@@ -331,6 +332,12 @@ export class CartolaAPIService {
   atualizarPontosTimeBilhete(timeBilhete: TimeBilheteCompeticaoCartola) {
     const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/atualizarPontosTimeBilhete`;
     return this.http.put(url, timeBilhete);
+  }
+
+
+  atualizarPontuacaoTimeRodada(pontuacaoTimeRodada: PontuacaoTimeRodada)  {
+    const url = this.utilService.getUrlBackend() + `/pontuacaoTimeRodada`;
+    return this.http.post(url, pontuacaoTimeRodada);
   }
   
 
