@@ -211,11 +211,12 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
               // Recuperar atletas por time
               this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
                 .subscribe((data) => {
-
+          //        console.log(data);
                   // tratar pontuação do JSON pontuados
                   this.capitao_id = data.capitao_id;
                   this.totPontos = 0;
                   this.pontuacaoParcial = 0;
+                  // console.log(data.reservas);
                   for (let x = 0; x < data.atletas.length; x++) {
                     for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
                       if (data.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
@@ -236,9 +237,10 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
                   // atualizar quantidade de jogadores que já entram em campo.
                   this.count = 0;
-                  for (let y = 0; y < this.atletas.length; y++) {
+                  
+                  for (let y = 0; y < data.atletas.length; y++) {
                     for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
-                      if (this.atletas[y].atleta_id == this.arrayAtletasPontuados[z].atleta_id) {
+                      if (data.atletas[y].atleta_id == this.arrayAtletasPontuados[z].atleta_id) {
                         if (this.arrayAtletasPontuados[z].posicao_id === 6) {
                           if (this.arrayAtletasPontuados[z].pontuacao === 0) {
                             continue;
@@ -262,6 +264,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   this.timeBilhete.pontuacaoParcial = this.totPontos;
                   this.timeBilhete.pontuacaoParcial.toFixed(2);
                   this.timeBilhete.qtJogadoresPontuados = this.count;
+                  // console.log(this.count);
 
                   this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
                     .subscribe(() => {
