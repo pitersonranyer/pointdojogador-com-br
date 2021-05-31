@@ -168,6 +168,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
             if (j === 6) {
               this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
+          }else{
+            this.parciais[j].totalAnual =  Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
           }
         }
       });
@@ -216,7 +218,12 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   this.capitao_id = data.capitao_id;
                   this.totPontos = 0;
                   this.pontuacaoParcial = 0;
-                  // console.log(data.reservas);
+                  if (data.pontos_campeonato === null){
+                    this.parciais[i].pontosCampeonato = 0
+                  }else{
+                    this.parciais[i].pontosCampeonato = data.pontos_campeonato;
+                  }
+                  
                   for (let x = 0; x < data.atletas.length; x++) {
                     for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
                       if (data.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
@@ -264,7 +271,11 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   this.timeBilhete.pontuacaoParcial = this.totPontos;
                   this.timeBilhete.pontuacaoParcial.toFixed(2);
                   this.timeBilhete.qtJogadoresPontuados = this.count;
-                  // console.log(this.count);
+                  this.timeBilhete.pontuacaoTotalCompeticao = this.parciais[i].pontosCampeonato;
+                  
+                  // console.log(this.count); 
+
+                  //console.log(this.timeBilhete.pontuacaoTotalCompeticao);
 
                   this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
                     .subscribe(() => {

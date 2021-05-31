@@ -69,8 +69,9 @@
             <thead class=" text-primary">
               <tr>
                 <th>Time</th>
-                <th>R$</th>
-                <th class="text-right">Pts. Total</th>
+                <th class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'" >R$</th>
+                <th class="text-right">Parcial</th>
+                <th class="text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'"> Total</th>
               </tr>
             </thead>
             <tbody>
@@ -94,7 +95,7 @@
                     </div>
                   </div>
                 </td>
-                <td>
+                <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
                   <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' ">
                     {{parcial.premiacaoFinalFormatLista}} </span>
                 </td>
@@ -102,6 +103,9 @@
                   <span class="datatable-pontuacao"> {{parcial.pontuacaoParcial}}</span>
                   <span style="color:red" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'"
                     class="datatable-nome-coach">{{parcial.qtJogadoresPontuados}}/12 </span>
+                </td>
+                <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
+                  <span class="datatable-pontuacaoAnual">{{parcial.totalAnual}}</span>
                 </td>
 
 
