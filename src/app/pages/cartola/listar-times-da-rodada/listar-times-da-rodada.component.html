@@ -27,8 +27,9 @@
               <thead class=" text-primary">
                 <tr>
                   <th>Time</th>
-                  <th class="text-right">R$</th>
-                  <th class="text-right">Pts. Total</th>
+                  <th class="text-right" *ngIf="tipoCompeticao === 'TIRO CURTO'">R$</th>
+                  <th class="text-right">Parcial</th>
+                  <th class="text-right" > Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,11 +44,14 @@
                       </div>
                     </div>
                   </td>
-                  <td class="text-right">
+                  <td class="text-right" *ngIf="tipoCompeticao === 'TIRO CURTO'">
                     <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' "> {{parcial.premiacaoFinalFormatLista}} </span>
                   </td>
                   <td class="text-right">
                     <span class="datatable-pontuacao"> {{parcial.pontuacaoParcial}}</span>
+                  </td>
+                  <td class=" text-right" >
+                    <span class="datatable-pontuacaoAnual">{{parcial.pontuacaoTotalCompeticao}}</span>
                   </td>
                 </tr>
               </tbody>
