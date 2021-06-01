@@ -174,7 +174,11 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
               this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
           } else {
-            this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
+            if (this.status_mercado === 2) {
+              this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
+            }else {
+              this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) 
+            }
           }
         }
       });
