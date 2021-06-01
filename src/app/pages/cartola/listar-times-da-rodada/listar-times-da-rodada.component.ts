@@ -70,6 +70,9 @@ export class ListarTimesDaRodadaComponent implements OnInit {
         if ((status.rodada_atual - 1) == this.nrRodada) {
           this.podeAtualizar = true;
         }
+        if  (this.nrRodada == 0 ){
+          this.podeAtualizar = true;
+        }
       });
 
 
