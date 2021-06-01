@@ -62,7 +62,6 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   ngOnInit() {
 
     this.route.queryParams.subscribe(params => {
-      console.log(params);
       this.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
       this.nrRodada = params.nrRodada;
       this.valorRodada = params.valorCompeticao;
@@ -81,7 +80,6 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   atualizarlistaResultadoParcialRodada() {
     this.parciais = [];
     this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.nrSequencialRodadaCartola)
-      // this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.idRodada)
       .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
 
@@ -134,6 +132,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
       // Recuperar atletas por time
       this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
         .subscribe((data) => {
+
           this.capitao_id = data.capitao_id;
 
           this.totPontos = 0;
@@ -149,26 +148,28 @@ export class ListarTimesDaRodadaComponent implements OnInit {
           }
 
 
+          
+
           // Atualizar pontuação. (piterson)
           this.timeBilhete.idBilhete = this.parciais[i].idBilhete
           this.timeBilhete.time_id = this.parciais[i].time_id;
           this.timeBilhete.pontuacaoParcial = this.totPontos;
           this.timeBilhete.pontuacaoParcial.toFixed(2);
-
+          this.timeBilhete.qtJogadoresPontuados = 12; //ajustar;
+          this.timeBilhete.pontuacaoTotalCompeticao = data.pontos_campeonato;
+          this.timeBilhete.pontuacaoTotalCompeticao.toFixed(2);
 
           this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
-            .subscribe(() => {
+           .subscribe(() => {
+            this.pontuacaoTimeRodada.time_id = this.parciais[i].time_id;
+            this.pontuacaoTimeRodada.nrRodada = this.nrRodada;
+            this.pontuacaoTimeRodada.pontuacao = this.totPontos;
+      
+            this.atualizarPontuacaoService.atualizarPontuacaoTimeRodada(this.pontuacaoTimeRodada)
+              .subscribe(() => {
+              });
+              
             });
-
-        });
-
-      this.pontuacaoTimeRodada.time_id = this.parciais[i].time_id;
-      this.pontuacaoTimeRodada.time_id = this.nrRodada;
-      this.pontuacaoTimeRodada.pontuacao = this.totPontos;
-      this.pontuacaoTimeRodada.pontuacao.toFixed(2);
-
-      this.atualizarPontuacaoService.atualizarPontuacaoTimeRodada(this.pontuacaoTimeRodada)
-        .subscribe(() => {
         });
 
     }

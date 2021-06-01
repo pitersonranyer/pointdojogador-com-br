@@ -30,7 +30,6 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   parciais = [];
 
   public anoTemporada: number;
-  public nrRodada: number;
   public dataFimInscricao: string;
   public horaFimInscricao: string;
   public statusCompeticao: string;
@@ -56,6 +55,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
   slug = [];
 
+  reservas = [];
+
   grupo = '';
 
 
@@ -71,7 +72,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
     private consultarMercadoStatus: CartolaAPIService,
-    private listarTimesDaCompeticaoService: CartolaAPIService
+    private listarTimesDaCompeticaoService: CartolaAPIService,
+    private consultarSubstituicoesService: CartolaAPIService
   ) { }
 
   ngOnInit() {
@@ -103,7 +105,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       this.rodada_atual = status.rodada_atual;
       this.status_mercado = status.status_mercado;
 
-      if (this.rodada_atual == this.nrRodada) {
+      if (this.rodada_atual == this.competicaoRodada.nrRodada) {
         if (this.status_mercado === 1) {
           this.statusCompeticao = 'Aberta';
         } else {
@@ -115,7 +117,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
       this.atualizarlistaResultadoParcialRodada();
 
-      
+
     });
 
   }
@@ -134,6 +136,9 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
         for (let j = 0; j < this.parciais.length; j++) {
+
+
+
           if (this.competicaoRodada.tipoCompeticao === 'TIRO CURTO') {
             this.premiacaoTotal = this.parciais.length * this.competicaoRodada.valorCompeticao;
             this.premiacaoPercentualLista = 0;
@@ -168,8 +173,8 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
             if (j === 6) {
               this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
-          }else{
-            this.parciais[j].totalAnual =  Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
+          } else {
+            this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
           }
         }
       });
@@ -206,29 +211,28 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
         // Processar atualização de pontuação
         // busca times salvo na base de dados
         this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
-          //  this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.nrRodada)
+          //  this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.competicaoRodada.nrRodada)
           .subscribe((resultParcial: any[]) => {
             this.parciais = resultParcial;
             for (let i = 0; i < this.parciais.length; i++) {
               // Recuperar atletas por time
               this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
                 .subscribe((data) => {
-          //        console.log(data);
                   // tratar pontuação do JSON pontuados
                   this.capitao_id = data.capitao_id;
                   this.totPontos = 0;
                   this.pontuacaoParcial = 0;
-                  if (data.pontos_campeonato === null){
+                  if (data.pontos_campeonato === null) {
                     this.parciais[i].pontosCampeonato = 0
-                  }else{
+                  } else {
                     this.parciais[i].pontosCampeonato = data.pontos_campeonato;
                   }
-                  
+
                   for (let x = 0; x < data.atletas.length; x++) {
                     for (let i = 0; i < this.arrayAtletasPontuados.length; i++) {
-                      if (data.atletas[x].atleta_id == this.arrayAtletasPontuados[i].atleta_id) {
+                      if (Number(data.atletas[x].atleta_id) === Number(this.arrayAtletasPontuados[i].atleta_id)) {
                         // Dobrar pontuação do capitão
-                        if (this.capitao_id == data.atletas[x].atleta_id) {
+                        if (Number(this.capitao_id) === Number(data.atletas[x].atleta_id)) {
                           this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao * 2;
                         } else {
                           this.pontuacaoParcial = this.arrayAtletasPontuados[i].pontuacao;
@@ -241,10 +245,39 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                     }
                   }
 
+                  this.consultarSubstituicoesService.consultarBancoDeReservas(this.parciais[i].time_id, this.competicaoRodada.nrRodada)
+                    .subscribe((reservas) => {
+                      this.reservas = reservas;
+                      for (let y = 0; y < this.reservas.length; y++) {
+                        for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
+                          if (Number(this.reservas[y].entrou.atleta_id) === Number(this.arrayAtletasPontuados[z].atleta_id)) {
+
+                            // Dobrar pontuação do capitão
+                            if (Number(this.capitao_id) === Number(this.reservas[y].entrou.atleta_id)) {
+                              this.pontuacaoParcial = this.arrayAtletasPontuados[z].pontuacao * 2;
+                            } else {
+                              this.pontuacaoParcial = this.arrayAtletasPontuados[z].pontuacao;
+                            }
+                            this.totPontos += this.pontuacaoParcial;
+
+                            // finalizar leitura array interno.
+                            i = this.arrayAtletasPontuados.length;
+                          }
+                        }
+                      }
+
+
+                    });
+
+
+
+
+
+
 
                   // atualizar quantidade de jogadores que já entram em campo.
                   this.count = 0;
-                  
+
                   for (let y = 0; y < data.atletas.length; y++) {
                     for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
                       if (data.atletas[y].atleta_id == this.arrayAtletasPontuados[z].atleta_id) {
@@ -263,7 +296,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                       }
                     }
                   }
-                  
+
 
                   // Atualizar pontuação. (piterson)
                   this.timeBilhete.idBilhete = this.parciais[i].idBilhete
@@ -272,7 +305,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   this.timeBilhete.pontuacaoParcial.toFixed(2);
                   this.timeBilhete.qtJogadoresPontuados = this.count;
                   this.timeBilhete.pontuacaoTotalCompeticao = this.parciais[i].pontosCampeonato;
-                  
+
                   // console.log(this.count); 
 
                   //console.log(this.timeBilhete.pontuacaoTotalCompeticao);
@@ -383,7 +416,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
       var pdf = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
       var imgData = canvas.toDataURL("image/png", 1.0);
       pdf.addImage(imgData, 0, 0, canvas.width, canvas.height);
-      var arquivo = 'PointdoJogadorRDD' + this.nrRodada + '.pdf';
+      var arquivo = 'PointdoJogadorRDD' + this.competicaoRodada.nrRodada + '.pdf';
       pdf.save(arquivo);
 
     });

@@ -62,6 +62,12 @@ export class CartolaAPIService {
   }
 
 
+  consultarBancoDeReservas(time_id: number, nrRodada: number): Observable<any> {
+    const url = this.utilService.getUrlBackend() + `/cartolaAPI/consultarBancoDeReservas/${time_id}/${nrRodada}`;
+    return this.http.get<any>(url);
+  }
+
+
   // endpoints de persistencias MYSQL.
 
   // -- TimesUsuarioCartola

@@ -43,7 +43,6 @@ export const ROUTES: RouteInfo[] = [
     title: 'Bilhete',
     type: 'link',
     icontype: 'design_image',
-    
   },
 
 //  {
