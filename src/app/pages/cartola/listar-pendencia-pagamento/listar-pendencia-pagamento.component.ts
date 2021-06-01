@@ -4,7 +4,6 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { BilheteCompeticaoCartola } from 'src/app/interfaces/bilheteCompeticaoCartola';
 import { RodadaCartola } from 'src/app/interfaces/rodadaCartola';
-import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import swal from 'sweetalert2';
@@ -37,6 +36,10 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
   nomeUsuarioOne = '';
   nomeAdmOne = '';
 
+  httpsWapp = 'https://wa.me/55';
+  nrWapp = '';
+  urlWapp = [];
+
   constructor(
     private listarBilheteGeradoIdService: CartolaAPIService,
     private atualizarStatusPagamento: CartolaAPIService,
@@ -59,6 +62,12 @@ export class ListarPendenciaPagamentoComponent implements OnInit {
     this.listarBilheteGeradoIdService.listarBilheteGeradoId(this.id)
       .subscribe((bilhetes: any[]) => {
         this.bilhetes = bilhetes;
+
+        for (let x = 0; x < this.bilhetes.length; x++) {
+          this.nrWapp = this.bilhetes[x].nrContatoUsuario.replace('(', '').replace(')', '').replace('-', '');
+          this.urlWapp[x] = this.httpsWapp + this.nrWapp;
+        }
+
       });
 
 
