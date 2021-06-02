@@ -40,6 +40,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   public totalParticipantes = 0;
   public podeAtualizar = false;
   public tipoCompeticao = '';
+  public rodadaAtual = 0;
 
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
 
@@ -72,17 +73,18 @@ export class ListarTimesDaRodadaComponent implements OnInit {
           .toPromise()
           .then(status => {
             //   .subscribe(status => {
+              this.rodadaAtual = status.rodada_atual;
             if ((status.rodada_atual - 1) == this.nrRodada) {
               this.podeAtualizar = true;
             }
             if (this.nrRodada == 0) {
               this.podeAtualizar = true;
             }
+            this.atualizarlistaResultadoParcialRodada();
           });
 
-
       });
-    this.atualizarlistaResultadoParcialRodada();
+     
   }
 
   atualizarlistaResultadoParcialRodada() {
@@ -163,7 +165,8 @@ export class ListarTimesDaRodadaComponent implements OnInit {
             .then(() => {
               //     .subscribe(() => {
               this.pontuacaoTimeRodada.time_id = this.parciais[i].time_id;
-              this.pontuacaoTimeRodada.nrRodada = this.nrRodada;
+              this.pontuacaoTimeRodada.nrRodada = this.rodadaAtual - 1;
+              this.pontuacaoTimeRodada.mesRodada = 6 //junho
               this.pontuacaoTimeRodada.pontuacao = data.pontos;
 
               this.atualizarPontuacaoService.atualizarPontuacaoTimeRodada(this.pontuacaoTimeRodada)
