@@ -62,9 +62,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   ngOnInit() {
 
     this.route.queryParams
-      .toPromise()
-      .then(params => {
-        // .subscribe(params => {
+         .subscribe(params => {
         this.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
         this.nrRodada = params.nrRodada;
         this.valorRodada = params.valorCompeticao;
