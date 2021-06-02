@@ -50,7 +50,7 @@ export class GerarBilheteComponent implements OnInit {
   temTime = 0;
   proximo = false;
   hstTime = false;
-  porId   = false;
+  porId = false;
   porNome = false;
 
 
@@ -250,22 +250,29 @@ export class GerarBilheteComponent implements OnInit {
       this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
       this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
-        .subscribe((value: any) => {
+        .toPromise()
+        .then((value: any) => {
+          // .subscribe((value: any) => {
           this.idBilheteUsuario = value.idBilhete;
           this.codigoBilhete = value.codigoBilhete;
 
           for (let i = 0; i < arraySlugs.length; i++) {
-            this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i]).subscribe((data) => {
-              this.timeBilhete = data.time;
-              this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = 'Sistema';
-              this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
-              this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
+            this.consultarTimeInfoCartolaById.consultarTimeCartola(arraySlugs[i])
+              .toPromise()
+              .then((data) => {
+                //      .subscribe((data) => {
+                this.timeBilhete = data.time;
+                this.timeBilhete.idBilhete = this.idBilheteUsuario;
+                this.timeBilhete.nomeUsuario = 'Sistema';
+                this.timeBilhete.nrContatoUsuario = this.formulario.get('contato').value;
+                this.timeBilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
 
-              this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-                .subscribe(() => {
-                });
-            });
+                this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
+                  .toPromise()
+                  .then(() => {
+                    //   .subscribe(() => {
+                  });
+              });
           }
         });
 
@@ -288,11 +295,14 @@ export class GerarBilheteComponent implements OnInit {
 
   listarTimesPorNome(nomeTime: string) {
 
-    var nomeTimeSemAcento = nomeTime.normalize("NFD");
+    const nomeTimeSemAcento = nomeTime.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-    this.listarTimesCartola.listarTimesCartola(nomeTimeSemAcento).subscribe((listaTimes: []) => {
-      this.timesLigaCartola = listaTimes;
-    });
+    this.listarTimesCartola.listarTimesCartola(nomeTimeSemAcento)
+      .toPromise()
+      .then((listaTimes: []) => {
+        // .subscribe((listaTimes: []) => {
+        this.timesLigaCartola = listaTimes;
+      });
   }
 
   excluirTimeUsuario(timeUsuario: HistoricoTimeUsuario): void {
@@ -419,8 +429,10 @@ export class GerarBilheteComponent implements OnInit {
           this.bilhete.nrContatoUsuario = this.formulario.get('contato').value;
           this.bilhete.nrSequencialRodadaCartola = this.competicaoRodada.nrSequencialRodadaCartola
           this.gerarBilhete.gerarBilheteCompeticaoCartola(this.bilhete)
+            .toPromise()
+            .then((value: any) => {
 
-            .subscribe((value: any) => {
+              //  .subscribe((value: any) => {
               this.idBilheteUsuario = value.idBilhete;
               this.codigoBilhete = value.codigoBilhete;
 
@@ -440,8 +452,11 @@ export class GerarBilheteComponent implements OnInit {
               this.timeBilhete.facebook_id = this.timesLigaCartola[i].facebook_id;
 
               this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-                .subscribe(
+                .toPromise()
+                .then(
                   () => {
+                    //    .subscribe(
+                    //      () => {
                     this.toastr.success(
                       '<span class="now-ui-icons ui-1_bell-53"></span>' +
                       ' Time cadastrado com sucesso!',
@@ -504,22 +519,24 @@ export class GerarBilheteComponent implements OnInit {
           this.timeBilhete.facebook_id = this.timesLigaCartola[i].facebook_id;
 
           this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-            .subscribe(
-              () => {
-                this.toastr.success(
-                  '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                  ' Time cadastrado com sucesso!',
-                  '',
-                  {
-                    timeOut: 8000,
-                    closeButton: true,
-                    enableHtml: true,
-                    toastClass: 'alert alert-success alert-with-icon',
-                    positionClass: 'toast-' + 'top' + '-' + 'right'
-                  }
-                );
-                this.timesLigaCartola[i].inPoint = true;
-              },
+            .toPromise()
+            .then(() => {
+              //.subscribe(
+              //    () => {
+              this.toastr.success(
+                '<span class="now-ui-icons ui-1_bell-53"></span>' +
+                ' Time cadastrado com sucesso!',
+                '',
+                {
+                  timeOut: 8000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: 'alert alert-success alert-with-icon',
+                  positionClass: 'toast-' + 'top' + '-' + 'right'
+                }
+              );
+              this.timesLigaCartola[i].inPoint = true;
+            },
               (erro) => {
 
                 if (erro.status && erro.status === 409) {
@@ -563,8 +580,10 @@ export class GerarBilheteComponent implements OnInit {
     this.bilhete.nomeUsuario = this.nome;
     this.bilhete.statusAtualBilhete = 'Finalizado';
 
-    this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete).subscribe(
-      () => {
+    this.atualizarStatusPagamento.alterarStatusBilhete(this.bilhete)
+      .toPromise()
+      .then(() => {
+        //  .subscribe(() => {
         swal({
           title: "Solicitação: " + this.bilhete.idBilhete,
           text: "Para validar, envie esse número para o ADM da liga!",

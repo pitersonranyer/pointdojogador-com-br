@@ -44,7 +44,6 @@ export class ListarTimesDaRodadaComponent implements OnInit {
   public timeRodadaCartola: TimeRodadaCartola = <TimeRodadaCartola>{};
 
   constructor(
-    private listaResultadoParcialRodada: CartolaAPIService,
     private listarTimesDaCompeticaoService: CartolaAPIService,
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
@@ -62,30 +61,39 @@ export class ListarTimesDaRodadaComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.queryParams.subscribe(params => {
-      this.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
-      this.nrRodada = params.nrRodada;
-      this.valorRodada = params.valorCompeticao;
-      this.tipoCompeticao = params.tipoCompeticao;
+    this.route.queryParams
+      .toPromise()
+      .then(params => {
+        // .subscribe(params => {
+        this.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
+        this.nrRodada = params.nrRodada;
+        this.valorRodada = params.valorCompeticao;
+        this.tipoCompeticao = params.tipoCompeticao;
 
-      this.consultarMercadoStatus.consultarMercadoStatus().subscribe(status => {
-        if ((status.rodada_atual - 1) == this.nrRodada) {
-          this.podeAtualizar = true;
-        }
-        if (this.nrRodada == 0) {
-          this.podeAtualizar = true;
-        }
+        this.consultarMercadoStatus.consultarMercadoStatus()
+          .toPromise()
+          .then(status => {
+            //   .subscribe(status => {
+            if ((status.rodada_atual - 1) == this.nrRodada) {
+              this.podeAtualizar = true;
+            }
+            if (this.nrRodada == 0) {
+              this.podeAtualizar = true;
+            }
+          });
+
+
       });
-
-
-    });
     this.atualizarlistaResultadoParcialRodada();
   }
 
   atualizarlistaResultadoParcialRodada() {
+    this.spinner.show('rodada');
     this.parciais = [];
     this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.nrSequencialRodadaCartola)
-      .subscribe((resultParcial: any[]) => {
+      .toPromise()
+      .then((resultParcial: any[]) => {
+        //    .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
         this.totalParticipantes = this.parciais.length;
 
@@ -126,6 +134,7 @@ export class ListarTimesDaRodadaComponent implements OnInit {
             }
           }
         }
+        this.spinner.hide('rodada');
       });
   }
 
@@ -136,8 +145,9 @@ export class ListarTimesDaRodadaComponent implements OnInit {
     for (let i = 0; i < this.parciais.length; i++) {
       // Recuperar atletas por time
       this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
-        .subscribe((data) => {
-
+        .toPromise()
+        .then((data) => {
+          //   .subscribe((data) => {
           this.totPontos = 0;
           this.pontuacaoParcial = 0;
 
@@ -151,24 +161,30 @@ export class ListarTimesDaRodadaComponent implements OnInit {
           this.timeBilhete.pontuacaoTotalCompeticao.toFixed(2);
 
           this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
-            .subscribe(() => {
+            .toPromise()
+            .then(() => {
+              //     .subscribe(() => {
               this.pontuacaoTimeRodada.time_id = this.parciais[i].time_id;
               this.pontuacaoTimeRodada.nrRodada = this.nrRodada;
               this.pontuacaoTimeRodada.pontuacao = data.pontos;
 
               this.atualizarPontuacaoService.atualizarPontuacaoTimeRodada(this.pontuacaoTimeRodada)
-                .subscribe(() => {
+                .toPromise()
+                .then(() => {
+                  this.spinner.hide('rodada');
+                  this.atualizarlistaResultadoParcialRodada();
+                  //    .subscribe(() => {
                 });
 
             });
         });
 
     }
-    setTimeout(() => {
-      this.spinner.hide('rodada');
-      this.atualizarlistaResultadoParcialRodada();
-    }, 6000);
-    this.ngOnInit();
+    //   setTimeout(() => {
+    //     this.spinner.hide('rodada');
+    //     this.atualizarlistaResultadoParcialRodada();
+    //   }, 6000);
+    //   this.ngOnInit();
   }
 
 

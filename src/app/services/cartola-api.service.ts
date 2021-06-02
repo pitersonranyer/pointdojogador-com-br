@@ -315,7 +315,7 @@ export class CartolaAPIService {
 
   listarTimesDaCompeticao(nrSequencialRodadaCartola: number): Observable<any> {
     const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/listarTimesDaCompeticao/${nrSequencialRodadaCartola}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url)
   }
 
   consultaTimeCompeticaoCount(nrSequencialRodadaCartola: number) {

@@ -9,9 +9,7 @@ import { CompeticaoCartola } from 'src/app/interfaces/competicaoCartola';
 import { TimeBilheteCompeticaoCartola } from 'src/app/interfaces/timeBilheteCompeticaoCartola';
 import { TimeCartola } from 'src/app/interfaces/timeCartola';
 import { TimeRodadaCartola } from 'src/app/interfaces/timeRodadaCartola';
-import { AuthService } from 'src/app/services/auth.service';
 import { CartolaAPIService } from 'src/app/services/cartola-api.service';
-import { ModalAddTimeRodadaComponent } from './modal-add-time-rodada/modal-add-time-rodada.component';
 import { ModalDetalheTimeUsuarioComponent } from './modal-detalhe-time-usuario/modal-detalhe-time-usuario.component';
 
 @Component({
@@ -36,7 +34,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   public valorCompeticao: number;
   loading = false;
   tempo = 2000;
-  autenticado = false;
+
 
   arrayAtletasPontuados = [];
   totPontos: number;
@@ -63,11 +61,9 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
-    public authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
     private spinner: NgxSpinnerService,
-    //private listaResultadoParcialRodada: CartolaAPIService,
     private atletasPontuados: CartolaAPIService,
     private consultarTimeCartola: CartolaAPIService,
     private atualizarResultadoParcial: CartolaAPIService,
@@ -77,13 +73,6 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.authService.autenticado$.subscribe(autenticado => {
-      if (autenticado) {
-        this.autenticado = autenticado;
-      } else {
-        this.autenticado = false;
-      }
-    });
 
     this.route.queryParams.subscribe(params => {
       this.competicaoRodada.nrSequencialRodadaCartola = params.nrSequencialRodadaCartola;
@@ -100,25 +89,28 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
     });
 
-    this.consultarMercadoStatus.consultarMercadoStatus().subscribe(status => {
+    this.consultarMercadoStatus.consultarMercadoStatus()
+      .toPromise()
+      .then(status => {
+        //.subscribe(status => {
 
-      this.rodada_atual = status.rodada_atual;
-      this.status_mercado = status.status_mercado;
+        this.rodada_atual = status.rodada_atual;
+        this.status_mercado = status.status_mercado;
 
-      if (this.rodada_atual == this.competicaoRodada.nrRodada) {
-        if (this.status_mercado === 1) {
-          this.statusCompeticao = 'Aberta';
-        } else {
-          if (this.status_mercado === 2) {
-            this.statusCompeticao = 'Fechada';
+        if (this.rodada_atual == this.competicaoRodada.nrRodada) {
+          if (this.status_mercado === 1) {
+            this.statusCompeticao = 'Aberta';
+          } else {
+            if (this.status_mercado === 2) {
+              this.statusCompeticao = 'Fechada';
+            }
           }
         }
-      }
 
-      this.atualizarlistaResultadoParcialRodada();
+        this.atualizarlistaResultadoParcialRodada();
 
 
-    });
+      });
 
   }
 
@@ -129,11 +121,13 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
 
   atualizarlistaResultadoParcialRodada() {
-    this.showSpinner();
+    this.spinner.show('rodada');
     this.parciais = [];
 
     this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
-      .subscribe((resultParcial: any[]) => {
+      .toPromise()
+      .then((resultParcial: any[]) => {
+        //  .subscribe((resultParcial: any[]) => {
         this.parciais = resultParcial;
         for (let j = 0; j < this.parciais.length; j++) {
 
@@ -176,11 +170,12 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
           } else {
             if (this.status_mercado === 2) {
               this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
-            }else {
-              this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) 
+            } else {
+              this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao)
             }
           }
         }
+        this.spinner.hide('rodada');
       });
   }
 
@@ -205,23 +200,27 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   }
 
   atualizarParciais() {
-    this.tempo = 5000;
     this.spinner.show('rodada');
 
     this.atletasPontuados.listarAtletasPontuados()
-      .subscribe((pontuados) => {
+      .toPromise()
+      .then((pontuados) => {
+        //   .subscribe((pontuados) => {
         this.trataRespostaAtletasPontuados(pontuados);
 
         // Processar atualização de pontuação
         // busca times salvo na base de dados
         this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
-          //  this.listaResultadoParcialRodada.listaResutaldoParcialRodada(this.anoTemporada, this.competicaoRodada.nrRodada)
-          .subscribe((resultParcial: any[]) => {
+          .toPromise()
+          .then((resultParcial: any[]) => {
+            //    .subscribe((resultParcial: any[]) => {
             this.parciais = resultParcial;
             for (let i = 0; i < this.parciais.length; i++) {
               // Recuperar atletas por time
               this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
-                .subscribe((data) => {
+                .toPromise()
+                .then((data) => {
+                  //  .subscribe((data) => {
                   // tratar pontuação do JSON pontuados
                   this.capitao_id = data.capitao_id;
                   this.totPontos = 0;
@@ -250,7 +249,9 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   }
 
                   this.consultarSubstituicoesService.consultarBancoDeReservas(this.parciais[i].time_id, this.competicaoRodada.nrRodada)
-                    .subscribe((reservas) => {
+                    .toPromise()
+                    .then((reservas) => {
+                      //  .subscribe((reservas) => {
                       this.reservas = reservas;
                       for (let y = 0; y < this.reservas.length; y++) {
                         for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
@@ -272,10 +273,6 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
 
 
                     });
-
-
-
-
 
 
 
@@ -315,17 +312,17 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   //console.log(this.timeBilhete.pontuacaoTotalCompeticao);
 
                   this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
-                    .subscribe(() => {
+                    .toPromise()
+                    .then(() => {
+                      //   .subscribe(() => {
                     });
 
                 });
             }
           });
       });
-    setTimeout(() => {
-      this.spinner.hide('rodada');
-      this.atualizarlistaResultadoParcialRodada();
-    }, this.tempo);
+
+    this.spinner.hide('rodada');
 
   }
 
@@ -334,37 +331,6 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
     this.router.navigate(['/cartola/gerarBilhete'], { queryParams: competicao });
   }
 
-  addTimeRodada(idRodada: number) {
-
-
-    if (this.autenticado) {
-      const modalRef = this.modalService.open(ModalAddTimeRodadaComponent,
-        {
-          scrollable: true,
-          windowClass: 'modal-job-scrollable'
-        });
-
-      const data = {
-        idRodada: idRodada
-      }
-      modalRef.componentInstance.fromParent = data;
-    } else {
-      this.toastr.info(
-        '<span class="now-ui-icons ui-1_bell-53"></span>' +
-        '<b>Point do Jogador</b>' +
-        ' - Faça seu Login para participar da Rodada!',
-        '',
-        {
-          timeOut: 8000,
-          closeButton: true,
-          enableHtml: true,
-          toastClass: 'alert alert-info alert-with-icon',
-          positionClass: 'toast-' + 'top' + '-' + 'right'
-        }
-      );
-      this.router.navigate(['/pages/login']);
-    }
-  }
 
   showTime(time: TimeCartola) {
     const modalRef = this.modalService.open(ModalDetalheTimeUsuarioComponent,
