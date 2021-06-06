@@ -99,7 +99,7 @@
                     class="datatable-nome-coach">{{parcial.qtJogadoresPontuados}}/12 </span>
                 </td>
                 <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
-                  <span class="datatable-pontuacaoAnual">{{parcial.totalAnual}}</span>
+                  <span class="datatable-pontuacaoAnual">{{parcial.totalAnual.toFixed(2)}}</span>
                 </td>
 
 

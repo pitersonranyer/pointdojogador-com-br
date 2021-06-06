@@ -168,6 +168,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
               this.parciais[j].premiacaoFinalFormatLista = '10,00';
             }
           } else {
+            this.parciais[j].totalAnual = 0;
             if (this.status_mercado === 2) {
               this.parciais[j].totalAnual = Number(this.parciais[j].pontuacaoTotalCompeticao) + Number(this.parciais[j].pontuacaoParcial)
             } else {
@@ -306,6 +307,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   this.timeBilhete.pontuacaoParcial.toFixed(2);
                   this.timeBilhete.qtJogadoresPontuados = this.count;
                   this.timeBilhete.pontuacaoTotalCompeticao = this.parciais[i].pontosCampeonato;
+                  this.timeBilhete.pontuacaoTotalCompeticao.toFixed(2);
 
                   // console.log(this.count); 
 
@@ -320,9 +322,11 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                 });
             }
           });
+          this.spinner.hide('rodada');
+          this.atualizarlistaResultadoParcialRodada();
       });
 
-    this.spinner.hide('rodada');
+    
 
   }
 
