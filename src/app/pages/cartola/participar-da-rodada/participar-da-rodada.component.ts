@@ -26,6 +26,7 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   public premiacaoFinalLista = 0;
 
   parciais = [];
+  dataAtletas = [];
 
   public anoTemporada: number;
   public dataFimInscricao: string;
@@ -201,27 +202,30 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   }
 
   atualizarParciais() {
-    this.spinner.show('rodada');
+      this.spinner.show('rodada');
 
     this.atletasPontuados.listarAtletasPontuados()
       .toPromise()
       .then((pontuados) => {
-        //   .subscribe((pontuados) => {
-        this.trataRespostaAtletasPontuados(pontuados);
-
-        // Processar atualização de pontuação
-        // busca times salvo na base de dados
+        this.arrayAtletasPontuados = pontuados;
+      })
+      .then(() => {
         this.listarTimesDaCompeticaoService.listarTimesDaCompeticao(this.competicaoRodada.nrSequencialRodadaCartola)
           .toPromise()
           .then((resultParcial: any[]) => {
-            //    .subscribe((resultParcial: any[]) => {
+           
             this.parciais = resultParcial;
+           
+
+          })
+          .then(() => {
+
             for (let i = 0; i < this.parciais.length; i++) {
               // Recuperar atletas por time
               this.consultarTimeCartola.consultarTimeCartola(this.parciais[i].time_id)
                 .toPromise()
                 .then((data) => {
-                  //  .subscribe((data) => {
+                 
                   // tratar pontuação do JSON pontuados
                   this.capitao_id = data.capitao_id;
                   this.totPontos = 0;
@@ -248,35 +252,6 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                       }
                     }
                   }
-
-                  this.consultarSubstituicoesService.consultarBancoDeReservas(this.parciais[i].time_id, this.competicaoRodada.nrRodada)
-                    .toPromise()
-                    .then((reservas) => {
-                      //  .subscribe((reservas) => {
-                      this.reservas = reservas;
-                      for (let y = 0; y < this.reservas.length; y++) {
-                        for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
-                          if (Number(this.reservas[y].entrou.atleta_id) === Number(this.arrayAtletasPontuados[z].atleta_id)) {
-
-                            // Dobrar pontuação do capitão
-                            if (Number(this.capitao_id) === Number(this.reservas[y].entrou.atleta_id)) {
-                              this.pontuacaoParcial = this.arrayAtletasPontuados[z].pontuacao * 2;
-                            } else {
-                              this.pontuacaoParcial = this.arrayAtletasPontuados[z].pontuacao;
-                            }
-                            this.totPontos += this.pontuacaoParcial;
-
-                            // finalizar leitura array interno.
-                            i = this.arrayAtletasPontuados.length;
-                          }
-                        }
-                      }
-
-
-                    });
-
-
-
                   // atualizar quantidade de jogadores que já entram em campo.
                   this.count = 0;
 
@@ -300,34 +275,62 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
                   }
 
 
-                  // Atualizar pontuação. (piterson)
-                  this.timeBilhete.idBilhete = this.parciais[i].idBilhete
-                  this.timeBilhete.time_id = this.parciais[i].time_id;
-                  this.timeBilhete.pontuacaoParcial = this.totPontos;
-                  this.timeBilhete.pontuacaoParcial.toFixed(2);
-                  this.timeBilhete.qtJogadoresPontuados = this.count;
-                  this.timeBilhete.pontuacaoTotalCompeticao = this.parciais[i].pontosCampeonato;
-                  this.timeBilhete.pontuacaoTotalCompeticao.toFixed(2);
 
-                  // console.log(this.count); 
-
-                  //console.log(this.timeBilhete.pontuacaoTotalCompeticao);
-
-                  this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
+                })
+                .then(() => {
+                 
+                  this.consultarSubstituicoesService.consultarBancoDeReservas(this.parciais[i].time_id, this.competicaoRodada.nrRodada)
                     .toPromise()
+                    .then((reservas) => {
+                      
+                      this.reservas = reservas;
+                    })
                     .then(() => {
-                      //   .subscribe(() => {
-                    });
 
-                });
-            }
-          });
-          this.spinner.hide('rodada');
-          this.atualizarlistaResultadoParcialRodada();
-      });
+                      for (let y = 0; y < this.reservas.length; y++) {
+                        for (let z = 0; z < this.arrayAtletasPontuados.length; z++) {
+                          if (Number(this.reservas[y].entrou.atleta_id) === Number(this.arrayAtletasPontuados[z].atleta_id)) {
 
-    
+                            // Dobrar pontuação do capitão
+                            if (Number(this.capitao_id) === Number(this.reservas[y].entrou.atleta_id)) {
+                              this.pontuacaoParcial = this.arrayAtletasPontuados[z].pontuacao * 2;
+                            } else {
+                              this.pontuacaoParcial = this.arrayAtletasPontuados[z].pontuacao;
+                            }
+                            this.totPontos += this.pontuacaoParcial;
 
+                            // finalizar leitura array interno.
+                            z = this.arrayAtletasPontuados.length;
+                          }
+                        }
+                      }
+                      
+                      // Atualizar pontuação. (piterson)
+                     
+                      this.timeBilhete.idBilhete = this.parciais[i].idBilhete
+                      this.timeBilhete.time_id = this.parciais[i].time_id;
+                      this.timeBilhete.pontuacaoParcial = this.totPontos;
+                      this.timeBilhete.pontuacaoParcial.toFixed(2);
+                      this.timeBilhete.qtJogadoresPontuados = this.count;
+                      this.timeBilhete.pontuacaoTotalCompeticao = this.parciais[i].pontosCampeonato;
+                      this.timeBilhete.pontuacaoTotalCompeticao.toFixed(2);
+
+                      this.atualizarResultadoParcial.atualizarPontosTimeBilhete(this.timeBilhete)
+                        .subscribe(() => {
+                          
+                        });
+                    })
+
+
+                })
+                
+            } // fim for por time
+
+            this.spinner.hide('rodada');
+
+          })
+
+      })
   }
 
 

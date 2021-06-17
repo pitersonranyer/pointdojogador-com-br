@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { retry } from 'rxjs/operators';
 import { PontuacaoTimeRodada } from 'src/app/interfaces/pontuacaoTimeRodada';
 import { BilheteCompeticaoCartola } from '../interfaces/bilheteCompeticaoCartola';
 import { CompeticaoCartola } from '../interfaces/competicaoCartola';
@@ -43,7 +44,9 @@ export class CartolaAPIService {
 
   consultarTimeCartola(Idtime: number): Observable<any> {
     const url = this.utilService.getUrlBackend() + `/cartolaAPI/consultarTimeCartola/${Idtime}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url)
+      .pipe(
+        retry(3));
   }
 
   consultarTimeInfoCartolaById(Idtime: number): Observable<any> {
@@ -53,7 +56,9 @@ export class CartolaAPIService {
 
   listarAtletasPontuados(): Observable<any> {
     const url = this.utilService.getUrlBackend() + `/cartolaAPI/listarAtletasPontuados`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url)
+    .pipe(
+      retry(3));
   }
 
   consultarMercadoStatus(): Observable<any> {
@@ -128,8 +133,8 @@ export class CartolaAPIService {
 
   // lista times do usuario, vinculado ou não a rodada
   listarTimesUsuarioCartolaRodada(anoTemporada: number, idUsuario: number, idRodada: number): Observable<any[]> {
-    const url = this.utilService.getUrlBackend() 
-    + `/timeUsuarioCartola/listarTimesUsuarioCartolaRodada/${anoTemporada}/${idUsuario}/${idRodada}`;
+    const url = this.utilService.getUrlBackend()
+      + `/timeUsuarioCartola/listarTimesUsuarioCartolaRodada/${anoTemporada}/${idUsuario}/${idRodada}`;
     return this.http.get<any[]>(url);
   }
 
@@ -149,7 +154,7 @@ export class CartolaAPIService {
   // -- Resultado parcial
   listaResutaldoParcialRodada(anoTemporada: number, idRodada: number): Observable<any[]> {
     const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/listaTimeRodadaCartolaPorRodada/${anoTemporada}/${idRodada}`;
-   return this.http.get<any[]>(url);
+    return this.http.get<any[]>(url);
   }
 
   // -- Atualizar Resultado parcial
@@ -173,15 +178,15 @@ export class CartolaAPIService {
   // Lista de Time Pendente de Pagamento
   listarTimesUsuarioRodada(anoTemporada: number, idRodada: number, idUsuario: number): Observable<any[]> {
     const url = this.utilService.getUrlBackend() +
-     `/timeRodadaCartola/listaTimeRodadaCartolaPorId/${anoTemporada}/${idRodada}/${idUsuario}`;
+      `/timeRodadaCartola/listaTimeRodadaCartolaPorId/${anoTemporada}/${idRodada}/${idUsuario}`;
     return this.http.get<any[]>(url);
   }
 
   // cancelar inscrição time
   cancelarInscricaoTime(anoTemporada: number, idRodada: number, idUsuario: number, time_id: number) {
     const url = this.utilService.getUrlBackend() +
-     `/timeRodadaCartola/cancelarInscricaoTime/${anoTemporada}/${idRodada}/${idUsuario}/${time_id}`;
-     return this.http.delete(url);
+      `/timeRodadaCartola/cancelarInscricaoTime/${anoTemporada}/${idRodada}/${idUsuario}/${time_id}`;
+    return this.http.delete(url);
   }
 
   atualizarStatusRodada(rodadaCartola: RodadaCartola) {
@@ -191,8 +196,8 @@ export class CartolaAPIService {
 
   // GERENCIA LIGAS
   listarLigasAdms(idUsuarioAdmLiga: number): Observable<any[]> {
-    const url = this.utilService.getUrlBackend() 
-    + `/liga/listarLigasAdms/${idUsuarioAdmLiga}`;
+    const url = this.utilService.getUrlBackend()
+      + `/liga/listarLigasAdms/${idUsuarioAdmLiga}`;
     return this.http.get<any[]>(url);
   }
 
@@ -207,14 +212,14 @@ export class CartolaAPIService {
     return this.http.delete(url);
   }
 
-  
+
   listarTimeLigaPorRodada(anoTemporada: number, idRodada: number, idUsuarioAdmLiga: number, idLiga: number): Observable<any[]> {
     const url = this.utilService.getUrlBackend() +
-     `/timeLiga/listarTimeLigaPorRodada/${anoTemporada}/${idRodada}/${idUsuarioAdmLiga}/${idLiga}`;
+      `/timeLiga/listarTimeLigaPorRodada/${anoTemporada}/${idRodada}/${idUsuarioAdmLiga}/${idLiga}`;
     return this.http.get<any[]>(url);
   }
 
-  
+
   cadastrarTimesLiga(timeLiga: TimeLigaCartola) {
     const url = this.utilService.getUrlBackend() + `/timeLiga`;
     return this.http.post(url, timeLiga);
@@ -276,7 +281,7 @@ export class CartolaAPIService {
   }
 
 
-  gerarBilheteCompeticaoCartola(bilhete: BilheteCompeticaoCartola)  {
+  gerarBilheteCompeticaoCartola(bilhete: BilheteCompeticaoCartola) {
     const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola`;
     return this.http.post(url, bilhete);
   }
@@ -328,8 +333,8 @@ export class CartolaAPIService {
     return this.http.put(url, bilhete);
   }
 
-  
-  consultarTimeBilhetePorCodigo(codigoBilhete: string){
+
+  consultarTimeBilhetePorCodigo(codigoBilhete: string) {
     const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/consultarTimeBilhetePorCodigo/${codigoBilhete}`;
     return this.http.get(url);
   }
@@ -341,10 +346,10 @@ export class CartolaAPIService {
   }
 
 
-  atualizarPontuacaoTimeRodada(pontuacaoTimeRodada: PontuacaoTimeRodada)  {
+  atualizarPontuacaoTimeRodada(pontuacaoTimeRodada: PontuacaoTimeRodada) {
     const url = this.utilService.getUrlBackend() + `/pontuacaoTimeRodada`;
     return this.http.post(url, pontuacaoTimeRodada);
   }
-  
+
 
 }

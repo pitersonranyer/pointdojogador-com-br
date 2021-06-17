@@ -21,7 +21,8 @@
             <span class="badge badge-danger">{{ competicaoRodada.tipoCompeticao }}</span>
           </h2>
         </div>
-        <div class="style-content" *ngIf="competicaoRodada.statusCompeticao === 'Aberta' || competicaoRodada.statusCompeticao === 'Próxima'">
+        <div class="style-content"
+          *ngIf="competicaoRodada.statusCompeticao === 'Aberta' || competicaoRodada.statusCompeticao === 'Próxima'">
           <div class="col-md-12 text-center">
             <button class="btn btn-success btn-lg " (click)="gerarBilhete(competicaoRodada)">CLIQUE AQUI PARA PARTICIPAR
             </button>
@@ -29,14 +30,14 @@
         </div>
       </div>
 
-     <div class="text-right" *ngIf="status_mercado === 2">
+      <div class="text-right" *ngIf="status_mercado === 2">
         <a href="javascript:void(0)" class="btn btn-round btn-success btn-icon btn-sm edit"
           (click)="atualizarParciais()"><i class="now-ui-icons loader_refresh"></i></a>
       </div>
 
 
       <div class="input-group no-border">
-        <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" /> 
+        <input type="text" class="form-control" placeholder="Buscar time..." [(ngModel)]="nomeTimeBusca" />
         <div class="input-group-append">
           <div class="input-group-text">
             <i class="now-ui-icons ui-1_zoom-bold"></i>
@@ -57,57 +58,57 @@
 
       </div>
 
-      
-        <div class="table-responsive rodadaPDF">
-          <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
-            <thead class=" text-primary">
-              <tr>
-                <th>Time</th>
-                <th class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'" >R$</th>
-                <th class="text-right">Parcial</th>
-                <th class="text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'"> Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let parcial of parciais | filter:nomeTimeBusca; let i = index ">
-                <td>
-                  <div> <span class="datatable-colocacao">{{i + 1}}º</span>
-                    <div>
-                      <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
-                      <span class="datatable-nome-time" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'">
-                        <a href="javascript:void(0)" (click)="showTime(parcial)">
-                          {{parcial.nome}}
-                        </a>
-                      </span>
-                      <span class="datatable-nome-time" *ngIf="competicaoRodada.statusCompeticao != 'Fechada'">
-                        <a href="javascript:void(0)" (click)="showTime(parcial)">
-                          {{parcial.nome}}
-                        </a>
-                      </span>
-                      <span class="datatable-nome-coach"> <img *ngIf="parcial.assinante" class="datatable-pro"
-                          src="/assets/img/cartolaPRO.png"> {{parcial.nome_cartola}} </span>
-                    </div>
+
+      <div class="table-responsive rodadaPDF">
+        <table class="table table-striped" style="width: 100%;" role="grid" width="100%" cellspacing="0">
+          <thead class=" text-primary">
+            <tr>
+              <th>Time</th>
+              <th class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">R$</th>
+              <th class="text-right">Parcial</th>
+              <th class="text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'"> Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let parcial of parciais | filter:nomeTimeBusca; let i = index ">
+              <td>
+                <div> <span class="datatable-colocacao">{{i + 1}}º</span>
+                  <div>
+                    <img class="datatable-escudo" src="{{parcial.url_escudo_png}}">
+                    <span class="datatable-nome-time" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'">
+                      <a href="javascript:void(0)" (click)="showTime(parcial)">
+                        {{parcial.nome}}
+                      </a>
+                    </span>
+                    <span class="datatable-nome-time" *ngIf="competicaoRodada.statusCompeticao != 'Fechada'">
+                      <a href="javascript:void(0)" (click)="showTime(parcial)">
+                        {{parcial.nome}}
+                      </a>
+                    </span>
+                    <span class="datatable-nome-coach"> <img *ngIf="parcial.assinante" class="datatable-pro"
+                        src="/assets/img/cartolaPRO.png"> {{parcial.nome_cartola}} </span>
                   </div>
-                </td>
-                <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
-                  <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' ">
-                    {{parcial.premiacaoFinalFormatLista}} </span>
-                </td>
-                <td class=" text-right">
-                  <span class="datatable-pontuacao"> {{parcial.pontuacaoParcial}}</span>
-                  <span style="color:red" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'"
-                    class="datatable-nome-coach">{{parcial.qtJogadoresPontuados}}/12 </span>
-                </td>
-                <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
-                  <span class="datatable-pontuacaoAnual">{{parcial.totalAnual.toFixed(2)}}</span>
-                </td>
+                </div>
+              </td>
+              <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'TIRO CURTO'">
+                <span class="datatable-premiacao" *ngIf="parcial.premiacaoFinalFormatLista > '0' ">
+                  {{parcial.premiacaoFinalFormatLista}} </span>
+              </td>
+              <td class=" text-right">
+                <span class="datatable-pontuacao"> {{parcial.pontuacaoParcial}}</span>
+                <span style="color:red" *ngIf="competicaoRodada.statusCompeticao === 'Fechada'"
+                  class="datatable-nome-coach">{{parcial.qtJogadoresPontuados}}/12 </span>
+              </td>
+              <td class=" text-right" *ngIf="competicaoRodada.tipoCompeticao === 'ANUAL'">
+                <span class="datatable-pontuacaoAnual">{{parcial.totalAnual.toFixed(2)}}</span>
+              </td>
 
 
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
 
     </div>
   </div>

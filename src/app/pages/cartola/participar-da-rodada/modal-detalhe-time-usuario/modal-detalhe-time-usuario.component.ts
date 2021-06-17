@@ -34,20 +34,7 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
     return this._NgbActiveModal;
   }
 
-  trataRespostaAtletasPontuados(pontuados: any) {
-    Object.keys(pontuados.atletas).forEach(atleta_id => {
-      const atleta = {
-        atleta_id: atleta_id,
-        apelido: pontuados.atletas[atleta_id].apelido,
-        pontuacao: pontuados.atletas[atleta_id].pontuacao,
-        scout: pontuados.atletas[atleta_id].scout,
-        foto: pontuados.atletas[atleta_id].foto,
-        posicao_id: pontuados.atletas[atleta_id].posicao_id,
-        clube_id: pontuados.atletas[atleta_id].clube_id
-      };
-      this.arrayAtletasPontuados.push(atleta);
-    });
-  }
+  
 
   ngOnInit() {
 
@@ -57,7 +44,7 @@ export class ModalDetalheTimeUsuarioComponent implements OnInit {
     this.atletasPontuados.listarAtletasPontuados()
       .subscribe((pontuados) => {
 
-        this.trataRespostaAtletasPontuados(pontuados);
+        this.arrayAtletasPontuados = pontuados;
 
         this.consultarTimeCartola.consultarTimeCartola(this.time.time_id).subscribe((data) => {
 
