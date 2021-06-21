@@ -61,6 +61,8 @@ export class CartolaAPIService {
       retry(3));
   }
 
+  
+
   consultarMercadoStatus(): Observable<any> {
     const url = this.utilService.getUrlBackend() + `/cartolaAPI/consultarMercadoStatus`;
     return this.http.get<any>(url);
@@ -162,6 +164,8 @@ export class CartolaAPIService {
     const url = this.utilService.getUrlBackend() + `/timeRodadaCartola/atualizarPontosRodadaCartola`;
     return this.http.put(url, timeRodadaCartola);
   }
+
+  
 
 
   // Lista de Time Pendente de Pagamento
@@ -349,6 +353,12 @@ export class CartolaAPIService {
   atualizarPontuacaoTimeRodada(pontuacaoTimeRodada: PontuacaoTimeRodada) {
     const url = this.utilService.getUrlBackend() + `/pontuacaoTimeRodada`;
     return this.http.post(url, pontuacaoTimeRodada);
+  }
+
+
+  atualizarParciais(nrSequencialRodadaCartola: number) {
+    const url = this.utilService.getUrlBackend() + `/atualizarParciais/atualizarParciais/${nrSequencialRodadaCartola}`;
+    return this.http.get(url);
   }
 
 
