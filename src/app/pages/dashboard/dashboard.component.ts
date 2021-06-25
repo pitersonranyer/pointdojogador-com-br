@@ -46,6 +46,14 @@ export class DashboardComponent implements OnInit {
   listarCompeticaoCartolaAtivas() {
     this.listarTodasCompeticaoCartolaAtivas.listarCompeticaoCartolaAtivas().subscribe((competicaoCartola: []) => {
       this.rodadas = competicaoCartola;
+      
+    });
+  }
+
+
+  listarCompeticaoCartolaAtivasOld() {
+    this.listarTodasCompeticaoCartolaAtivas.listarCompeticaoCartolaAtivas().subscribe((competicaoCartola: []) => {
+      this.rodadas = competicaoCartola;
 
       for (let i = 0; i < this.rodadas.length; i++) {
         this.count = 0;
