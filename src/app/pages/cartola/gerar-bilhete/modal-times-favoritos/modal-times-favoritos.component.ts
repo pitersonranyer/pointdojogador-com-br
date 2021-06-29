@@ -29,6 +29,7 @@ export class ModalTimesFavoritosComponent implements OnInit {
   idBilheteUsuario = 0;
   nrSequencialRodadaCartola = 0
   codigoBilhete = 0;
+  retBilheteService: any;
 
   constructor(
     private _NgbActiveModal: NgbActiveModal,
@@ -91,11 +92,17 @@ export class ModalTimesFavoritosComponent implements OnInit {
           this.bilhete.nomeUsuario = this.nomeUsuario;
           this.bilhete.nrContatoUsuario = this.contatoUsuario
           this.bilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
+          this.bilhete.time_id = time_id;
+ 
           this.gerarBilheteService.gerarBilheteCompeticaoCartola(this.bilhete)
 
-            .subscribe((value: any) => {
-              this.idBilheteUsuario = value.idBilhete;
-              this.codigoBilhete = value.codigoBilhete;
+          .subscribe(
+            (value) => {
+
+              this.retBilheteService = value;
+
+              this.idBilheteUsuario = this.retBilheteService.idBilhete;
+              this.codigoBilhete = this.retBilheteService.codigoBilhete;
 
               this.timeBilhete.idBilhete = this.idBilheteUsuario;
               this.timeBilhete.nomeUsuario = this.nomeUsuario;
@@ -159,7 +166,40 @@ export class ModalTimesFavoritosComponent implements OnInit {
                       );
                     }
                   });
+              
+            },
+            (erro) => {
+
+              if (erro.status && erro.status === 409) {
+                this.toastr.info(
+                  '<span class="now-ui-icons ui-1_bell-53"></span>' +
+                  'Solcitação não foi gerada, Time já cadastrado!',
+                  '',
+                  {
+                    timeOut: 8000,
+                    closeButton: true,
+                    enableHtml: true,
+                    toastClass: 'alert alert-info alert-with-icon',
+                    positionClass: 'toast-' + 'top' + '-' + 'right'
+                  }
+                );
+              } else {
+                this.toastr.info(
+                  '<span class="now-ui-icons ui-1_bell-53"></span>' +
+                  ' Não foi possível gerar a solicitação!',
+                  '',
+                  {
+                    timeOut: 8000,
+                    closeButton: true,
+                    enableHtml: true,
+                    toastClass: 'alert alert-info alert-with-icon',
+                    positionClass: 'toast-' + 'top' + '-' + 'right'
+                  }
+                );
+              }
             });
+
+           
         } else {
           this.timeBilhete.idBilhete = this.idBilheteUsuario;
           this.timeBilhete.nomeUsuario = this.nomeUsuario;
