@@ -290,6 +290,11 @@ export class CartolaAPIService {
     return this.http.post(url, bilhete);
   }
 
+  gerarBilheteCompeticaoCartolaPorIds(bilhete: any[]) {
+    const url = this.utilService.getUrlBackend() + `/bilheteCompeticaoCartola/cadastroPorId`;
+    return this.http.post(url, bilhete);
+  }
+
   listarTimeBilheteGerado(nrContatoUsuario: number, nrSequencialRodadaCartola: number): Observable<any> {
     const url = this.utilService.getUrlBackend() + `/timeBilheteCompeticaoCartola/listarTimeBilheteGerado/${nrContatoUsuario}/${nrSequencialRodadaCartola}`;
     return this.http.get<any>(url);

@@ -39,7 +39,7 @@ export class ModalTimesFavoritosComponent implements OnInit {
     private gerarBilheteService: CartolaAPIService,
     private cadastrarTimeBilheteService: CartolaAPIService,
     private toastr: ToastrService
-    
+
   ) { }
 
   get activeModal() {
@@ -61,7 +61,7 @@ export class ModalTimesFavoritosComponent implements OnInit {
       .listarHistoricoTimesUsuario(this.contato)
       .subscribe((hstTimes: any) => {
         this.hstTimeUsuario = hstTimes;
-        this.nomeUsuario    = hstTimes[0].nomeUsuario;
+        this.nomeUsuario = hstTimes[0].nomeUsuario;
         this.contatoUsuario = hstTimes[0].nrContatoUsuario;
         for (let i = 0; i < this.hstTimeUsuario.length; i++) {
           this.consultarTimeInfoCartolaById.consultarTimeCartola(this.hstTimeUsuario[i].time_id)
@@ -76,97 +76,57 @@ export class ModalTimesFavoritosComponent implements OnInit {
     this.excluirHistoricoTimeUsuarioService.excluirHistoricoTimeUsuario(time_id)
       .subscribe(
         () => {
-           this.timesUsuarioCartola = [];
-           this.hstTimeUsuario = [];
+          this.timesUsuarioCartola = [];
+          this.hstTimeUsuario = [];
           this.recuperarLista();
         });
   }
 
 
-   gerarBilheteUsuario(time_id: number): void {
+  gerarBilheteUsuario(time_id: number): void {
     for (let i = 0; i < this.timesUsuarioCartola.length; i++) {
       if (time_id === this.timesUsuarioCartola[i].time_id) {
 
+
         if (this.idBilheteUsuario === 0) {
           this.bilhete.idBilhete = 0;
-          this.bilhete.nomeUsuario = this.nomeUsuario;
-          this.bilhete.nrContatoUsuario = this.contatoUsuario
-          this.bilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
-          this.bilhete.time_id = time_id;
- 
-          this.gerarBilheteService.gerarBilheteCompeticaoCartola(this.bilhete)
+        } else {
+          this.bilhete.idBilhete = this.idBilheteUsuario;
+        }
 
+        this.bilhete.nomeUsuario = this.nomeUsuario;
+        this.bilhete.nrContatoUsuario = this.contatoUsuario;
+        this.bilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
+
+        this.bilhete.time_id = time_id;
+        this.bilhete.assinante = this.timesUsuarioCartola[i].assinante;
+        this.bilhete.foto_perfil = this.timesUsuarioCartola[i].foto_perfil;
+        this.bilhete.nome = this.timesUsuarioCartola[i].nome;
+        this.bilhete.nome_cartola = this.timesUsuarioCartola[i].nome_cartola;
+        this.bilhete.slug = this.timesUsuarioCartola[i].slug;
+        this.bilhete.url_escudo_png = this.timesUsuarioCartola[i].url_escudo_png;
+        this.bilhete.url_escudo_svg = this.timesUsuarioCartola[i].url_escudo_svg;
+        this.bilhete.facebook_id = this.timesUsuarioCartola[i].facebook_id;
+
+        this.gerarBilheteService.gerarBilheteCompeticaoCartola(this.bilhete)
           .subscribe(
             (value) => {
-
               this.retBilheteService = value;
-
               this.idBilheteUsuario = this.retBilheteService.idBilhete;
               this.codigoBilhete = this.retBilheteService.codigoBilhete;
-
-              this.timeBilhete.idBilhete = this.idBilheteUsuario;
-              this.timeBilhete.nomeUsuario = this.nomeUsuario;
-              this.timeBilhete.nrContatoUsuario = this.contatoUsuario;
-              this.timeBilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
-
-              this.timeBilhete.time_id = this.timesUsuarioCartola[i].time_id;
-              this.timeBilhete.assinante = this.timesUsuarioCartola[i].assinante;
-              this.timeBilhete.foto_perfil = this.timesUsuarioCartola[i].foto_perfil;
-              this.timeBilhete.nome = this.timesUsuarioCartola[i].nome;
-              this.timeBilhete.nome_cartola = this.timesUsuarioCartola[i].nome_cartola;
-              this.timeBilhete.slug = this.timesUsuarioCartola[i].slug;
-              this.timeBilhete.url_escudo_png = this.timesUsuarioCartola[i].url_escudo_png;
-              this.timeBilhete.url_escudo_svg = this.timesUsuarioCartola[i].url_escudo_svg;
-              this.timeBilhete.facebook_id = this.timesUsuarioCartola[i].facebook_id;
-
-              this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-                .subscribe(
-                  () => {
-                    this.toastr.success(
-                      '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                      ' Time cadastrado com sucesso!',
-                      '',
-                      {
-                        timeOut: 8000,
-                        closeButton: true,
-                        enableHtml: true,
-                        toastClass: 'alert alert-success alert-with-icon',
-                        positionClass: 'toast-' + 'top' + '-' + 'right'
-                      }
-                    );
-                    this.timesUsuarioCartola[i].inPoint = true;
-                  },
-                  (erro) => {
-
-                    if (erro.status && erro.status === 409) {
-                      this.toastr.info(
-                        '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                        ' Time já cadastrado!',
-                        '',
-                        {
-                          timeOut: 8000,
-                          closeButton: true,
-                          enableHtml: true,
-                          toastClass: 'alert alert-info alert-with-icon',
-                          positionClass: 'toast-' + 'top' + '-' + 'right'
-                        }
-                      );
-                    } else {
-                      this.toastr.info(
-                        '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                        ' Não foi possível realizar o cadastro do time!',
-                        '',
-                        {
-                          timeOut: 8000,
-                          closeButton: true,
-                          enableHtml: true,
-                          toastClass: 'alert alert-info alert-with-icon',
-                          positionClass: 'toast-' + 'top' + '-' + 'right'
-                        }
-                      );
-                    }
-                  });
-              
+              this.timesUsuarioCartola[i].inPoint = true;
+              this.toastr.success(
+                '<span class="now-ui-icons ui-1_bell-53"></span>' +
+                ' Time cadastrado com sucesso!',
+                '',
+                {
+                  timeOut: 8000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: 'alert alert-success alert-with-icon',
+                  positionClass: 'toast-' + 'top' + '-' + 'right'
+                }
+              );
             },
             (erro) => {
 
@@ -198,75 +158,9 @@ export class ModalTimesFavoritosComponent implements OnInit {
                 );
               }
             });
-
-           
-        } else {
-          this.timeBilhete.idBilhete = this.idBilheteUsuario;
-          this.timeBilhete.nomeUsuario = this.nomeUsuario;
-          this.timeBilhete.nrContatoUsuario = this.contatoUsuario;
-          this.timeBilhete.nrSequencialRodadaCartola = this.nrSequencialRodadaCartola
-
-          this.timeBilhete.time_id = this.timesUsuarioCartola[i].time_id;
-          this.timeBilhete.assinante = this.timesUsuarioCartola[i].assinante;
-          this.timeBilhete.foto_perfil = this.timesUsuarioCartola[i].foto_perfil;
-          this.timeBilhete.nome = this.timesUsuarioCartola[i].nome;
-          this.timeBilhete.nome_cartola = this.timesUsuarioCartola[i].nome_cartola;
-          this.timeBilhete.slug = this.timesUsuarioCartola[i].slug;
-          this.timeBilhete.url_escudo_png = this.timesUsuarioCartola[i].url_escudo_png;
-          this.timeBilhete.url_escudo_svg = this.timesUsuarioCartola[i].url_escudo_svg;
-          this.timeBilhete.facebook_id = this.timesUsuarioCartola[i].facebook_id;
-
-          this.cadastrarTimeBilheteService.cadastrarTimeBilheteCompeticaoCartola(this.timeBilhete)
-            .subscribe(
-              () => {
-                this.toastr.success(
-                  '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                  ' Time cadastrado com sucesso!',
-                  '',
-                  {
-                    timeOut: 8000,
-                    closeButton: true,
-                    enableHtml: true,
-                    toastClass: 'alert alert-success alert-with-icon',
-                    positionClass: 'toast-' + 'top' + '-' + 'right'
-                  }
-                );
-                this.timesUsuarioCartola[i].inPoint = true;
-              },
-              (erro) => {
-
-                if (erro.status && erro.status === 409) {
-                  this.toastr.info(
-                    '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                    ' Time já cadastrado!',
-                    '',
-                    {
-                      timeOut: 8000,
-                      closeButton: true,
-                      enableHtml: true,
-                      toastClass: 'alert alert-info alert-with-icon',
-                      positionClass: 'toast-' + 'top' + '-' + 'right'
-                    }
-                  );
-                } else {
-                  this.toastr.info(
-                    '<span class="now-ui-icons ui-1_bell-53"></span>' +
-                    ' Não foi possível realizar o cadastro do time!',
-                    '',
-                    {
-                      timeOut: 8000,
-                      closeButton: true,
-                      enableHtml: true,
-                      toastClass: 'alert alert-info alert-with-icon',
-                      positionClass: 'toast-' + 'top' + '-' + 'right'
-                    }
-                  );
-                }
-              });
-        }
       }
     }
-  } 
+  }
 
 
 }
