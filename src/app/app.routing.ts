@@ -32,6 +32,11 @@ export const AppRoutes: Routes = [
         loadChildren: './pages/consultarBilheteCodigo/consultar-bilhete-codigo.module#ConsultarBilheteCodigoModule'
       },
 
+      {
+        path: 'politica-privacidade',
+        loadChildren: './pages/politicaPrivacidade/politica-privacidade.module#PoliticaPrivacidadeModule'
+      },
+
     ]
   },
   {
