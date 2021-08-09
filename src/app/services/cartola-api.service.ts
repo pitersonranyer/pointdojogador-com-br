@@ -361,8 +361,8 @@ export class CartolaAPIService {
   }
 
 
-  atualizarParciais(nrSequencialRodadaCartola: number) {
-    const url = this.utilService.getUrlBackend() + `/atualizarParciais/atualizarParciais/${nrSequencialRodadaCartola}`;
+  atualizarParciais(nrSequencialRodadaCartola: number, rodada_atual: number) {
+    const url = this.utilService.getUrlBackend() + `/atualizarParciais/atualizarParciais/${nrSequencialRodadaCartola}/${rodada_atual}`;
     return this.http.get(url);
   }
 
