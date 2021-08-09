@@ -49,16 +49,11 @@ export class ParticiparDaRodadaComponent implements OnInit, OnDestroy {
   public status_mercado = 0;
   nomeTimeBusca: string;
   competicaoRodada: CompeticaoCartola = <CompeticaoCartola>{};
-
   timeBilhete: TimeBilheteCompeticaoCartola = <TimeBilheteCompeticaoCartola>{};
 
   slug = [];
-
   reservas = [];
-
   grupo = '';
-
-
 
   constructor(private modalService: NgbModal,
     private route: ActivatedRoute,
