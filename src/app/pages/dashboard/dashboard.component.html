@@ -1,6 +1,17 @@
 <div class="panel-header">
   <div class="header text-center">
-    <h2 class="title">POINT DO JOGADOR</h2>
+    <h3 class="title">POINT DO JOGADOR</h3>
+
+    <div style="text-align:center">
+      <a href="https://play.google.com/store/apps/details?id=com.prmdev.pointdojogador" target="_blank">
+        <img src="../assets/img/googlePlay.png" />
+      </a>
+      &nbsp;
+      <a href="https://apps.apple.com/us/app/point-do-jogador/id1580607471" target="_blank">
+        <img src="../assets/img/appleStore.png" />
+      </a>
+    </div>
+
     <p class="category">
       Logo abaixo estão nossas ligas.
     </p>
@@ -8,7 +19,7 @@
 </div>
 <div class="main-content">
   <div class="places-sweet-alerts">
-    <div class="row" >
+    <div class="row">
       <div class="col-md-4 " *ngFor="let rodada of rodadas ">
         <div class="card ">
 
@@ -26,23 +37,25 @@
             <h4 *ngIf="rodada.tipoCompeticao === 'ELIMINATORIA'">
               <span class="badge badge-danger">{{ rodada.tipoCompeticao }}</span>
             </h4>
-             
+
             <p class="card-text">VALOR POR TIME: R$ {{rodada.valorCompeticao}} </p>
-            <p class="card-text">Participantes:  {{rodada.totalParticipantes}}</p>
+            <p class="card-text">Participantes: {{rodada.totalParticipantes}}</p>
             <p class="card-text">Premiação: R$ {{rodada.premiacaoFinalFormat}} </p>
             <p class="card-text">Inscrições até: {{rodada.dataFim}} às {{rodada.horaFim}} </p>
             <p class="card-text">Situação: {{rodada.statusCompeticao}}</p>
 
-            <button *ngIf="rodada.statusCompeticao === 'Fechada'" class="btn btn-default btn-fill" (click)="participarDaRodada(rodada)">
+            <button *ngIf="rodada.statusCompeticao === 'Fechada'" class="btn btn-default btn-fill"
+              (click)="participarDaRodada(rodada)">
               VER PARCIAIS
             </button>
-            <button *ngIf="rodada.statusCompeticao === 'Aberta' || rodada.statusCompeticao === 'Próxima'" class="btn btn-primary btn-fill" (click)="participarDaRodada(rodada)">
+            <button *ngIf="rodada.statusCompeticao === 'Aberta' || rodada.statusCompeticao === 'Próxima'"
+              class="btn btn-primary btn-fill" (click)="participarDaRodada(rodada)">
               PARTICIPAR
             </button>
 
-            <button class="btn btn-icon btn-success btn-whatsapp" >
+            <button class="btn btn-icon btn-success btn-whatsapp">
               <a href="{{rodada.linkGrupoWapp}}" class="btn-success">
-              <i class="fab fa-whatsapp"></i> </a>
+                <i class="fab fa-whatsapp"></i> </a>
             </button>
 
           </div>
@@ -50,6 +63,6 @@
       </div>
 
     </div>
-    
+
   </div>
 </div>
