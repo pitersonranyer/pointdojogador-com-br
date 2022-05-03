@@ -4,7 +4,7 @@ const app = express();
 const compression = require('compression');
 
 const configs = {
-    caminho: "dist/pointdojogador-ui", //Aqui será definido a pasta de saída onde contém o index.html e os outros arquivos. Troque "myapp" pelo nome da sua aplicação
+    caminho: "dist/pointdojogador", //Aqui será definido a pasta de saída onde contém o index.html e os outros arquivos. Troque "myapp" pelo nome da sua aplicação
     forcarHTTPS: true, //Defina para true se desejar que o redirecionamento para HTTPS seja forçado (é necessário certificado SSL ativo)
     port: process.env.PORT || 8080
 }
