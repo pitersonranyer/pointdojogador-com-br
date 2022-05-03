@@ -1,5 +1,0 @@
-User-agent: * (todos os robos irão seguir essa diretiva)
-Allow: /dashboad/
-
-#Sitemap
-Sitemap: https://www.pointdojogador.com.br/sitemap.xml
